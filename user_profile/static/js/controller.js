@@ -35,36 +35,37 @@ app.controller("myCtrl", function($scope) {
     
     $scope.SelectTimeline =  function(id) {
         var element = angular.element($('.btn-time-line'));
+
         for ( var i in element) {
             var btn = angular.element($('#'+element[i].id));
             btn.css({"background-color": "white"});
             btn.val('unslected');
         }
-        emnt = angular.element($('#'+element[i].id));
+
+        emnt = angular.element($('#'+id));
         emnt.css({"background-color": "blue"});
         emnt.val('selected');
         $scope.selectedTimeLine = id;
     }
 
-    $scope.cvAction = {};
-    $scope.SelectTimeline =  function(id) {
-        var emnt = angular.element($('#'+ id));
-        if ( $scope.cvAction.id == true) {
-            emnt.css({"background-color": "blue"});
-            $scope.cvAction.id = false;
-        } else {
-            emnt.css({"background-color": "blue"});
-            $scope.cvAction.id = true;
-        }
-    }
-
+  
+    $scope.task_id = 100;
     $scope.AddTasks = function(){
-        var taskwrapper = angular.element(document.getElementById("taskwrapper"));
-        var addtask_html = "<div class='row'><input type='text' class='task-btn'> <span>Add your task</span></input></div>"
-        taskwrapper.append(addtask_html);
+        $scope.task_id ++;
+        var tasklist = angular.element($("#tasklist"));
+        var addtask_html = "<div class='row' id ='"+$scope.task_id+"' ><input type='text' class='task-btn'> <span>"
+         +"<button class='btn-xs' onClick = function {alert('test')} ng-click='RemoveTasks("+$scope.task_id+")'>Remove </button></span></input></div>"
+        tasklist.append(addtask_html);
 
     }
 
+    $scope.RemoveTasks = function(task_id){
+        var tasklist = angular.element($("#tasklist"));
+        var task = angular.element($("#task_id"));
+        console.log(task_id,task,tasklist);
+        tasklist.remove(task);
+
+    }
 
     $scope.CustomStyle = {};
     $scope.BColor = "Blue";
