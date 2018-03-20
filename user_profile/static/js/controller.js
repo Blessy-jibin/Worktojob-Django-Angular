@@ -4,15 +4,22 @@ app.controller("myCtrl", function($scope) {
     $scope.Wishlist = [];
     $scope.job = {};
     $scope.tasks=[];
+    $scope.job_status = ['To Apply','Follow-up','Selection'];
+    $scope.do="";//There is no variable 'do' in scope,we initialised and using it 
+                  //identify whether gonna add or edit the job
+
     $scope.AddJob = function() {
-        $scope.job.do = "add";
+        $scope.do = "add";
         $scope.job.company = " ";
         $scope.job.role = " ";
+
+        console.log($scope.job_status);
     }
     $scope.sve = function(){
-        if($scope.job.do == "add"){
+        if($scope.do == "add"){
             $scope.Wishlist.push($scope.job);
             $scope.job = {};
+            console.log($scope.Wishlist);
         }else{
             $scope.Wishlist[index]=$scope.job;
             $scope.job={};
@@ -20,7 +27,7 @@ app.controller("myCtrl", function($scope) {
     }
 
     $scope.update = function(item){
-        $scope.job.do = "edit";
+        $scope.do = "edit";
         $scope.job.role = item.role;
         $scope.job.company = item.company;
         index = $scope.Wishlist.indexOf(item);
@@ -52,27 +59,48 @@ app.controller("myCtrl", function($scope) {
     $scope.task_id = 100;
     $scope.AddTasks = function(){
         $scope.task_id ++;
+        var id = 'btn-'+ $scope.task_id
         var tasklist = angular.element($("#tasklist"));
-        var addtask_html = "<div class='row' id ='"+$scope.task_id+"' ><input type='text' class='task-btn'> <span>"
-         +"<button class='btn-xs' onClick = function {alert('test')} ng-click='RemoveTasks("+$scope.task_id+")'>Remove </button></span></input></div>"
+
+        var addtask_html = "<div class='row' id ='"+id+"' ><input type='text' class='task-btn'> <span>"
+          +"<button class='btn-xs' ng-click='RemoveTasks("+$scope.task_id+")'>Remove </button>"
+         +"</span></input></div>"
         tasklist.append(addtask_html);
 
     }
 
     $scope.RemoveTasks = function(task_id){
         var tasklist = angular.element($("#tasklist"));
-        var task = angular.element($("#task_id"));
+        var task = angular.element($("#"+task_id));
         console.log(task_id,task,tasklist);
         tasklist.remove(task);
-
     }
 
-    $scope.CustomStyle = {};
-    $scope.BColor = "Blue";
 
-    $scope.SetStyle = function () {
-        $scope.CustomStyle = {
-            'background-color': $scope.BColor,
-        };
+
+    $scope.SelectTasks = function (task_id) {
+
+        var emnt = angular.element($("#"+task_id));
+        console.log( task_id, emnt, emnt.val());
+        emnt.css({"background-color": "blue"});
+        if (emnt.val() != null && emnt.val()=='selected'){
+            emnt.val('not selected');
+            emnt.css({"background-color": "white"});
+        } else {
+            emnt.val('selected');
+            emnt.css({"background-color": "blue"});
+        }
+       
     }
+
+    $scope.open = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+
+    $scope.opened = true;
+  };
+
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
 });
