@@ -1,0 +1,124 @@
+NOTE : As per json standard Key should have double qutoes
+
+
+Create User
+---------------
+Method: POST
+url : http://localhost:8000/create_user
+body = {
+	"username": 'admin',
+	"email": 'test@gmail.com'
+	"password": 'password'
+}
+
+
+Update User
+----------------
+
+Method: PUT
+url : http://localhost:8000/users/1
+Header - {'Content-Type': 'application/json', 'Authorization': 'Token 8784eb5c431e04ad4674fe59958bc13f87c5962c'}
+body = {
+	"username": 'admin',
+	"email": 'test@gmail.com'
+	"password": 'password'
+}
+
+
+Login
+-------
+Method: POST
+url : http://localhost:8000/login
+body = {
+	'username': 'admin',
+	'password': 'password'
+}
+
+return: {'token': 'token value'}
+
+
+Jobs List
+-------
+Method: GET
+url : http://localhost:8000/jobs
+Header - {'Content-Type': 'application/json', 'Authorization': 'Token 8784eb5c431e04ad4674fe59958bc13f87c5962c'}
+
+return : [
+    {
+        "id": 1,
+        "job_title": "test123",
+        "job_url": "http://127.0.0.1:8000/admin/user_profile/jobinfo/add/",
+        "created_at": "2018-03-20T15:49:58.146734Z",
+        "tasks": [
+            {
+                "id": 1,
+                "action": "test",
+                "action_date": "2018-03-20T17:24:13Z"
+            }
+        ]
+    }
+]
+
+
+Create Job
+----------
+
+Method: POST
+url : http://localhost:8000/jobs
+Header - {'Content-Type': 'application/json', 'Authorization': 'Token 8784eb5c431e04ad4674fe59958bc13f87c5962c'}
+
+body = {
+        "job_title": "test123",
+        "job_url": "http://127.0.0.1:8000/admin/user_profile/jobinfo/add/",
+        "tasks": [
+            {
+                "id": 1,
+                "action": "test",
+                "action_date": "2018-03-20T17:24:13Z"
+            }
+        ]
+    }
+
+return : Created payload
+
+Job Detail
+-----------
+
+Method: GET
+url : http://localhost:8000/job/1
+Header - {'Content-Type': 'application/json', 'Authorization': 'Token 8784eb5c431e04ad4674fe59958bc13f87c5962c'}
+
+return :     {
+        "id": 1,
+        "job_title": "test123",
+        "job_url": "http://127.0.0.1:8000/admin/user_profile/jobinfo/add/",
+        "created_at": "2018-03-20T15:49:58.146734Z",
+        "tasks": [
+            {
+                "id": 1,
+                "action": "test",
+                "action_date": "2018-03-20T17:24:13Z"
+            }
+        ]
+    }
+
+update Job
+---------------
+
+Method: PUT
+url : http://localhost:8000/job/1
+Header - {'Content-Type': 'application/json', 'Authorization': 'Token 8784eb5c431e04ad4674fe59958bc13f87c5962c'}
+
+data = {
+        "id": 1,
+        "job_title": "test123",
+        "job_url": "http://127.0.0.1:8000/admin/user_profile/jobinfo/add/",
+        "created_at": "2018-03-20T15:49:58.146734Z",
+        "tasks": [
+            {
+                "id": 1,
+                "action": "test",
+                "action_date": "2018-03-20T17:24:13Z"
+            }
+        ]
+    }
