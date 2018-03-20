@@ -16,22 +16,30 @@
     <body ng-app="myApp" ng-controller="myCtrl">
       <div class="container">
         <hr>
-        <!--Add job area-->
-        <div class="row" id="addlink">
+        <!--Add job area--><!-- Commented below can be used after some time.Please donot delete the  div below -->
+        <!-- <div class="row" id="addlink">
           <div class="col-sm-12 col-sm-offset-3 col-xs-12 col-xs-offset-2">
-            <input type="text" ng-model="job.link" class="col-sm-9 col-xs-6" style="margin-right:5px;height:30px;border-radius:4px;">
+            <input type="text" ng-model="job.link" class="col-sm-9 col-xs-6" style="margin-right:5px;height:30px;border-radius:4px;"> -->
+
+            <!-- Trigger the modal with a button
+            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal"ng-click="AddJob()">Add job</button>
+          </div>
+        </div> -->
+        <div class="row" id="addlink">
+          <div class="col-xs-12">
+            <input type="text" ng-model="job.link" class="col-sm-9 col-xs-9" style="margin-right:5px;height:30px;border-radius:4px;">
 
             <!-- Trigger the modal with a button -->
             <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal"ng-click="AddJob()">Add job</button>
           </div>
         </div>
-            <!--add hob area ends here-->
+            <!--add job area ends here-->
 
             <!-- Modal -->
         <div id="myModal" class="modal fade col-md-offset-4" role="dialog">
           <div class="modal-dialog">
             <!-- Modal content-->
-            <div class="modal-content">
+            <div class="modal-content" id="modalcontent">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <div class="form-group" id="company-edit" style="margin-top:25px;">

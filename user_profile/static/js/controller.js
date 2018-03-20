@@ -113,11 +113,20 @@ app.controller("myCtrl", function($scope) {
     $scope.Show_this_Job=function(item){
         console.log(item);
         var body = angular.element($('body'));
-        console.log(body);
         body.css('background-color','#F8F8FF');
         var jobs = angular.element($('#jobsview'));
-        console.log(jobs);
-        jobs.css({'width':'40%','background-color':'white'});
+        jobs.css({'width':'45%','background-color':'white'});
+        var add_link = angular.element($('#addlink'));
+        add_link.css('width','50%');
+        var modal = angular.element($('#myModal'));
+        modal.css('width','45%');
+        modal_html = modal.html();
+        body.append("<div id='rightportion' style='float:right;width:40%;position:relative;left:-130px;top:-600px;'><div>");
+        rightportion=angular.element($('#rightportion'));
+        rightportion.append(modal_html);
+
+
+
 
         
 
