@@ -6,10 +6,18 @@ from rest_framework.status import HTTP_401_UNAUTHORIZED
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets
-from .serializers import JobDetailsSerializer, TaskSerializer, JobApplyDetailsSerializer
-from .models import JobDetails, Task, JobApplyDetails
+from .serializers import UserSerializer, JobInfoSerializer, TaskSerializer
+from .models import JobInfo, Task
 #for activating the static file such as s and css i have include dthe below line
 from django.shortcuts import render_to_response
+from django.http import Http404
+from rest_framework.views import APIView
+from rest_framework import generics
+
+from rest_framework.response import Response
+from rest_framework import status
+from django.contrib.auth.models import User
+
 
 #usage example
 
@@ -30,11 +38,10 @@ u'[{"id":1,"job_title":"Python Developer","job_url":"bcghfchc","created_date":"2
 
 """
 
-# @api_view(["POST"])
+@api_view(["POST"])
 def auth_login(request):
     username = request.data.get("username")
     password = request.data.get("password")
-    print (username, password)
     user = authenticate(username=username, password=password)
     if not user:
         return Response({"error": "Login failed"}, status=HTTP_401_UNAUTHORIZED)
@@ -49,24 +56,107 @@ def add_job(request):
     return render_to_response('addjob.html', locals())
 
 
+class UserCreate(generics.CreateAPIView):
+    """
+    Create a User
+    """
+    serializer_class = UserSerializer
+    authentication_classes = ()
+    permission_classes = ()
 
 
-class JobDetailsViewSet(viewsets.ModelViewSet):
-    serializer_class = JobDetailsSerializer
-    queryset = JobDetails.objects.all()
+class UserDetail(generics.RetrieveAPIView):
+    """
+    Retrieve a User
+    """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class JobInfoList(generics.ListCreateAPIView):
+    """
+    List all jobinfo, or create a new jobinfo.
+    """
+    permission_classes = (IsAuthenticated,)
+    serializer_class = JobInfoSerializer
+
+    def get_queryset(self):
+        try:
+            return JobInfo.objects.filter(user=self.request.user)
+        except JobInfo.DoesNotExist:
+            raise Http404
+
+
+class JobInfoDetail(APIView):
+    """
+    Retrieve, update or delete a jobinfo instance.
+    """
+    permission_classes = (IsAuthenticated,)
+    
+    def get_object(self, pk):
+        try:
+            return JobInfo.objects.get(pk=pk)
+        except JobInfo.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        job_info = self.get_object(pk)
+        serializer = JobInfoSerializer(job_info)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        job_info = self.get_object(pk)
+        serializer = JobInfoSerializer(job_info, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        job_info = self.get_object(pk)
+        job_info.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class TaskList(APIView):
+    """
+    List all jobinfo, or create a new jobinfo.
+    """
     permission_classes = (IsAuthenticated,)
 
+    def get(self, request, format=None):
+        job_info = JobInfo.objects.all()
+        serializer = TaskSerializer(job_info, many=True)
+        return Response(serializer.data)
 
-class TaskViewSet(viewsets.ModelViewSet):
-    serializer_class = TaskSerializer
-    queryset = Task.objects.all()
-    permission_classes = (IsAuthenticated,)
 
+class JobInfoDetail(APIView):
+    """
+    Retrieve, update or delete a jobinfo instance.
+    """
+    def get_object(self, pk):
+        try:
+            return JobInfo.objects.get(pk=pk)
+        except JobInfo.DoesNotExist:
+            raise Http404
 
-class JobApplyDetailsViewSet(viewsets.ModelViewSet):
-    serializer_class = JobApplyDetailsSerializer
-    queryset = JobApplyDetails.objects.all()
-    permission_classes = (IsAuthenticated,)
+    def get(self, request, pk, format=None):
+        job_info = self.get_object(pk)
+        serializer = JobInfoSerializer(job_info)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        job_info = self.get_object(pk)
+        serializer = JobInfoSerializer(job_info, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        job_info = self.get_object(pk)
+        job_info.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 
