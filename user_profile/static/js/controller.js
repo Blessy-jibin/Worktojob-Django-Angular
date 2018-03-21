@@ -33,14 +33,14 @@ app.controller("myCtrl", function($scope) {
 
     $scope.AddJob = function() {
         $scope.do = "add";
-        $scope.job.company = " ";
-        $scope.job.role = " ";
-        $scope.job = {};
+        // $scope.job.company = " ";
+        // $scope.job.role = " ";
+        
 
     }
     $scope.sve = function(){
         if($scope.do == "add"){
-            $scope.Wishlist.push($scope.job);
+            $scope.job_temp.push($scope.job);
             $scope.job={};
             
         }else{
@@ -119,18 +119,21 @@ app.controller("myCtrl", function($scope) {
 
     $scope.Show_this_Job=function(item){
         console.log(item);
+
         $scope.thisjob=item;
+        var modal=angular.element($('#thisJob'));
+        modal.modal('show');
         var body = angular.element($('body'));
         // body.css('background-color','#F8F8FF');
-        body.toggleClass('body_colour_change');
+        body.addClass('body_colour_change');
         var jobs = angular.element($('#jobsview'));
         // jobs.css({'width':'45%','background-color':'white'});
-        jobs.toggleClass('jobsview_change');
+        jobs.addClass('jobsview_change');
         var add_link = angular.element($('#addlink'));
         // add_link.css('width','50%');
-        add_link.toggleClass('addlink_change');
+        add_link.addClass('addlink_change');
         
-        $(this).toggleClass('jobtitle_change');
+       
         // var job = angular.element($('#job'+$scope.job_temp.indexOf(item)));
         // console.log($scope.job_temp.indexOf(item));
         // console.log(jobelement)
@@ -145,5 +148,7 @@ app.controller("myCtrl", function($scope) {
         var add_link = angular.element($('#addlink'));
         add_link.removeClass('addlink_change');
     }
+
+    
   
 });

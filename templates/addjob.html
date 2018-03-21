@@ -28,7 +28,7 @@
         </div> -->
         <div class="row" id="addlink">
           <div class="col-xs-12">
-            <input type="text" ng-model="job.link" class="col-sm-9 col-xs-9" style="margin-right:5px;height:30px;border-radius:4px;">
+            <input type="text" ng-model="job.url" class="col-sm-9 col-xs-9" style="margin-right:5px;height:30px;border-radius:4px;">
 
             <!-- Trigger the modal with a button -->
             <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal"ng-click="AddJob()">Add job</button>
@@ -54,7 +54,7 @@
                 <!-- Editable  form ends here -->
                 <div class="form-group">
                     <label for="Link">Link:</label>
-                    <a href={{job.link}}>{{job.link}}</a>
+                    <a href={{job.url}}>{{job.url}}</a>
                 </div>
               </div>
               <div class="modal-body" style="">
@@ -165,7 +165,7 @@
           <div ng-repeat="stage in job_stage">
            <section >
             <h5 style="margin-bottom:10px;font-weight:bold;">{{stage}}</h5><hr style="width:100%">
-            <div class="" ng-repeat="item in job_temp" ng-if="item.stage==stage"  ng-click="Show_this_Job(item)" data-toggle="modal" data-target="#thisJob" data-job={{item}}>
+            <div class="" ng-repeat="item in job_temp" ng-if="item.stage==stage"  ng-click="Show_this_Job(item)" data-job={{item}}>
               <span class="glyphicon glyphicon-ok-circle" style='color:#708090 ' ></span> 
               <span class="jobtitle" id='job"+job_temp.indexOf(item)+"'
               style="margin-bottom:5px;color:#708090;">{{item['role']}} in {{item['company']}}</span>
