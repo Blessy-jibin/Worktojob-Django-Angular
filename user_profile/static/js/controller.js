@@ -8,9 +8,9 @@ app.controller("myCtrl", function($scope) {
     $scope.do="";//There is no variable 'do' in scope,we initialised and using it 
                   //identify whether gonna add or edit the job
 
-    $scope.job_temp=[{'role':'AST','company':'TCS','stage':'To Apply','task':['Customize CV','Update Portfolio']},
-                   {'role':'NT','company':'Bosch','stage':'Follow-up','task':['Customize CV','Update Coverletter']},
-                   {'role':'ST','company':'KPN','stage':'Selection','task':['Customize CV','Attach Portfolio']}  ];
+    $scope.job_temp=[{'role':'AST','company':'TCS','url':'www.tcs.com/dasrdca','stage':'To Apply','task':['Customize CV','Update Portfolio']},
+                   {'role':'NT','company':'Bosch','url':'www.bosch.com/dasrdca','stage':'Follow-up','task':['Customize CV','Update Coverletter']},
+                   {'role':'ST','company':'KPN','url':'www.KPN.com/dasrdca','stage':'Selection','task':['Customize CV','Attach Portfolio']}  ];
 
 // for(i in $scope.Wishlist){
 //                 var job = $scope.Wishlist[i];
@@ -19,9 +19,16 @@ app.controller("myCtrl", function($scope) {
 //                 var sec_id='stage'+stage;
 //                 console.log(angular.element($('#job_view')));
 //      }
-            
 
 
+ // $('#thisJob').on('show.bs.modal', function(e) {
+ //            var job = e.relatedTarget.dataset.job;
+ //            var job = JSON.parse(job);
+ //            $scope.thisjob = job;
+ //            console.log($scope.thisjob.company)
+ //   });
+// var x = $('#thisJob').relatedTarget.dataset.job;
+// console.log(x);
 
 
     $scope.AddJob = function() {
@@ -112,25 +119,31 @@ app.controller("myCtrl", function($scope) {
 
     $scope.Show_this_Job=function(item){
         console.log(item);
+        $scope.thisjob=item;
         var body = angular.element($('body'));
-        body.css('background-color','#F8F8FF');
+        // body.css('background-color','#F8F8FF');
+        body.toggleClass('body_colour_change');
         var jobs = angular.element($('#jobsview'));
-        jobs.css({'width':'45%','background-color':'white'});
+        // jobs.css({'width':'45%','background-color':'white'});
+        jobs.toggleClass('jobsview_change');
         var add_link = angular.element($('#addlink'));
-        add_link.css('width','50%');
-        var modal = angular.element($('#myModal'));
-        modal.css('width','45%');
-        modal_html = modal.html();
-        body.append("<div id='rightportion' style='float:right;width:40%;position:relative;left:-130px;top:-600px;'><div>");
-        rightportion=angular.element($('#rightportion'));
-        rightportion.append(modal_html);
-
-
-
-
+        // add_link.css('width','50%');
+        add_link.toggleClass('addlink_change');
         
-
+        $(this).toggleClass('jobtitle_change');
+        // var job = angular.element($('#job'+$scope.job_temp.indexOf(item)));
+        // console.log($scope.job_temp.indexOf(item));
+        // console.log(jobelement)
+        // jobtitle.toggleClass('jobtitle_change');
     };
-
+    
+    $scope.closeJobModal=function(){
+        var body = angular.element($('body'));
+        body.removeClass('body_colour_change'); 
+        var jobs = angular.element($('#jobsview'));
+        jobs.removeClass('jobsview_change');
+        var add_link = angular.element($('#addlink'));
+        add_link.removeClass('addlink_change');
+    }
   
 });

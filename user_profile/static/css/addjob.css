@@ -67,6 +67,24 @@ padding: 15px;
     margin-bottom: 30px;
 }
 
+/*chaging the size and background-color by this classes*/
+.body_colour_change{
+background-color : #F8F8FF;
+
+}
+
+.jobsview_change{
+width:45%;
+background-color:white;
+}
+
+.addlink_change{
+width:50%;
+}
+
+.jobtitle_change{
+	background-color:blue;
+}
 
 @media(min-width:600px){
 	#dlinewpr{
@@ -86,7 +104,7 @@ padding: 15px;
 	position:relative;
 	left:-230px;
 	top:-48px;
-	margin-bottom:20px;
+	margin-bottom:0px;
 }
 ./*modal-body{
 	height: 380px;
