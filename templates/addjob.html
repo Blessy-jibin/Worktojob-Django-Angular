@@ -6,10 +6,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-{% load static %}
+{% load staticfiles %}
     <script type="text/javascript" src="{% static "js/controller.js" %}"></script>
     <script type="text/javascript" src="{% static "js/ui-bootstrap-tpls-2.5.0.min.js" %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static "css/addjob.css" %}">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
      
    
   
@@ -32,6 +35,10 @@
 
             <!-- Trigger the modal with a button -->
             <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal"ng-click="AddJob()">Add job</button>
+
+
+
+
           </div>
         </div>
             <!--add job area ends here-->
@@ -65,6 +72,8 @@
                   <option >Selection</option>
                   <option >Follow-up</option>
                   </select>
+                    <input data-provide="datepicker">
+
                 </div>
                 <div class="form-group">
                   <label for="deadline" id="dlinelbl">Set your Deadline:</label>
@@ -77,7 +86,9 @@
                       <div class="button-bar">
                           <button class="col-sm-3 col-xs-3 dlinebtn btn-time-line" ng-click="SelectTimeline('btn-today')" id='btn-today'>Today</button>
                           <button class="col-sm-3 col-xs-3 dlinebtn btn-time-line" ng-click="SelectTimeline('btn-two-days')" id='btn-two-days'>In two days</button>
-                          <button class="col-sm-3 col-xs-3 dlinebtn btn-time-line" ng-click="SelectTimeline('btn-custom')" id='btn-custom' >Custom </button>
+                          <input data-provide="datepicker" class="col-sm-3 col-xs-3 dlinebtn btn-time-line" value="Custom">
+                          
+
                       </div>
                     </div>
                   </div>  
@@ -118,7 +129,8 @@
                 <button type="button" class="close" data-dismiss="modal" ng-click="closeJobModal()">&times;</button>
 
                 <div  id=" " style="margin-top:15px;">
-                  <span> <img src="{% static "image/logo.jpg" %}" alt="Logo"/>
+                  <span>
+                  <img src="/static/image/logo.jpg" alt="" style="height:40px;width:40px">
                   </span>
                   <div style="display: inline-block;">
                     <h3>{{thisjob.company}}</h3>
@@ -135,13 +147,17 @@
                     <option>{{thisjob.stage}}
                     </option>
                   </select>
+
                 </div>
+                <input data-provide="datepicker" class="col-sm-3 col-xs-3 dlinebtn btn-time-line" value="date">
+                <!-->if you want to load the date change value and give some name to for input field<-->
                 <div class="">
                   <div class="row" ng-repeat="task in thisjob.task">
                     <span class="glyphicon glyphicon-ok-circle" style="color:#708090;margin-left:10px;"></span>
                     <span style="color:#708090">{{task}}</span>
                     <hr style="margin:10px;">
                   </div>
+                 sdfdsf <img src='/static/image/logo.jpg' alt="" style="height:217;width:217">
                 </div>
               </div>         
               <div class="modal-footer" style="">
@@ -191,6 +207,26 @@
 
       </div><!-- closing tag of the top level container -->
     </body>
+    <script type="text/javascript">
+
+
+
+$.fn.singleDatePicker = function() {
+  $(this).on("apply.daterangepicker", function(e, picker) {
+    picker.element.val(picker.startDate.format(picker.locale.format));
+  });
+  return $(this).daterangepicker({
+    singleDatePicker: true,
+    autoUpdateInput: false
+  });
+};
+
+$('.datepicker').datepicker();
+
+
+
+
+    </script>
     {% endverbatim %}
 
   </html>

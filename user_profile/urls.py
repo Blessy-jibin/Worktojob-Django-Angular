@@ -14,9 +14,10 @@ urlpatterns = [
 	path('users/<int:pk>', UserCreate.as_view(), name='user-detail'),
 	# path('auth_login', views.auth_login, name='login'),
 	path('login',views.auth_login,name='login'),
-	path('addjob',views.add_job,name='adding jobs')
+	path('addjob',views.add_job,name='adding jobs'),
+	path('',views.home,name='home')
 
     
-]+static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]+static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)
 
     
