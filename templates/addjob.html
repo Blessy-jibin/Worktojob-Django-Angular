@@ -68,12 +68,10 @@
                 <div class="form-group">
                   <label for="jobstage" style="font-size:12px;">Stage:</label>
                   <select class="selectpicker" data-style="btn-primary" id="stageselector" ng-model="job.stage">
-                  <option  selected="selected">To Apply</option>
-                  <option >Selection</option>
-                  <option >Follow-up</option>
+                    <option  selected="selected">To Apply</option>
+                    <option >Selection</option>
+                    <option >Follow-up</option>
                   </select>
-                    <input data-provide="datepicker">
-
                 </div>
                 <div class="form-group">
                   <label for="deadline" id="dlinelbl">Set your Deadline:</label>
@@ -86,8 +84,7 @@
                       <div class="button-bar">
                           <button class="col-sm-3 col-xs-3 dlinebtn btn-time-line" ng-click="SelectTimeline('btn-today')" id='btn-today'>Today</button>
                           <button class="col-sm-3 col-xs-3 dlinebtn btn-time-line" ng-click="SelectTimeline('btn-two-days')" id='btn-two-days'>In two days</button>
-                          <input data-provide="datepicker" class="col-sm-3 col-xs-3 dlinebtn btn-time-line" value="Custom">
-                          
+                          <input data-provide="datepicker" class="col-sm-3 col-xs-2 dlinebtn btn-time-line"  style="text-align: center" value="Custom" id='btn-custom-days' ng-click="SelectTimeline('btn-custom-days')">
 
                       </div>
                     </div>
@@ -121,7 +118,7 @@
         <!--first modal ends here-->
 
         <!--modal specefic to one job-->
-        <div id="thisJob" class="modal col-md-offset-5" role="dialog" tabindex="-1"  aria-labelledby="More about this job" aria-hidden="true" data-backdrop="false" style="margin-top:50px;">
+        <div id="thisJob" class="modal col-md-offset-5" role="dialog" tabindex="-1"  aria-labelledby="More about this job" aria-hidden="true" data-backdrop="false" style="margin-top:15px;">
           <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content" style="width:550px;" id="thisJobmodalcontent">
@@ -143,25 +140,30 @@
               </div>
               <div class="modal-body" style="">
                 <div class="form-group">
-                  <select class="selectpicker" data-style="btn-primary" id="" ng-model="">
-                    <option>{{thisjob.stage}}
-                    </option>
+
+                  <select class="selectpicker" data-style="btn-primary" id="stageselector" ng-model="job.stage">
+                    <option >To Apply</option>
+                    <option >Selection</option>
+                    <option >Follow-up</option>
                   </select>
+                  <input data-provide="datepicker" style="text-align: center;" class="" value="date">
 
                 </div>
-                <input data-provide="datepicker" class="col-sm-3 col-xs-3 dlinebtn btn-time-line" value="date">
-                <!-->if you want to load the date change value and give some name to for input field<-->
                 <div class="">
-                  <div class="row" ng-repeat="task in thisjob.task">
-                    <span class="glyphicon glyphicon-ok-circle" style="color:#708090;margin-left:10px;"></span>
+                  <div class="row" ng-click="toggle = !toggle" ng-repeat="task in thisjob.task">
+                    <span class="glyphicon glyphicon-ok-circle"  ng-class="{'green' : toggle}" style="margin-left:100px;"></span>
                     <span style="color:#708090">{{task}}</span>
                     <hr style="margin:10px;">
                   </div>
-                 sdfdsf <img src='/static/image/logo.jpg' alt="" style="height:217;width:217">
+                  
                 </div>
               </div>         
-              <div class="modal-footer" style="">
-                
+              <hr style="height:10px;color: #F8F8FF;background-color: #F8F8FF;border-top: 1px solid rgba(0,0,0,.2);border-bottom: 1px solid rgba(0,0,0,.2);">
+              <div class="modal-footer" style="border-top:0px;">
+                <div style="overflow-y: auto;height: auto;max-height:500px; ">
+                  <img src='/static/image/logo.jpg' alt="" style="max-width: 100%;
+                max-height: 100%;">
+              </div>
               </div>
             </div>
           </div>
@@ -178,7 +180,7 @@
           </table>
         </div> -->
         <div ng-if="job_temp.length>0" style="padding: 15px;margin-top:10px;" id='jobsview'>
-          <div ng-repeat="stage in job_stage">
+          <div ng-repeat="stage in job_stage"  style="margin-bottom:10px">
            <section >
             <h5 style="margin-bottom:10px;font-weight:bold;">{{stage}}</h5><hr style="width:100%">
             <div class="" ng-repeat="item in job_temp" ng-if="item.stage==stage"  ng-click="Show_this_Job(item)" data-job={{item}}>

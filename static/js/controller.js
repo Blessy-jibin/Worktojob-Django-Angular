@@ -9,9 +9,10 @@ app.controller("myCtrl", function($scope) {
                   //identify whether gonna add or edit the job
 
     $scope.job_temp=[{'role':'AST','company':'TCS','url':'www.tcs.com/dasrdca','stage':'To Apply','task':['Customize CV','Update Portfolio']},
+                    {'role':'Test2','company':'TCS1','url':'www.tcs.com/dasrdca','stage':'To Apply','task':['Customize CV','Update Portfolio']},
                    {'role':'NT','company':'Bosch','url':'www.bosch.com/dasrdca','stage':'Follow-up','task':['Customize CV','Update Coverletter']},
                    {'role':'ST','company':'KPN','url':'www.KPN.com/dasrdca','stage':'Selection','task':['Customize CV','Attach Portfolio']}  ];
-
+    $scope.toggle = true;
 // for(i in $scope.Wishlist){
 //                 var job = $scope.Wishlist[i];
 //                 var stage = job['stage'];
@@ -33,11 +34,19 @@ app.controller("myCtrl", function($scope) {
 
     $scope.AddJob = function() {
         $scope.do = "add";
-        // $scope.job.company = " ";
-        // $scope.job.role = " ";
-        
+        var body = angular.element($('body'));
+        body.removeClass('body_colour_change'); 
+        var jobs = angular.element($('#jobsview'));
+        jobs.removeClass('jobsview_change');
+        var add_link = angular.element($('#addlink'));
+        add_link.removeClass('addlink_change');
+        var modal=angular.element($('#thisJob'));
+        modal.modal('hide');    
 
     }
+
+
+
     $scope.sve = function(){
         if($scope.do == "add"){
             $scope.job_temp.push($scope.job);
@@ -67,13 +76,11 @@ app.controller("myCtrl", function($scope) {
     
     $scope.SelectTimeline =  function(id) {
         var element = angular.element($('.btn-time-line'));
-
         for ( var i in element) {
-            var btn = angular.element($('#'+element[i].id));
+            var btn = angular.element($( '#'+element[i].id));
             btn.css({"background-color": "white"});
-            btn.val('unslected');
+            btn.val('Custom');
         }
-
         emnt = angular.element($('#'+id));
         emnt.css({"background-color": "blue"});
         emnt.val('selected');
@@ -90,10 +97,15 @@ app.controller("myCtrl", function($scope) {
           +"<button class='btn-xs' ng-click='RemoveTasks("+$scope.task_id+")'>Remove </button>"
          +"</span></input></div>"
         tasklist.append(addtask_html);
-
+        var new_element = angular.element($('#'+id));
+        new_element.on('click',   function(){
+                var task = angular.element($("#"+id));
+                task.remove();
+            } );
     }
 
     $scope.RemoveTasks = function(task_id){
+        console.log('test');
         var tasklist = angular.element($("#tasklist"));
         var task = angular.element($("#"+task_id));
         console.log(task_id,task,tasklist);
@@ -149,6 +161,8 @@ app.controller("myCtrl", function($scope) {
         add_link.removeClass('addlink_change');
     }
 
-    
+    $scope.gyphcolorchange = function(){
+
+    }
   
 });

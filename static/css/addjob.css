@@ -69,13 +69,17 @@ padding: 15px;
 
 /*chaging the size and background-color by this classes*/
 .body_colour_change{
-background-color : #F8F8FF;
+	background-color : #F8F8FF;
 
 }
 
-.jobsview_change{
-width:45%;
-background-color:white;
+.jobsview_change {
+	width:45%;
+	background-color:white;
+}
+
+.glyphColorChange {
+	color : green;
 }
 
 .addlink_change{
@@ -84,6 +88,10 @@ width:50%;
 
 .jobtitle_change{
 	background-color:blue;
+}
+
+.green {
+	color:green;
 }
 
 @media(min-width:600px){
