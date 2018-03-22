@@ -12,7 +12,7 @@ set_default_token_value = function($rootScope){
 	$rootScope.auth_token = null;
 }
 
-make_backend_call = function($rootScope, $http, http_method, end_point, data={}){
+get_http_header = function($rootScope){
   	headers = {
    		"Content-Type": "application/json",
  	}
@@ -20,39 +20,49 @@ make_backend_call = function($rootScope, $http, http_method, end_point, data={})
   	if($rootScope.auth_token != null){
   		headers.Authorization = "Token "+ $rootScope.auth_token
   	}
-
-  	response = null
-
-	$http({
-	  method: http_method,
-	  url: end_point,
-	  headers: headers,
-	  data:data,
-	}).then(function successCallback(response) {
-	    // this callback will be called asynchronously
-	    // when the response is available
-	    response = response;
-	  }, function errorCallback(response) {
-	  	response = response;
-	    // called asynchronously if an error occurs
-	    // or server returns response with an error status.
-	  });
-
-	console.log("-----------------------", response);
-	return(response);
+  	return(headers);
 }
 
 workToJob.controller('loginController', function ($scope, $http, $rootScope) {
 
     $scope.authenticate_app = function(){
 		var data = {};
+		$scope.login_error_status = false;
     	data.username = $scope.username;
     	data.password = $scope.password;
-    	alert(data);
-    	rep_data = make_backend_call($rootScope, $http, 'POST', '/login', data);
-    	console.log("-----------------------", rep_data);
 
-	}
+    	loginValidation(data, $rootScope);
+	};
+
+	function loginValidation (userData, $rootScope) {
+		headers = get_http_header($rootScope)
+		$http({
+		  method: 'POST',
+		  url: '/login',
+		  headers: headers,
+		  data:userData,
+		}).then(function (data) {
+			if(data.status == 200){
+				$scope.login_error_status = false;
+				$rootScope.auth_token = data.token;
+				window.location = 'addjob';
+			}
+	    }, function (error) {
+	    	$scope.login_error_status = true;
+	    });
+	 };
+
+});
+
+
+workToJob.controller('jobDetailController', function ($scope, $http, $rootScope) {
+
+
+    $scope.save_newjob = function(){
+		console.log($scope.job);
+	};
+
 
 
 });
+

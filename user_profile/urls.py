@@ -15,7 +15,9 @@ urlpatterns = [
 	# path('auth_login', views.auth_login, name='login'),
 	path('login',views.auth_login,name='login'),
 	path('addjob',views.add_job,name='adding jobs'),
-	path('',views.home,name='home')
+	path('',views.home,name='home'),
+	path('job/view',views.job_list,name='job_list')
+
 
     
 ]+static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)

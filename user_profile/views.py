@@ -57,6 +57,10 @@ def home(request):
     #boards = Board.objects.all()
     return render_to_response('auth.html')
 
+def job_list(request):
+    #boards = Board.objects.all()
+    return render_to_response('jobs.html')
+
 def add_job(request):
     return render_to_response('addjob.html', locals())
 
