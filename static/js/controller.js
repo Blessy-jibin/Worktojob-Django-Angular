@@ -1,4 +1,4 @@
-var app = angular.module('myApp', []);
+var app = angular.module('myApp', ['ui.bootstrap']);
 
 app.controller("myCtrl", function($scope) {
     $scope.Wishlist = [];
@@ -9,10 +9,12 @@ app.controller("myCtrl", function($scope) {
                   //identify whether gonna add or edit the job
 
     $scope.job_temp=[{'role':'AST','company':'TCS','url':'www.tcs.com/dasrdca','stage':'To Apply','task':['Customize CV','Update Portfolio']},
-                    {'role':'Test2','company':'TCS1','url':'www.tcs.com/dasrdca','stage':'To Apply','task':['Customize CV','Update Portfolio']},
+                   {'role':'Softawre','company':'ING','url':'www.ing.com/dasrdca','stage':'To Apply','task':['Customize CV','Update Portfolio']},
                    {'role':'NT','company':'Bosch','url':'www.bosch.com/dasrdca','stage':'Follow-up','task':['Customize CV','Update Coverletter']},
                    {'role':'ST','company':'KPN','url':'www.KPN.com/dasrdca','stage':'Selection','task':['Customize CV','Attach Portfolio']}  ];
     $scope.toggle = true;
+    $scope.isCollapsed = true;
+    $scope.selectedIndex = -1;
 // for(i in $scope.Wishlist){
 //                 var job = $scope.Wishlist[i];
 //                 var stage = job['stage'];
@@ -130,20 +132,22 @@ app.controller("myCtrl", function($scope) {
     }
 
     $scope.Show_this_Job=function(item){
-        console.log(item);
-
+        // console.log(item);
         $scope.thisjob=item;
-        var modal=angular.element($('#thisJob'));
+        var modal=angular.element($('#thisJob'));  
         modal.modal('show');
         var body = angular.element($('body'));
-        // body.css('background-color','#F8F8FF');
-        body.addClass('body_colour_change');
+        // // body.css('background-color','#F8F8FF');
+        // body.addClass('body_colour_change');
         var jobs = angular.element($('#jobsview'));
-        // jobs.css({'width':'45%','background-color':'white'});
-        jobs.addClass('jobsview_change');
+        // // jobs.css({'width':'45%','background-color':'white'});
+        // jobs.addClass('jobsview_change');
         var add_link = angular.element($('#addlink'));
         // add_link.css('width','50%');
         add_link.addClass('addlink_change');
+        
+        
+        
         
        
         // var job = angular.element($('#job'+$scope.job_temp.indexOf(item)));
@@ -152,6 +156,10 @@ app.controller("myCtrl", function($scope) {
         // jobtitle.toggleClass('jobtitle_change');
     };
     
+    $scope.itemClicked = function ($index) {
+        $scope.selectedIndex = $index;
+    };
+
     $scope.closeJobModal=function(){
         var body = angular.element($('body'));
         body.removeClass('body_colour_change'); 
@@ -159,6 +167,8 @@ app.controller("myCtrl", function($scope) {
         jobs.removeClass('jobsview_change');
         var add_link = angular.element($('#addlink'));
         add_link.removeClass('addlink_change');
+        $scope.selectedIndex = -1;
+        
     }
 
     $scope.gyphcolorchange = function(){
@@ -166,3 +176,29 @@ app.controller("myCtrl", function($scope) {
     }
   
 });
+
+
+
+
+
+//adding dropdown directive
+
+
+
+ app.directive("dropdown",function(){
+    return function(scope,element){
+      element.bind("click",function(){
+        if(element.find('.drop_down').hasClass('display_none'))
+        {
+          element.find('.drop_down').removeClass('display_none');
+          element.find("#elementWrap").stop(true,true).delay(100).slideDown(350);
+        }
+        else
+        {
+          element.find("#elementWrap").stop(true,true).delay(100).slideUp(350,function(){
+            element.find('.drop_down').addClass('display_none');
+          });
+        }
+      });
+    };
+  });

@@ -69,8 +69,8 @@
                   <label for="jobstage" style="font-size:12px;">Stage:</label>
                   <select class="selectpicker" data-style="btn-primary" id="stageselector" ng-model="job.stage">
                     <option  selected="selected">To Apply</option>
-                    <option >Selection</option>
                     <option >Follow-up</option>
+                    <option >Selection</option>
                   </select>
                 </div>
                 <div class="form-group">
@@ -118,12 +118,12 @@
         <!--first modal ends here-->
 
         <!--modal specefic to one job-->
-        <div id="thisJob" class="modal col-md-offset-5" role="dialog" tabindex="-1"  aria-labelledby="More about this job" aria-hidden="true" data-backdrop="false" style="margin-top:15px;">
+        <div id="thisJob" class="modal col-md-offset-5" role="dialog" tabindex="-1"  aria-labelledby="More about this job" aria-hidden="true" data-backdrop="false" style="margin-top:7px;">
           <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content" style="width:550px;" id="thisJobmodalcontent">
               <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" ng-click="closeJobModal()">&times;</button>
+                <button type="button" class="close" data-dismiss="modal" ng-click= "closeJobModal()" >&times;</button>
 
                 <div  id=" " style="margin-top:15px;">
                   <span>
@@ -143,15 +143,16 @@
 
                   <select class="selectpicker" data-style="btn-primary" id="stageselector" ng-model="job.stage">
                     <option >To Apply</option>
-                    <option >Selection</option>
                     <option >Follow-up</option>
+                    <option >Selection</option>
+
                   </select>
                   <input data-provide="datepicker" style="text-align: center;" class="" value="date">
-
+                 
                 </div>
                 <div class="">
                   <div class="row" ng-click="toggle = !toggle" ng-repeat="task in thisjob.task">
-                    <span class="glyphicon glyphicon-ok-circle"  ng-class="{'green' : toggle}" style="margin-left:100px;"></span>
+                    <span class="glyphicon glyphicon-ok-circle"  ng-class="{'green' : toggle}"} style="margin-left:100px;"></span>
                     <span style="color:#708090">{{task}}</span>
                     <hr style="margin:10px;">
                   </div>
@@ -177,21 +178,27 @@
             <td class="col-xs-8 col-md-1" align="text-center"><button class="btn btn-danger"  ng-click="delete(item)">Delete</button>
             <button class="btn btn-info" data-toggle="modal" data-target="#myModal" ng-click="update(item)">Update</button></td>
             </tr>
-          </table>
+          </table>ng-class="{'green' : togglemain }"
+ng-class="{'changestyle':togglemain}"
         </div> -->
-        <div ng-if="job_temp.length>0" style="padding: 15px;margin-top:10px;" id='jobsview'>
-          <div ng-repeat="stage in job_stage"  style="margin-bottom:10px">
+        <div ng-if="job_temp.length>0" style="padding: 15px;margin-top:10px;font-size: 16px;" id='jobsview'>
+          <div ng-repeat="stage in job_stage"  style="margin-bottom:10px" >
            <section >
-            <h5 style="margin-bottom:10px;font-weight:bold;">{{stage}}</h5><hr style="width:100%">
-            <div class="" ng-repeat="item in job_temp" ng-if="item.stage==stage"  ng-click="Show_this_Job(item)" data-job={{item}}>
-              <span class="glyphicon glyphicon-ok-circle" style='color:#708090 ' ></span> 
-              <span class="jobtitle" id='job"+job_temp.indexOf(item)+"'
-              style="margin-bottom:5px;color:#708090;">{{item['role']}} in {{item['company']}}</span>
+            <div ng-click="isCollapsed = !isCollapsed">
+              <h5 style="margin-bottom:10px;font-weight:bold;display: inline-block;">{{stage}}</h5>
+              <span class="glyphicon glyphicon-triangle-bottom" style="position: relative;top: 5px;"></span>
+           </div>
+            <hr style="width:100%">
+           
+            <div class="" ng-repeat="item in job_temp" ng-if="item.stage==stage"  ng-click="itemClicked($index); Show_this_Job(item)" data-job={{item}} ng-class="{'emphasize' : $index == selectedIndex }" style="padding: 5px;" uib-collapse="isCollapsed">
+              <span class="glyphicon glyphicon-ok-circle" ng-class="{'green' : $index == selectedIndex }" style="margin-right:5px;"></span>
+              <span class="jobtitle" ng-class="{'changestyle':$index == selectedIndex}" id='job"+job_temp.indexOf(item)+"'
+              style="margin-bottom:5px;color:#5D6D7E;font-weight: bold;">{{item['role']}} in {{item['company']}}</span>
               <hr style="margin-bottom:10px;">
               <div ng-repeat="task in item['task']" class='col-lg-offset-1 col-xs-offset-2' style="margin-bottom:5px;line-height:0px;font-size:14px;min-height:2px;">
                 <span class="glyphicon glyphicon-ok-circle" style="color:#708090;"></span>
-                <span style="color:#708090">{{task}}</span>
-                <hr style="margin:10px;">
+                <span style="color:#708090;font-size:16px;">{{task}}</span>
+                <hr style="margin:10px;width: 80%;">
              <div>
            </section>
           </div>
