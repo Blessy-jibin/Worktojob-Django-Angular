@@ -8,9 +8,9 @@ app.controller("myCtrl", function($scope) {
     $scope.do="";//There is no variable 'do' in scope,we initialised and using it 
                   //identify whether gonna add or edit the job
 
-    $scope.job_temp=[{'role':'AST','company':'TCS','url':'www.tcs.com/dasrdca','stage':'To Apply','task':['Customize CV','Update Portfolio']},
-                   {'role':'NT','company':'Bosch','url':'www.bosch.com/dasrdca','stage':'Follow-up','task':['Customize CV','Update Coverletter']},
-                   {'role':'ST','company':'KPN','url':'www.KPN.com/dasrdca','stage':'Selection','task':['Customize CV','Attach Portfolio']}  ];
+    $scope.job_temp=[{'role':'AST','company':'TCS','url':'www.tcs.com/dasrdca','deadline':'15-08-2018','stage':'To Apply','task':['Customize CV','Update Portfolio']},
+                   {'role':'NT','company':'Bosch','url':'www.bosch.com/dasrdca','deadline':'13-08-2018','stage':'Follow-up','task':['Customize CV','Update Coverletter']},
+                   {'role':'ST','company':'KPN','url':'www.KPN.com/dasrdca','deadline':'12-06-2018','stage':'Selection','task':['Customize CV','Attach Portfolio']}  ];
 
 // for(i in $scope.Wishlist){
 //                 var job = $scope.Wishlist[i];
