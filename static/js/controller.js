@@ -12,9 +12,27 @@ app.controller("myCtrl", function($scope) {
                    {'role':'Softawre','company':'ING','url':'www.ing.com/dasrdca','stage':'To Apply','task':['Customize CV','Update Portfolio']},
                    {'role':'NT','company':'Bosch','url':'www.bosch.com/dasrdca','stage':'Follow-up','task':['Customize CV','Update Coverletter']},
                    {'role':'ST','company':'KPN','url':'www.KPN.com/dasrdca','stage':'Selection','task':['Customize CV','Attach Portfolio']}  ];
+    
+    $scope.job_temp2= {
+                    "toapply" :   [ {'role':'Test5','company':'TCS','url':'www.tcs.com/dasrdca','stage':'To Apply','task':['Customize CV','Update Portfolio']},
+                        {'role':'Test6','company':'ING','url':'www.ing.com/dasrdca','stage':'To Apply','task':['Customize CV','Update Portfolio']},
+                        {'role':'Test7','company':'Bosch','url':'www.bosch.com/dasrdca','stage':'To Apply','task':['Customize CV','Update Coverletter']},
+                        {'role':'Test8','company':'KPN','url':'www.KPN.com/dasrdca','stage':'To Apply','task':['Customize CV','Attach Portfolio']}  ],
+                    "selection" :   [ 
+                                {'role':'Test3','company':'Bosch','url':'www.bosch.com/dasrdca','stage':'Selection','task':['Customize CV','Update Coverletter']},
+                                {'role':'Test4','company':'KPN','url':'www.KPN.com/dasrdca','stage':'Selection','task':['Customize CV','Attach Portfolio']}  ],
+                    "followup" :   [ {'role':'Test9','company':'Bosch','url':'www.bosch.com/dasrdca','stage':'Follow-up','task':['Customize CV','Update Coverletter']},
+                        {'role':'Test10','company':'KPN','url':'www.KPN.com/dasrdca','stage':'Follow-up','task':['Customize CV','Attach Portfolio']}  ]
+                    
+
+                    }    ;
+    
     $scope.toggle = true;
     $scope.isCollapsed = true;
     $scope.selectedIndex = -1;
+    $scope.isMore = true;
+    $scope.togglediv = true;
+
 // for(i in $scope.Wishlist){
 //                 var job = $scope.Wishlist[i];
 //                 var stage = job['stage'];
@@ -145,16 +163,29 @@ app.controller("myCtrl", function($scope) {
         var add_link = angular.element($('#addlink'));
         // add_link.css('width','50%');
         add_link.addClass('addlink_change');
-        
-        
-        
-        
-       
+
         // var job = angular.element($('#job'+$scope.job_temp.indexOf(item)));
         // console.log($scope.job_temp.indexOf(item));
         // console.log(jobelement)
         // jobtitle.toggleClass('jobtitle_change');
     };
+
+    $scope.moreItem=function(stage){
+        //get more jobs from bacnend and addd.
+        var data = [];
+        if (stage == 'To Apply'){
+            data = $scope.job_temp2.toapply
+        }
+        if (stage == 'Follow-up'){
+            data = $scope.job_temp2.followup
+        }
+        if (stage == 'Selection'){
+            data = $scope.job_temp2.selection
+        }
+        for (index in data){
+            $scope.job_temp.push(data[index]);
+        }
+    }
     
     $scope.itemClicked = function ($index) {
         $scope.selectedIndex = $index;
@@ -168,6 +199,9 @@ app.controller("myCtrl", function($scope) {
         var add_link = angular.element($('#addlink'));
         add_link.removeClass('addlink_change');
         $scope.selectedIndex = -1;
+        var modal=angular.element($('#thisJob'));  
+        modal.modal('hide');
+        $scope.togglediv = true;
         
     }
 

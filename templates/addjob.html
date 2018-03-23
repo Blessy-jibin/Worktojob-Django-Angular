@@ -184,22 +184,27 @@ ng-class="{'changestyle':togglemain}"
         <div ng-if="job_temp.length>0" style="padding: 15px;margin-top:10px;font-size: 16px;" id='jobsview'>
           <div ng-repeat="stage in job_stage"  style="margin-bottom:10px" >
            <section >
-            <div ng-click="isCollapsed = !isCollapsed">
-              <h5 style="margin-bottom:10px;font-weight:bold;display: inline-block;">{{stage}}</h5>
-              <span class="glyphicon glyphicon-triangle-bottom" style="position: relative;top: 5px;"></span>
-           </div>
-            <hr style="width:100%">
-           
-            <div class="" ng-repeat="item in job_temp" ng-if="item.stage==stage"  ng-click="itemClicked($index); Show_this_Job(item)" data-job={{item}} ng-class="{'emphasize' : $index == selectedIndex }" style="padding: 5px;" uib-collapse="isCollapsed">
-              <span class="glyphicon glyphicon-ok-circle" ng-class="{'green' : $index == selectedIndex }" style="margin-right:5px;"></span>
-              <span class="jobtitle" ng-class="{'changestyle':$index == selectedIndex}" id='job"+job_temp.indexOf(item)+"'
-              style="margin-bottom:5px;color:#5D6D7E;font-weight: bold;">{{item['role']}} in {{item['company']}}</span>
-              <hr style="margin-bottom:10px;">
-              <div ng-repeat="task in item['task']" class='col-lg-offset-1 col-xs-offset-2' style="margin-bottom:5px;line-height:0px;font-size:14px;min-height:2px;">
-                <span class="glyphicon glyphicon-ok-circle" style="color:#708090;"></span>
-                <span style="color:#708090;font-size:16px;">{{task}}</span>
-                <hr style="margin:10px;width: 80%;">
-             <div>
+              <div ng-click="isCollapsed = !isCollapsed">
+                <span class="glyphicon glyphicon-triangle-bottom"  ng-show="isCollapsed" style="position: relative;top: 5px;"></span>
+                <span class="glyphicon glyphicon-triangle-top" ng-show="!isCollapsed" style="position: relative;top: 5px;"></span>
+
+                <h5 style="margin-bottom:10px;font-weight:bold;display: inline-block;">{{stage}}</h5>
+              </div>
+              <hr style="width:100%">
+             
+              <div class="" ng-repeat="item in job_temp" ng-if="item.stage==stage"  ng-click="itemClicked($index); Show_this_Job(item,isDisplayed);togglediv = !togglediv;togglediv && closeJobModal();" data-job={{item}} ng-class="{'emphasize' : $index == selectedIndex }" style="padding: 5px;" uib-collapse="isCollapsed">
+                <span class="glyphicon glyphicon-ok-circle" ng-class="{'green' : taskglychange = $index == selectedIndex }" style="margin-right:5px;"></span>
+                <span class="jobtitle" ng-class="{'changestyle':$index == selectedIndex}" id='job"+job_temp.indexOf(item)+"'
+                style="margin-bottom:5px;color:#5D6D7E;font-weight: bold;">{{item['role']}} in {{item['company']}}</span>
+                <hr style="margin-bottom:10px;">
+                <div ng-repeat="task in item['task']" class='col-lg-offset-1 col-xs-offset-2' style="margin-bottom:5px;line-height:0px;font-size:14px;min-height:2px;">
+                  <span class="glyphicon glyphicon-ok-circle" ng-class="{'green' : taskglychange}"></span>
+                  <span style="color:#708090;font-size:16px;">{{task}}</span>
+                  <hr style="margin:10px;width: 80%;">
+                </div>
+              </div>
+              <small  ng-if="isMore" ng-click="moreItem(stage);" id = {{stage}} value = {{stage}}><span class="underlined" ng-show="!isCollapsed" >more</span></small>
+              
            </section>
           </div>
         </div>
