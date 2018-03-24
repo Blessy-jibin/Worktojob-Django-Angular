@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import (auth_login, JobInfoList, JobInfoDetail, UserCreate, UserDetail)
+from .views import (auth_login, JobInfoList, JobInfoDetail, UserCreate, UserDetail, MetaParsing)
 from user_profile import views
 from django.conf import settings
 from django.conf.urls import url
@@ -18,9 +18,9 @@ urlpatterns = [
 
 	path('addjob',views.add_job,name='adding jobs'),
 	path('',views.home,name='home'),
-	path('job/view',views.job_list,name='job_list')
+	path('job/view',views.job_list,name='job_list'),
 
-	path('meta',views.MetaParsing, name='meta')
+	path('meta',MetaParsing.as_view(), name='meta')
 
     
 ]+static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)

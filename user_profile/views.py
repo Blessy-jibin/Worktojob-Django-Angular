@@ -139,12 +139,20 @@ class TaskList(APIView):
         serializer = TaskSerializer(job_info, many=True)
         return Response(serializer.data)
 
-class MetaParsing (APIView)
-    (self, request, url, format=None)
-     def get(self, request, pk, format=None):
-        content = urlopen(url)
-        soup = BeautifulSoup(content, 'html.parser')
-        meta = { 'title' : soup.title.string  }
+class MetaParsing (APIView):
+
+     def get(self, request,format=None):
+        print  ('Test')
+
+        try:
+            url = request.GET.get('url')
+            print  (url)
+            # content = urlopen(url)
+            # soup = BeautifulSoup(content, 'html.parser')
+            # meta = { 'title' : soup.title.string  }
+        except Exception as e:
+            print  ('except',e)
+            meta = {}
         serializer = JobInfoSerializer(meta)
         return Response(serializer.data)
 
