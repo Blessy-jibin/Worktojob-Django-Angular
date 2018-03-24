@@ -18,7 +18,7 @@
 	vertical-align:middle; 
 	
 	font-size:12px;
-	
+	border-width: 1px;
 
 }
 
@@ -63,20 +63,29 @@ padding: 15px;
 	padding:8px;
 }
 
+.underlined {
+  text-decoration: underline dotted black;
+}
+
 .form-group {
     margin-bottom: 30px;
 }
 
 /*chaging the size and background-color by this classes*/
 .body_colour_change{
-background-color : #F8F8FF;
+	background-color : #F8F8FF;
 
 }
 
-.jobsview_change{
-width:45%;
-background-color:white;
+.jobsview_change {
+	width:55%;
+	background-color:white;
 }
+
+.glyphColorChange {
+	color : green;
+}
+
 
 .addlink_change{
 width:50%;
@@ -84,6 +93,35 @@ width:50%;
 
 .jobtitle_change{
 	background-color:blue;
+}
+.changestyle{
+	/*border : 1px solid #1CD461;
+	background-color : #1CD461;*/
+	/*font-weight: bolder;*/
+	/*font-size: 20px;*/
+}
+.green {
+	color:green;
+	font-size: 18px;
+}
+
+.triangle {
+	color:green;
+	font-size: 18px;
+}
+
+.emphasize{
+	background-color: #EBF5FB  ;
+  	box-shadow: 0 1px 1px #E0F9E8;
+  	width: 90%;
+	margin-bottom: 10px;
+
+}
+
+#thisJobmodalcontent{
+	position: relative;
+	left:100px;
+
 }
 
 @media(min-width:600px){
