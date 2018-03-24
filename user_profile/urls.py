@@ -11,7 +11,7 @@ urlpatterns = [
 	#path('task', TaskViewSet.as_view({'get': 'list'}), name='TaskViewSet'),
 	#path('task/<int:pk>', TaskViewSet.as_view({'get': 'list'}), name='TaskViewSet-detail'),
 	path('create_user', UserCreate.as_view(), name='user_view'),
-	path('users/<int:pk>', UserCreate.as_view(), name='user-detail'),
+	path('users', UserCreate.as_view(), name='user-detail'),
 	# path('auth_login', views.auth_login, name='login'),
 	path('auth_login',views.auth_login,name='login'),
 	path('login',views.login,name='login'),
@@ -20,6 +20,7 @@ urlpatterns = [
 	path('',views.home,name='home'),
 	path('job/view',views.job_list,name='job_list')
 
+	path('meta',views.MetaParsing, name='meta')
 
     
 ]+static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)

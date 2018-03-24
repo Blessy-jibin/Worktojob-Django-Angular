@@ -17,7 +17,8 @@ from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.models import User
-
+from bs4 import BeautifulSoup
+from urllib.request import urlopen
 
 #usage example
 
@@ -138,6 +139,15 @@ class TaskList(APIView):
         serializer = TaskSerializer(job_info, many=True)
         return Response(serializer.data)
 
+class MetaParsing (APIView)
+    (self, request, url, format=None)
+     def get(self, request, pk, format=None):
+        content = urlopen(url)
+        soup = BeautifulSoup(content, 'html.parser')
+        meta = { 'title' : soup.title.string  }
+        serializer = JobInfoSerializer(meta)
+        return Response(serializer.data)
+
 
 class JobInfoDetail(APIView):
     """
@@ -166,6 +176,9 @@ class JobInfoDetail(APIView):
         job_info = self.get_object(pk)
         job_info.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+
+
 
 
 
