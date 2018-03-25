@@ -156,20 +156,27 @@
                     
                     <span style="color:#708090;margin-left:40px">{{task}}</span>
                     <div style="display:inline-block;text-align:center;padding:2px;position: absolute;left:300px; ">
-                      <span class="glyphicon glyphicon-remove-circle" ng-click="removeTask($index)"  style="color:red;font-size:16px;"></span>
+                      <span class="glyphicon glyphicon-remove-circle" ng-click="removeTask($index)" ng-confirm-message="Are you sure deleting {{task}}?"   style="color:red;font-size:17px;"></span>
                     </div>
                     <hr style="margin:10px;">
                   </div>
                 </div>
                   <div  class="row" id=>
-                    <div  style="margin-left:50px">
-                      <input type='text'  style="margin-top:5px;border:1px solid black;width:45%;"  ng-model="tsk" placeholder="Add your Task" onfocus="this.placeholder=''" > 
-                      <span class="glyphicon glyphicon-plus" style="color:green;font-size:16px;margin-left:10px;" ng-click="thisjob.task.push(tsk);"> </span>
-                        
+                    
+                      <form name="myForm" style="display: inline-block;width:70%;margin-left:40px;">
+                        <input type='text' name="task" style="margin-top:5px;border:1px solid black;text-align: center;"  ng-model="tsk"  placeholder="Add your Task" onfocus="this.placeholder=''" required ng-keypress="($event.which === 13) && myForm.task.$valid && thisjob.task.push(tsk)">
+                        <div role="alert">
+                          <span class="error" ng-show="myForm.task.$touched && myForm.task.$invalid" style="color: #ff8566;font-size:12px;margin-top:2px;">
+                            Please enter a task!</span>
+                        </div>
+                      </form>
+                      <div style="display:inline-block;text-align:center;padding:2px;position: absolute;left:300px; ">
+                        <span class="glyphicon glyphicon-plus" style="color:green;font-size:17px;" ng-click="myForm.task.$valid && thisjob.task.push(tsk);"> </span>
+                      </div>
                      
-                    </div>
+               
 
-                    <!-- <button class="task-btn" ng-click="addtask_editmode()" style="position: relative;left: 120px;"><i>Add your own tasks</i></button> -->
+                    
                       
                     
                   </div>
