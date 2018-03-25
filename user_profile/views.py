@@ -19,6 +19,8 @@ from rest_framework import status
 from django.contrib.auth.models import User
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
+import requests
+import re
 
 #usage example
 
@@ -142,19 +144,31 @@ class TaskList(APIView):
 class MetaParsing (APIView):
 
      def get(self, request,format=None):
-        print  ('Test')
-
+        meta = {}
         try:
             url = request.GET.get('url')
             print  (url)
             # content = urlopen(url)
-            # soup = BeautifulSoup(content, 'html.parser')
-            # meta = { 'title' : soup.title.string  }
+            headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
+            response = requests.get(url, headers=headers)
+            content = response.content
+            
+            soup = BeautifulSoup(content, 'html.parser')
+            print ( content,soup.title,response.status_code);
+
+            title = soup.title.string 
+            dat = re.split(r"[\[\]]", title)
+            if (dat[0] is not null ):
+                job = dat[0]
+            if (dat[1] is not null ):
+                company = dat[1]
+            meta = { 'job' : dat.string , 'company' :company }
+            print (meta);
+
         except Exception as e:
             print  ('except',e)
-            meta = {}
-        serializer = JobInfoSerializer(meta)
-        return Response(serializer.data)
+
+        return Response(meta)
 
 
 class JobInfoDetail(APIView):

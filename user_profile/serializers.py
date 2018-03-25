@@ -56,5 +56,3 @@ class JobInfoSerializer(serializers.ModelSerializer):
         for task_data in tasks_data:
             Task.objects.create(job=job_obj, **task_data)
         return job_obj
-
-
