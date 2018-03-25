@@ -31,14 +31,20 @@
         </div> -->
         <div class="row" id="addlink">
           <div class="col-xs-12">
-            <input type="text" ng-model="job.url" class="col-sm-9 col-xs-9" style="margin-right:5px;height:30px;border-radius:4px;">
-
+            <form name="addlinkForm">
+               <input type="text" ng-model="job.url" class="col-sm-9 col-xs-9" name="joblink"
+              style="margin-right:5px;height:30px;border-radius:4px;" required ng-keypress="($event.which === 13) && addlinkForm.joblink.$valid && AddJob()">
+            
             <!-- Trigger the modal with a button -->
-            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal"ng-click="AddJob()">Add job</button>
+            <button type="submit" class="btn btn-info btn-sm" ng-click="addlinkForm.joblink.$valid && AddJob()">Add job
+            </button>
+            </form>
+            <!-- {{addlinkForm.joblink.$valid}} -->
+            <!-- <div role="alert">
+              <span class="error" ng-show="addlinkForm.joblink.$touched && addlinkForm.joblink.$invalid" style="color: #ff8566;font-size:12px;margin-top:2px;">
+                Please enter a url</span>
 
-
-
-
+            </div> -->
           </div>
         </div>
             <!--add job area ends here-->
@@ -165,14 +171,17 @@
                     
                       <form name="myForm" style="display: inline-block;width:70%;margin-left:40px;">
                         <input type='text' name="task" style="margin-top:5px;border:1px solid black;text-align: center;"  ng-model="tsk"  placeholder="Add your Task" onfocus="this.placeholder=''" required ng-keypress="($event.which === 13) && myForm.task.$valid && thisjob.task.push(tsk)">
-                        <div role="alert">
+                        <!-- <div role="alert">
                           <span class="error" ng-show="myForm.task.$touched && myForm.task.$invalid" style="color: #ff8566;font-size:12px;margin-top:2px;">
                             Please enter a task!</span>
-                        </div>
-                      </form>
-                      <div style="display:inline-block;text-align:center;padding:2px;position: absolute;left:300px; ">
-                        <span class="glyphicon glyphicon-plus" style="color:green;font-size:17px;" ng-click="myForm.task.$valid && thisjob.task.push(tsk);"> </span>
+                        </div> -->
+                        <div style="display:inline-block;text-align:center;padding:2px;position: absolute;left:297px;"">
+                        <button style="color:green;font-size:13px;background-color:white;border:none;font-weight:200;" type="submit" class="glyphicon glyphicon-plus" ng-click="myForm.task.$valid && thisjob.task.push(tsk);">
+                        <!--  <span class="glyphicon glyphicon-plus" style="color:green;font-size:17px;" ng-click="myForm.task.$valid && thisjob.task.push(tsk);"> </span> -->
+                        </button>
                       </div>
+                    </form>
+                      
                      
                
 

@@ -65,7 +65,9 @@ app.controller("myCtrl", function($scope) {
 
     $scope.AddJob = function() {
         $scope.do = "add";
-        $scope.job = {};
+        var addjobmodal = angular.element($('#myModal'));
+        addjobmodal.modal('show');
+        // $scope.job = {};
         var body = angular.element($('body'));
         body.removeClass('body_colour_change'); 
         var jobs = angular.element($('#jobsview'));
