@@ -59,5 +59,3 @@ class JobInfoSerializer(serializers.ModelSerializer):
             print ("------------------", dic_save)
             Task.objects.create(job=job_obj, **dic_save)
         return job_obj
-
-

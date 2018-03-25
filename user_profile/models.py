@@ -15,4 +15,3 @@ class Task(models.Model):
 	action = models.CharField(max_length=255)
 	action_date = models.CharField(max_length=255)
 	job = models.ForeignKey(JobInfo, related_name='tasks', on_delete=models.CASCADE)
-

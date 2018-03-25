@@ -65,7 +65,9 @@ app.controller("myCtrl", function($scope) {
 
     $scope.AddJob = function() {
         $scope.do = "add";
-        $scope.job = {};
+        var addjobmodal = angular.element($('#myModal'));
+        addjobmodal.modal('show');
+        // $scope.job = {};
         var body = angular.element($('body'));
         body.removeClass('body_colour_change'); 
         var jobs = angular.element($('#jobsview'));
@@ -188,6 +190,7 @@ app.controller("myCtrl", function($scope) {
     $scope.removeTask = function(index) { 
     	console.log(index);
     	
+
     	// list.splice(index, 1);
 
     	$scope.thisjob.task.splice(index, 1);
@@ -280,24 +283,7 @@ app.controller("myCtrl", function($scope) {
 
 
 
-//adding dropdown directive
 
 
 
- app.directive("dropdown",function(){
-    return function(scope,element){
-      element.bind("click",function(){
-        if(element.find('.drop_down').hasClass('display_none'))
-        {
-          element.find('.drop_down').removeClass('display_none');
-          element.find("#elementWrap").stop(true,true).delay(100).slideDown(350);
-        }
-        else
-        {
-          element.find("#elementWrap").stop(true,true).delay(100).slideUp(350,function(){
-            element.find('.drop_down').addClass('display_none');
-          });
-        }
-      });
-    };
-  });
+ 
