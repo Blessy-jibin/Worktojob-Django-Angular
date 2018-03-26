@@ -16,7 +16,7 @@
      
    
   
-    <body ng-app="myApp" ng-controller="myCtrl">
+    <body ng-app="myApp" ng-controller="myCtrl" ng-class="{'body_colour_change':showjobmodal}">
       <div class="container">
         {% verbatim %}
         <hr>
@@ -29,22 +29,21 @@
             <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal"ng-click="AddJob()">Add job</button>
           </div>
         </div> -->
-        <div class="row" id="addlink">
+        <div class="row" id="addlink" ng-class="{'change_on_showjobmodal':showjobmodal}">
           <div class="col-xs-12">
             <form name="addlinkForm">
                <input type="text" ng-model="job.url" class="col-sm-9 col-xs-9" name="joblink"
               style="margin-right:5px;height:30px;border-radius:4px;" required ng-keypress="($event.which === 13) && addlinkForm.joblink.$valid && AddJob()">
-            
-            <!-- Trigger the modal with a button -->
-            <button type="submit" class="btn btn-info btn-sm" ng-click="addlinkForm.joblink.$valid && AddJob()">Add job
-            </button>
             </form>
+            <!-- Trigger the modal with a button -->
+            <button type="button" class="btn btn-info btn-sm" ng-click="addlinkForm.joblink.$valid && AddJob()">Add job
+            </button>
             <!-- {{addlinkForm.joblink.$valid}} -->
-            <!-- <div role="alert">
+            <div role="alert">
               <span class="error" ng-show="addlinkForm.joblink.$touched && addlinkForm.joblink.$invalid" style="color: #ff8566;font-size:12px;margin-top:2px;">
                 Please enter a url</span>
 
-            </div> -->
+            </div>
           </div>
         </div>
             <!--add job area ends here-->
@@ -117,7 +116,7 @@
                 </div>
               </div>         
               <div class="modal-footer" style="">
-                <button type="button" class="btn btn-lg" data-dismiss="modal" ng-click="sve()" style="background:#009900;color:white;width:75%;border-radius=8px;">OK</button>
+                <button type="button" class="btn btn-lg" data-dismiss="modal" ng-click="sve()" style="background:#009900;color:white;width:75%;border-radius:8px;">OK</button>
               </div>
             </div>
           </div>
@@ -125,7 +124,7 @@
         <!--first modal ends here-->
 
         <!--modal specefic to one job-->
-        <div id="thisJob" class="modal col-md-offset-5" role="dialog" tabindex="-1"  aria-labelledby="More about this job" aria-hidden="true" data-backdrop="false" style="margin-top:47px;">
+        <div  id="thisJob" class="modal jobmodal col-md-offset-5" role="dialog" tabindex="-1"  aria-labelledby="More about this job" aria-hidden="true" data-backdrop="false" style="overflow-y: hidden;" ng-class="{'jobmodal_topfixed':jobmodal_topfixed}">
           <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content" style="width:550px;" id="thisJobmodalcontent">
@@ -170,13 +169,14 @@
                   <div  class="row" id=>
                     
                       <form name="myForm" style="display: inline-block;width:70%;margin-left:40px;">
-                        <input type='text' name="task" style="margin-top:5px;border:1px solid black;text-align: center;"  ng-model="tsk"  placeholder="Add your Task" onfocus="this.placeholder=''" required ng-keypress="($event.which === 13) && myForm.task.$valid && thisjob.task.push(tsk)">
+                        <input type='text' name="task" style="margin-top:5px;border:1px solid black;text-align: center;"  ng-model="tsk"  placeholder="Add your Task" onfocus="this.placeholder=''" required ng-keypress="($event.which === 13) && myForm.task.$valid && thisjob.task.push(tsk) && ngkeypress(tsk)">
+
                         <!-- <div role="alert">
                           <span class="error" ng-show="myForm.task.$touched && myForm.task.$invalid" style="color: #ff8566;font-size:12px;margin-top:2px;">
                             Please enter a task!</span>
                         </div> -->
                         <div style="display:inline-block;text-align:center;padding:2px;position: absolute;left:297px;"">
-                        <button style="color:green;font-size:13px;background-color:white;border:none;font-weight:200;" type="submit" class="glyphicon glyphicon-plus" ng-click="myForm.task.$valid && thisjob.task.push(tsk);">
+                        <button style="color:green;font-size:17px;background-color:white;border:none;font-weight:200;" type="submit" class="glyphicon glyphicon-plus" ng-click="myForm.task.$valid && thisjob.task.push(tsk);">
                         <!--  <span class="glyphicon glyphicon-plus" style="color:green;font-size:17px;" ng-click="myForm.task.$valid && thisjob.task.push(tsk);"> </span> -->
                         </button>
                       </div>
@@ -215,7 +215,7 @@
           </table>ng-class="{'green' : togglemain }"
 ng-class="{'changestyle':togglemain}"
         </div> -->
-        <div ng-if="job_temp.length>0" style="padding: 15px;margin-top:10px;font-size: 16px;" id='jobsview'>
+        <div ng-if="job_temp.length>0" style="padding: 15px;margin-top:10px;font-size: 16px;" id='jobsview' ng-class="{'dividebody':showjobmodal}">
           <div ng-repeat="stage in job_stage"  style="margin-bottom:10px" >
            <section >
               <div ng-click="isCollapsed = !isCollapsed">
@@ -226,8 +226,8 @@ ng-class="{'changestyle':togglemain}"
               </div>
               <hr style="width:100%">
              
-              <div class="" ng-repeat="item in job_temp track by $index" ng-if="item.stage==stage"  ng-click="itemClicked($index);Show_this_Job(item);" data-job={{item}} ng-class="{'emphasize' : $index == selectedIndex }" style="padding: 5px;" uib-collapse="isCollapsed">
-                <span class="glyphicon glyphicon-ok-circle" ng-class="{'green' : taskglychange = $index == selectedIndex }" style="margin-right:5px;"></span>
+              <div class="" ng-repeat="item in job_temp track by $index" ng-if="item.stage==stage"  ng-click="Show_this_Job(item,$index);" data-job={{item}} ng-class="{'emphasize' : $index == clickedIndex,'emphasize' : $index == selectedIndex}" style="padding: 5px;" uib-collapse="isCollapsed" ng-mouseenter="setselectedIndex(item,$index);">
+                <span class="glyphicon glyphicon-ok-circle" ng-class="{'green' : taskglychange = $index == clickedIndex}" style="margin-right:5px;"></span>
                 <span class="jobtitle" ng-class="{'changestyle':$index == selectedIndex}" id='job"+job_temp.indexOf(item)+"'
                 style="margin-bottom:5px;color:#5D6D7E;font-weight: bold;">{{item['role']}} in {{item['company']}}</span>
                 <span style="margin-left:10px;color:#5D6D7E;">{{item['deadline']}}</span>

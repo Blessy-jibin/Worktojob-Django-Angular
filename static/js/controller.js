@@ -33,14 +33,21 @@ app.controller("myCtrl", function($scope) {
     $scope.toggle = true;
     $scope.isCollapsed = true;
     $scope.selectedIndex = -1;
+    $scope.clickedIndex = -1;
+
     $scope.isMore = true;
-    $scope.hidemodal = true;
+   
     // $scope.taskidx = 0;
     $scope.newtasks = [];
     $scope.add_more_task = false;
     $scope.ele_in_array = 0;
     $scope.number_of_repeat = [];
-  
+    $scope.jobIndex = -1;
+    $scope.showjobmodal = false;
+    $scope.jobmodal_topfixed = false;  
+// Assigns a value to it
+        
+    // $scope.showjobmodal = true;
     
 // >>>>>>> 4d50ce293fe56f8db47538de3bb279e0df237567:static/js/controller.js
 
@@ -197,35 +204,51 @@ app.controller("myCtrl", function($scope) {
     };
 
 
-    $scope.Show_this_Job=function(item){
+    $scope.Show_this_Job=function(item,$index){
         // console.log(item);
-        $scope.thisjob=item;
-        console.log($scope.thisjob);
-        // var d = $scope.thisjob.deadline;
-        // console.log(d);
-        // 
-        // $scope.thisjobdate = d.toLocaleDateString();
-        // $scope.thisjobdate = thisdate.format("YYYY-MM-DD");
-        // console.log($scope.thisjobdate);
-
-        var modal=angular.element($('#thisJob'));  
-        modal.modal('show');
-        var body = angular.element($('body'));
-        // // body.css('background-color','#F8F8FF');
-        body.addClass('body_colour_change');
-        var jobs = angular.element($('#jobsview'));
-        // // jobs.css({'width':'45%','background-color':'white'});
-        jobs.addClass('jobsview_change');
-        var add_link = angular.element($('#addlink'));
-        // add_link.css('width','50%');
-        add_link.addClass('addlink_change');
         
-
-        // var job = angular.element($('#job'+$scope.job_temp.indexOf(item)));
-        // console.log($scope.job_temp.indexOf(item));
-        // console.log(jobelement)
-        // jobtitle.toggleClass('jobtitle_change');
+        $scope.clickedIndex = $index;
+        $scope.thisjob = item;
+        $scope.tsk="";
+        console.log($scope.showjobmodal);
+        var modal=angular.element($('#thisJob')); 
+        modal.modal('show');
+        console.log();
+        console.log($scope.thisjob);
     };
+
+	angular.element($('#thisJob')).on('shown.bs.modal', function() {
+			console.log('hey modal is shown');
+        	angular.element(document).off('focusin.modal');
+        	$scope.showjobmodal = true;
+        	console.log('hey jobmodal is opend');
+        	console.log($scope.showjobmodal);
+
+    });
+
+    angular.element($('#thisJob')).on('hidden.bs.modal', function () {
+  // do something…
+     $scope.showjobmodal = false;
+     console.log('hey jobmodal is closed');
+	});
+
+    angular.element(document).bind('scroll', function() {
+     
+     	if ($(window).scrollTop() > 68) {
+    		angular.element('#thisJob').css({'position': 'fixed','top':'-20px'});
+    	}
+
+    	else if ($(window).scrollTop() < 68) {
+    		console.log('scroll less than 70')
+    		angular.element('#thisJob').css({'position': 'absolute','top':'50px'});
+        }
+    	// }else if ($(window).scrollTop() > 100) {
+    	// 	angular.element('#thisJob').css({'position': 'fixed','top':'5px'});
+   	 // 	} else {
+     //  // $scope.jobmodal_topfixed = false;  
+    	// }
+   });
+
 
     $scope.moreItem=function(stage){
         //get more jobs from bacnend and addd.
@@ -246,22 +269,30 @@ app.controller("myCtrl", function($scope) {
 
 
     
-    $scope.itemClicked = function ($index) {
+    $scope.setselectedIndex = function (item,$index) {
         $scope.selectedIndex = $index;
-        // console.log($scope.selectedIndex);
+        // $scope.thisjob = item;
+        
+        console.log($scope.selectedIndex);
+        
         // $scope.hidemodal = !$scope.hidemodal;
     };
 
     $scope.closeJobModal=function(){
-        var body = angular.element($('body'));
-        body.removeClass('body_colour_change'); 
-        var jobs = angular.element($('#jobsview'));
-        jobs.removeClass('jobsview_change');
-        var add_link = angular.element($('#addlink'));
-        add_link.removeClass('addlink_change');
-        $scope.selectedIndex = -1;
-        var modal=angular.element($('#thisJob'));  
+        // var body = angular.element($('body'));
+        // body.removeClass('body_colour_change'); 
+        // var jobs = angular.element($('#jobsview'));
+        // jobs.removeClass('jobsview_change');
+        // var add_link = angular.element($('#addlink'));
+        // add_link.removeClass('addlink_change');
+        // $scope.selectedIndex = -1;
+        var modal=angular.element($('#thisJob'));
         modal.modal('hide');
+        console.log(modal);
+        $scope.showjobmodal = false;
+        // console.log('hey close job modal is called'); 
+        // $scope.showmodal = true;
+        
         
     }
 
@@ -272,10 +303,11 @@ app.controller("myCtrl", function($scope) {
     	console.log($scope.number_of_repeat);
     	
     }
+	
 
-    $scope.gyphcolorchange = function(){
-
-    }
+    $scope.ngkeypress = function(tsk){
+      console.log(tsk);
+    };
   
 });
 

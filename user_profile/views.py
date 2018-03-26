@@ -17,7 +17,7 @@ from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.models import User
-from bs4 import BeautifulSoup
+# from bs4 import BeautifulSoup
 from urllib.request import urlopen
 import requests
 import re

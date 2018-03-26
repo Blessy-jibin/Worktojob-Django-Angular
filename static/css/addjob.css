@@ -21,6 +21,13 @@
 	border-width: 1px;
 
 }
+.modal{
+	position: absolute;
+	top:0px;
+	right: 0px;
+	left: 0px;
+
+}
 
 .modal-header{
 	padding-bottom:2px;
@@ -74,20 +81,21 @@ padding: 15px;
 /*chaging the size and background-color by this classes*/
 .body_colour_change{
 	background-color : #F8F8FF;
+	overflow: auto;
 
 }
 
-.jobsview_change {
+.dividebody {
 	width:55%;
 	background-color:white;
-}
+  }
 
 .glyphColorChange {
 	color : green;
 }
 
 
-.addlink_change{
+.change_on_showjobmodal{
 width:50%;
 }
 
@@ -120,8 +128,19 @@ width:50%;
 
 #thisJobmodalcontent{
 	position: relative;
-	left:100px;
+    left:100px;
 
+
+}
+.jobmodal_topfixed{
+	position: fixed !important;
+	top: -10px !important;
+	
+}
+
+.jobmodal{
+	position:absolute;
+	top:50px;
 }
 
 @media(min-width:600px){
