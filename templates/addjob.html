@@ -34,16 +34,17 @@
             <form name="addlinkForm">
                <input type="text" ng-model="job.url" class="col-sm-9 col-xs-9" name="joblink"
               style="margin-right:5px;height:30px;border-radius:4px;" required ng-keypress="($event.which === 13) && addlinkForm.joblink.$valid && AddJob()">
-            </form>
+            
             <!-- Trigger the modal with a button -->
-            <button type="button" class="btn btn-info btn-sm" ng-click="addlinkForm.joblink.$valid && AddJob()">Add job
+            <button type="submit" class="btn btn-info btn-sm" ng-click="addlinkForm.joblink.$valid && AddJob()">Add job
             </button>
+            </form>
             <!-- {{addlinkForm.joblink.$valid}} -->
-            <div role="alert">
+            <!-- div role="alert">
               <span class="error" ng-show="addlinkForm.joblink.$touched && addlinkForm.joblink.$invalid" style="color: #ff8566;font-size:12px;margin-top:2px;">
                 Please enter a url</span>
 
-            </div>
+            </div> -->
           </div>
         </div>
             <!--add job area ends here-->
@@ -72,13 +73,16 @@
               <div class="modal-body" style="">
                 <div class="form-group">
                   <label for="jobstage" style="font-size:12px;">Stage:</label>
-                  <select class="selectpicker" data-style="btn-primary" id="stageselector" ng-model="job.stage">
+                  <select   ng-init="somethingHere = job_stage[0]" ng-model="job.stage" ng-options="each for each in job_stage">
+                  </select>
+                  {{job_stage[0]}}
+                  <!-- <select class="selectpicker" data-style="btn-primary" id="stageselector" ng-model="job.stage">
                     <option  selected="selected">To Apply</option>
                     <option >Follow-up</option>
                     <option >Selection</option>
-                  </select>
+                  </select> -->
                 </div>
-                <div class="form-group" ng-if="do==add">
+                <div class="form-group">
                   <label for="deadline" id="dlinelbl">Set your Deadline:</label>
                   <div class="row" id="dlinewpr" style="">
 
@@ -148,7 +152,7 @@
                 <div class="form-group">
 
                   
-                  <select   ng-init="somethingHere = thisjob.stage" ng-model="thisjob.stage" ng-options="each for each in job_stage">
+                  <select   ng-init="somethingHere = thisjob.stage" ng-model="thisjob.stage" ng-options="each for each in job_stage" ng-change="showjobon_statechange(selectedIndex)">
                   </select>
                   
 
@@ -169,7 +173,7 @@
                   <div  class="row" id=>
                     
                       <form name="myForm" style="display: inline-block;width:70%;margin-left:40px;">
-                        <input type='text' name="task" style="margin-top:5px;border:1px solid black;text-align: center;"  ng-model="tsk"  placeholder="Add your Task" onfocus="this.placeholder=''" required ng-keypress="($event.which === 13) && myForm.task.$valid && thisjob.task.push(tsk) && ngkeypress(tsk)">
+                        <input type='text' name="task" style="margin-top:5px;border:1px solid black;text-align: center;"  ng-model="tsk"  placeholder="Add your Task" onfocus="this.placeholder=''" required ng-keypress="($event.which === 13) && myForm.task.$valid && thisjob.task.push(tsk) && ngkeypress(tsk)" >
 
                         <!-- <div role="alert">
                           <span class="error" ng-show="myForm.task.$touched && myForm.task.$invalid" style="color: #ff8566;font-size:12px;margin-top:2px;">
@@ -226,7 +230,7 @@ ng-class="{'changestyle':togglemain}"
               </div>
               <hr style="width:100%">
              
-              <div class="" ng-repeat="item in job_temp track by $index" ng-if="item.stage==stage"  ng-click="Show_this_Job(item,$index);" data-job={{item}} ng-class="{'emphasize' : $index == clickedIndex,'emphasize' : $index == selectedIndex}" style="padding: 5px;" uib-collapse="isCollapsed" ng-mouseenter="setselectedIndex(item,$index);">
+              <div class="" ng-repeat="item in job_temp track by $index" id="jobdiv{{$index}}" ng-if="item.stage==stage"  ng-click="Show_this_Job(item,$index);" data-job={{item}} ng-class="{'emphasize' : $index == clickedIndex}" style="padding: 5px;" uib-collapse="isCollapsed" ng-mouseenter="setselectedIndex(item,$index);" autofocus="true">
                 <span class="glyphicon glyphicon-ok-circle" ng-class="{'green' : taskglychange = $index == clickedIndex}" style="margin-right:5px;"></span>
                 <span class="jobtitle" ng-class="{'changestyle':$index == selectedIndex}" id='job"+job_temp.indexOf(item)+"'
                 style="margin-bottom:5px;color:#5D6D7E;font-weight: bold;">{{item['role']}} in {{item['company']}}</span>

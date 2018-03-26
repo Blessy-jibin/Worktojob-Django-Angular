@@ -235,7 +235,7 @@ app.controller("myCtrl", function($scope) {
     angular.element(document).bind('scroll', function() {
      
      	if ($(window).scrollTop() > 68) {
-    		angular.element('#thisJob').css({'position': 'fixed','top':'-20px'});
+    		angular.element('#thisJob').css({'position': 'fixed','top':'-10px'});
     	}
 
     	else if ($(window).scrollTop() < 68) {
@@ -303,11 +303,17 @@ app.controller("myCtrl", function($scope) {
     	console.log($scope.number_of_repeat);
     	
     }
-	
+
+	$scope.showjobon_statechange = function(selectedIndex){
+    var a = angular.element($('#jobdiv'+selectedIndex));
+    console.log(a);
+    console.log("show this shown job");
+	};
 
     $scope.ngkeypress = function(tsk){
       console.log(tsk);
     };
+
   
 });
 

@@ -28,7 +28,7 @@ class TaskSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Task
-        fields = ('id', 'action', 'action_date')
+        fields = ('action', 'action_date')
 
 
 class JobInfoSerializer(serializers.ModelSerializer):
@@ -42,9 +42,10 @@ class JobInfoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = JobInfo
-        fields = ('id', 'job_title', 'job_url', 'created_at', 'tasks')
+        fields = ('id', 'job_title', 'job_url', 'created_at', 'tasks', 'deadline', 'stage')
 
     def create(self, validated_data):
+        print("...............", validated_data)
         tasks_data = validated_data.pop('tasks')
         user = None
         request = self.context.get("request")
@@ -54,5 +55,7 @@ class JobInfoSerializer(serializers.ModelSerializer):
             raise HTTP_401_UNAUTHORIZED
         job_obj = JobInfo.objects.create(user=user, **validated_data)
         for task_data in tasks_data:
-            Task.objects.create(job=job_obj, **task_data)
+            dic_save = {'action_date': task_data.get('action_date'), 'action': task_data.get('action')}
+            print ("------------------", dic_save)
+            Task.objects.create(job=job_obj, **dic_save)
         return job_obj
