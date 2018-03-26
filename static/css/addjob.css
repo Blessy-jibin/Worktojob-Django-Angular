@@ -1,3 +1,12 @@
+
+.select-task-btn {
+    color: #fbfbfb;
+    background-color: #27a3e0;
+    border-radius: 5px;
+    margin-bottom: 8px;
+    padding: 8px;
+}
+
 #stageselector{
 	border-radius:2px;
 	padding:3px;

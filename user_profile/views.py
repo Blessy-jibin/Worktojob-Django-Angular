@@ -2,6 +2,9 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from django.http import HttpResponse
+from django.views.generic import View
+
 from rest_framework.status import HTTP_401_UNAUTHORIZED
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
@@ -21,6 +24,7 @@ from django.contrib.auth.models import User
 from urllib.request import urlopen
 import requests
 import re
+import json
 
 #usage example
 
@@ -141,34 +145,22 @@ class TaskList(APIView):
         serializer = TaskSerializer(job_info, many=True)
         return Response(serializer.data)
 
-class MetaParsing (APIView):
+class MetaParsing (View):
 
-     def get(self, request,format=None):
+     def get(self, request):
         meta = {}
-        try:
-            url = request.GET.get('url')
-            print  (url)
-            # content = urlopen(url)
-            headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
-            response = requests.get(url, headers=headers)
-            content = response.content
-            
-            soup = BeautifulSoup(content, 'html.parser')
-            print ( content,soup.title,response.status_code);
-
-            title = soup.title.string 
-            dat = re.split(r"[\[\]]", title)
-            if (dat[0] is not null ):
-                job = dat[0]
-            if (dat[1] is not null ):
-                company = dat[1]
-            meta = { 'job' : dat.string , 'company' :company }
-            print (meta);
-
-        except Exception as e:
-            print  ('except',e)
-
-        return Response(meta)
+        url = 'https://in.linkedin.com/jobs/view/enterprise-architect-infrastructure-at-accenture-in-india-630725418?trkInfo=searchKeywordString%3A%2CsearchLocationString%3A%252C%2BBengaluru%2BArea%252C%2BIndia%2Cvertical%3Ajobs%2CpageNum%3A0%2Cposition%3A1%2CMSRPsearchId%3Aed6569b6-caa3-46bb-99aa-433fd488884b&refId=ed6569b6-caa3-46bb-99aa-433fd488884b&trk=jobs_jserp_job_listing_text'
+        print  (url)
+        response = requests.get(url)
+        content = response.content
+        soup = BeautifulSoup(content, 'html.parser')
+        title = soup.title.string 
+        dat = re.split(r"[\[\]]", title)
+        if dat:
+            job = dat[0]
+            meta['title'] = str(job)
+        print ("dat-------", meta)
+        return HttpResponse(json.dumps(meta))
 
 
 class JobInfoDetail(APIView):
