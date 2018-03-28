@@ -49,12 +49,10 @@ class JobInfoSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         print("...............", validated_data)
         tasks_data = validated_data.pop('tasks')
-        user = None
+
         request = self.context.get("request")
-        if request and hasattr(request, "user"):
-            user = request.user
-        else:
-            raise HTTP_401_UNAUTHORIZED
+        user = request.user
+
         job_obj = JobInfo.objects.create(user=user, **validated_data)
         for task_data in tasks_data:
             dic_save = {'action_date': task_data.get('action_date'), 'action': task_data.get('action')}

@@ -14,7 +14,6 @@ urlpatterns = [
 	path('users', UserCreate.as_view(), name='user-detail'),
 	# path('auth_login', views.auth_login, name='login'),
 	path('auth_login',views.auth_login,name='login'),
-	path('login',views.login,name='login'),
 
 	path('myjobs',views.add_job,name='adding jobs'),
 	path('',views.home,name='home'),

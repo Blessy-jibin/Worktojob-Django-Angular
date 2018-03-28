@@ -55,19 +55,22 @@ workToJob.controller('loginController', function ($scope, $http, $rootScope, $co
 
         userData = data
         var headers = get_http_header($cookies)
-        console.log('create user', headers, userData);
         $http({
           method: 'POST',
           url: '/create_user',
           headers: headers,
           data:userData,
-        }).then(function (data) {
-            console.log('create status', data.status);
-            if(data.status == 201){
+        }).then(function (response) {
+            console.log('create status', response.status);
+            if(response.status == 200){
                 $scope.pwd_error_status = false;
                 $scope.new_user_status = true;
-                $('#login-form-link').click();
-                }
+                console.log("temp", response);
+
+                sessionStorage.setItem("c_token", response.data.token);
+                window.location.replace("/myjobs");
+
+            }
         }, function (error) {
             $scope.pwd_error_status = true;
             $('#create_error').html('Usernamer already exist!')
@@ -120,8 +123,6 @@ workToJob.controller('loginController', function ($scope, $http, $rootScope, $co
 workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookies) {
 
 
-
-
     $scope.initialize_job_controller = function(){
         $scope.task_list = [];
         $scope.url_validation_error = false;
@@ -136,8 +137,8 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     {
         regexp = /^(http[s]?:\/\/(www\.)?|ftp:\/\/(www\.)?|www\.).*/;
         if (regexp.test(str))
-        { return false; }
-        else{ return true; }
+        { return true; }
+        else{ return false; }
     };
 
     function check_element_existing_element(item){
@@ -168,14 +169,14 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         createNewJobInfo ($scope.job, $cookies);
     };
 
-    function createNewJobInfo (userData, $cookies) {
+    function createNewJobInfo (jobData, $cookies) {
         var headers = get_http_header($cookies)
-        console.log(userData);
+        console.log(jobData);
         $http({
           method: 'POST',
           url: '/jobs',
           headers: headers,
-          data:userData,
+          data:jobData,
         }).then(function (data) {
             if(data.status == 201){
                 console.log(data);
@@ -197,9 +198,10 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
 
             url_status  = is_url(job_url.job_url);
             if(url_status){
-                $scope.url_validation_error = true;
-            }else{
                 $('#myJobModal').modal('show');
+            }else{
+                $scope.url_validation_error = true;
+
             }
         }
     };

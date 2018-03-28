@@ -47,6 +47,8 @@ u'[{"id":1,"job_title":"Python Developer","job_url":"bcghfchc","created_date":"2
 
 @api_view(["POST"])
 def auth_login(request):
+    print("test")
+
     username = request.data.get("username")
     password = request.data.get("password")
     print(username,password)
@@ -55,8 +57,12 @@ def auth_login(request):
     if not user:
         return Response({"error": "Login failed"}, status=HTTP_401_UNAUTHORIZED)
         print('not a user')
-    token, _ = Token.objects.get_or_create(user=user)
+    token, created = Token.objects.get_or_create(user=user)
+    print(token.key)
+
     return Response({"token": token.key})
+    
+
 
 def login(request):
     #boards = Board.objects.all()
@@ -75,12 +81,18 @@ def add_job(request):
 
 
 class UserCreate(generics.CreateAPIView):
-    """
-    Create a User
-    """
+
     serializer_class = UserSerializer
-    authentication_classes = ()
-    permission_classes = ()
+
+    def create(self, request, *args, **kwargs): # <- here i forgot self
+
+        print("test")
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        token, created = Token.objects.get_or_create(user=serializer.instance)
+        return Response({'token': token.key}, headers=headers)
 
 
 class UserDetail(generics.RetrieveAPIView):
