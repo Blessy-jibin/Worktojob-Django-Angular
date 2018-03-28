@@ -1,6 +1,85 @@
-var app = angular.module('myApp', ['ui.bootstrap']);
+var workToJob	 = angular.module('workToJob', ['ngRoute', 'ngCookies','ui.bootstrap']);
 
-app.controller("myCtrl", function($scope) {
+
+workToJob.config(function($interpolateProvider) {
+  // changing angular default template rendering to '{[{}]}'.
+  //This will helpto avoid conflict with django template tag
+  $interpolateProvider.startSymbol('{{');
+  $interpolateProvider.endSymbol('}}');
+});
+
+set_default_token_value = function($rootScope){
+	$rootScope.auth_token = null;
+}
+
+get_http_header = function($cookies){
+  	headers = {
+   		"Content-Type": "application/json",
+ 	}
+ 	console.log('3333333333----------', $cookies);
+ 	var auth_token = $cookies.auth_token;
+ 	console.log('3333333333----------', auth_token);
+ 	headers.Authorization = "Token " + "068f5e0a39ace8fdaa07028d17e24fb5ccbc82ad";
+  	if(auth_token != null){
+  		headers.Authorization = "Token " + "068f5e0a39ace8fdaa07028d17e24fb5ccbc82ad"
+  	}
+  	return(headers);
+}
+
+workToJob.controller('loginController', function ($scope, $http, $rootScope, $cookies) {
+
+    $scope.authenticate_app = function(){
+		var data = {};
+		$scope.login_error_status = false;
+    	data.username = $scope.username;
+    	data.password = $scope.password;
+
+    	loginValidation(data, $cookies);
+	};
+
+	function loginValidation (userData, $cookies) {
+		var headers = get_http_header($cookies)
+		console.log(headers);
+		$http({
+		  method: 'POST',
+		  url: '/auth_login',
+		  headers: headers,
+		  data:userData,
+		}).then(function (data) {
+			if(data.status == 200){
+				$scope.login_error_status = false;
+				console.log(data);
+				$cookies.put('auth_token', data.token);
+                console.log('datatoken',data.token);
+				get_job_list_view(data.user);
+				}
+	    }, function (error) {
+	    	$scope.login_error_status = true;
+	    });
+	 };
+
+
+
+	function get_job_list_view()  {
+		headers = get_http_header($rootScope)
+		console.log('headers', headers)
+		$http({
+		  method: 'GET',
+		  url: '/jobs',
+		  headers: headers,
+		}).then(function (data) {
+			if(data.status == 200){
+				$scope.jib_list_data = data;
+				console.log('ffffffffffff', data);
+			}
+	    }, function (error) {
+	    	console.log('ffffffffffff');
+	    });
+    }
+
+});
+
+workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookies) {
     $scope.Wishlist = [];
     $scope.job = {};
     $scope.tasks=[];
@@ -45,6 +124,7 @@ app.controller("myCtrl", function($scope) {
     $scope.jobIndex = -1;
     $scope.showjobmodal = false;
     $scope.jobmodal_topfixed = false;  
+    $scope.taskpalceholder = "Add your task";
 // Assigns a value to it
         
     // $scope.showjobmodal = true;
@@ -139,6 +219,10 @@ app.controller("myCtrl", function($scope) {
         emnt.css({"background-color": "blue"});
         emnt.val('selected');
         $scope.selectedTimeLine = id;
+        if (id =='btn-today'){
+        	var date = new Date();
+        	var dateinformat =   ('0' + date.getDate()).slice(-2) + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + date.getFullYear();
+        }
     }
 
   
@@ -220,6 +304,8 @@ app.controller("myCtrl", function($scope) {
 	angular.element($('#thisJob')).on('shown.bs.modal', function() {
 			console.log('hey modal is shown');
         	angular.element(document).off('focusin.modal');
+            angular.element('body').removeClass('modal-open');
+            console.log('document',angular.element(document));
         	$scope.showjobmodal = true;
         	console.log('hey jobmodal is opend');
         	console.log($scope.showjobmodal);
@@ -234,13 +320,13 @@ app.controller("myCtrl", function($scope) {
 
     angular.element(document).bind('scroll', function() {
      
-     	if ($(window).scrollTop() > 68) {
-    		angular.element('#thisJob').css({'position': 'fixed','top':'-10px'});
+     	if ($(window).scrollTop() > 40) {
+    		angular.element('#thisJob').css({'position': 'fixed','top':'-10px','bottom':'20px'});
     	}
 
-    	else if ($(window).scrollTop() < 68) {
+    	else if ($(window).scrollTop() < 40) {
     		console.log('scroll less than 70')
-    		angular.element('#thisJob').css({'position': 'absolute','top':'50px'});
+    		angular.element('#thisJob').css({'position': 'absolute','top':'50px','bottom':'20px'});
         }
     	// }else if ($(window).scrollTop() > 100) {
     	// 	angular.element('#thisJob').css({'position': 'fixed','top':'5px'});
@@ -316,12 +402,3 @@ app.controller("myCtrl", function($scope) {
 
   
 });
-
-
-
-
-
-
-
-
- 

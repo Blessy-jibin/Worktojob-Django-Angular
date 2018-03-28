@@ -49,10 +49,12 @@ u'[{"id":1,"job_title":"Python Developer","job_url":"bcghfchc","created_date":"2
 def auth_login(request):
     username = request.data.get("username")
     password = request.data.get("password")
+    print(username,password)
     user = authenticate(username=username, password=password)
+
     if not user:
         return Response({"error": "Login failed"}, status=HTTP_401_UNAUTHORIZED)
-
+        print('not a user')
     token, _ = Token.objects.get_or_create(user=user)
     return Response({"token": token.key})
 
@@ -69,7 +71,7 @@ def job_list(request):
     return render_to_response('jobs.html')
 
 def add_job(request):
-    return render_to_response('addjob.html', locals())
+    return render_to_response('myjobs.html', locals())
 
 
 class UserCreate(generics.CreateAPIView):

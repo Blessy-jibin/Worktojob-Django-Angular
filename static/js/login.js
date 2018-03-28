@@ -1,3 +1,5 @@
+
+//Its a javascript withput angular js.No controller or no angular rmodule given here
 $(function() {
 
     $('#login-form-link').click(function(e) {
@@ -16,3 +18,5 @@ $(function() {
 	});
 
 });
+
+//no angular javascript ends here

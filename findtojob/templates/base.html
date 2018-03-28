@@ -4,9 +4,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
 
-    {% block cusomstyle %}
+    {% block customstyle %}
     {% endblock %}
-    <body>
+    <body ng-class="{'body_colour_change':showjobmodal}">
 
     {% block content %}
     {% endblock %}
@@ -17,12 +17,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="{% static "js/custom_angular.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/worktojobapp.js" %}"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-cookies.min.js"></script>
     <script type="text/javascript" src="{% static "js/ui-bootstrap-tpls-2.5.0.min.js" %}"></script>
 
-    <div class="container">
-      {% block cusomscript %}
+    <div class="container" style="width: 100%">
+      {% block customscript %}
       {% endblock %}
     </div>
     </body>
