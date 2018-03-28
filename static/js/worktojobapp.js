@@ -205,6 +205,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
             }
         }
     };
+    
 
     $scope.change_task_list = function(item){
         task_ele = check_element_existing_element(item);
