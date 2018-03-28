@@ -16,13 +16,13 @@ get_http_header = function($cookies){
   	headers = {
    		"Content-Type": "application/json",
  	}
- 	console.log('3333333333----------', $cookies);
- 	var auth_token = $cookies.auth_token;
- 	console.log('3333333333----------', auth_token);
- 	headers.Authorization = "Token " + "068f5e0a39ace8fdaa07028d17e24fb5ccbc82ad";
-  	if(auth_token != null){
-  		headers.Authorization = "Token " + "068f5e0a39ace8fdaa07028d17e24fb5ccbc82ad"
-  	}
+    userToken = sessionStorage.getItem("c_token");
+    if (userToken == undefined) {
+        
+        return(headers);
+    }else{
+        headers.Authorization = "Token " + userToken
+    }
   	return(headers);
 }
 
@@ -37,6 +37,43 @@ workToJob.controller('loginController', function ($scope, $http, $rootScope, $co
     	loginValidation(data, $cookies);
 	};
 
+    $scope.add_new_user = function(){
+        var data = {};
+        $scope.pwd_error_status = false;
+        data.username = $scope.email;
+        data.email = $scope.email;
+        data.password = $scope.emailpassword;
+        data.password1 = $scope.emailpassword1;
+        console.log(data);
+
+        if(data.username == undefined || data.password == undefined){
+
+            $('#create_error').html('Enter Valid email and password')
+            $scope.pwd_error_status = true;
+            return(0)
+        }
+
+        userData = data
+        var headers = get_http_header($cookies)
+        console.log('create user', headers, userData);
+        $http({
+          method: 'POST',
+          url: '/create_user',
+          headers: headers,
+          data:userData,
+        }).then(function (data) {
+            console.log('create status', data.status);
+            if(data.status == 201){
+                $scope.pwd_error_status = false;
+                $scope.new_user_status = true;
+                $('#login-form-link').click();
+                }
+        }, function (error) {
+            $scope.pwd_error_status = true;
+            $('#create_error').html('Usernamer already exist!')
+        });
+     };
+
 	function loginValidation (userData, $cookies) {
 		var headers = get_http_header($cookies)
 		console.log(headers);
@@ -49,9 +86,10 @@ workToJob.controller('loginController', function ($scope, $http, $rootScope, $co
 			if(data.status == 200){
 				$scope.login_error_status = false;
 				console.log(data);
-				$cookies.put('auth_token', data.token);
-                console.log('datatoken',data.token);
-				get_job_list_view(data.user);
+                sessionStorage.setItem("c_token", data.data.token);
+                
+                window.location.replace("/myjobs");
+
 				}
 	    }, function (error) {
 	    	$scope.login_error_status = true;
@@ -80,6 +118,131 @@ workToJob.controller('loginController', function ($scope, $http, $rootScope, $co
 });
 
 workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookies) {
+
+
+
+
+    $scope.initialize_job_controller = function(){
+        $scope.task_list = [];
+        $scope.url_validation_error = false;
+        userToken = sessionStorage.getItem("c_token");
+        console.log('userToken', userToken)
+        if (userToken == undefined) {
+            window.location.replace("/");
+        }
+    };
+
+    function is_url(str)
+    {
+        regexp = /^(http[s]?:\/\/(www\.)?|ftp:\/\/(www\.)?|www\.).*/;
+        if (regexp.test(str))
+        { return false; }
+        else{ return true; }
+    };
+
+    function check_element_existing_element(item){
+        if($scope.task_list.indexOf(item) !== -1) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    $scope.save_newjob = function(){
+        lis = [];
+        d = {};
+        console.log($scope.task_list.length);
+
+        for(i=0; i < $scope.task_list.length; i++)
+        {
+            if($scope.task_list[i] != undefined){
+                console.log(".................", $scope.task_list)
+                d['action'] = $scope.task_list[i];
+                d['action_date'] = "2018-03-20T17:24:13Z";
+                lis.push(d);
+            }
+        }
+        $scope.job['tasks'] = lis;
+        $scope.job['deadline'] = "2018-03-20T17:24:13Z";
+        console.log($scope.job);
+        createNewJobInfo ($scope.job, $cookies);
+    };
+
+    function createNewJobInfo (userData, $cookies) {
+        var headers = get_http_header($cookies)
+        console.log(userData);
+        $http({
+          method: 'POST',
+          url: '/jobs',
+          headers: headers,
+          data:userData,
+        }).then(function (data) {
+            if(data.status == 201){
+                console.log(data);
+                console.log('datatoken',data);
+                $scope.get_job_list_view()
+                }
+        }, function (error) {
+            console.log('error',error);
+        });
+     };
+
+    $scope.url_validation_popup = function(){        
+        $scope.url_validation_error = false;
+        job_url = $scope.job;
+        console.log(job_url);
+        if(job_url == undefined || job_url.job_url == ""){
+            $scope.url_validation_error = true;
+        }else{
+
+            url_status  = is_url(job_url.job_url);
+            if(url_status){
+                $scope.url_validation_error = true;
+            }else{
+                $('#myJobModal').modal('show');
+            }
+        }
+    };
+
+    $scope.change_task_list = function(item){
+        task_ele = check_element_existing_element(item);
+        if(task_ele){
+            index = $scope.task_list.indexOf(item);
+            delete $scope.task_list[index];
+        }else{
+            $scope.task_list.push(item);
+        }
+    };
+
+    $scope.change_selected_color = function(item){
+        task_ele = check_element_existing_element(item);
+        return task_ele;
+    }
+
+
+  $scope.get_job_list_view = function(){
+      headers = get_http_header($rootScope)
+      console.log('headers', headers)
+      $http({
+        method: 'GET',
+        url: '/jobs',
+        headers: headers,
+      }).then(function (data) {
+          if(data.status == 200){
+              $scope.job_temp = data.data;
+              console.log('ffffffffffff', $scope.job_temp );
+          }
+      }, function (error) {
+          console.log('ffffffffffff');
+      });
+     }
+
+     $scope.get_job_list_view();
+
+
+
+
+
     $scope.Wishlist = [];
     $scope.job = {};
     $scope.tasks=[];
@@ -87,9 +250,9 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     $scope.do="";//There is no variable 'do' in scope,we initialised and using it 
                   //identify whether gonna add or edit the job
  // HEAD:user_profile/static/js/controller.js
-    $scope.job_temp=[{'role':'AST','company':'TCS','url':'www.tcs.com/dasrdca','deadline':'24/05/2011','stage':'To Apply','task':['Customize CV','Update Portfolio']},
-                   {'role':'NT','company':'Bosch','url':'www.bosch.com/dasrdca','deadline':'31/05/2018','stage':'Follow-up','task':['Customize CV','Update Coverletter']},
-                   {'role':'ST','company':'KPN','url':'www.KPN.com/dasrdca','deadline':'25/04/2013','stage':'Selection','task':['Customize CV','Attach Portfolio']}  ];
+    //$scope.job_temp=[{'role':'AST','company':'TCS','url':'www.tcs.com/dasrdca','deadline':'24/05/2011','stage':'To Apply','task':['Customize CV','Update Portfolio']},
+    //               {'role':'NT','company':'Bosch','url':'www.bosch.com/dasrdca','deadline':'31/05/2018','stage':'Follow-up','task':['Customize CV','Update Coverletter']},
+    //               {'role':'ST','company':'KPN','url':'www.KPN.com/dasrdca','deadline':'25/04/2013','stage':'Selection','task':['Customize CV','Attach Portfolio']}  ];
     // $scope.job_temp=[{'role':'AST','company':'TCS','url':'www.tcs.com/dasrdca','stage':'To Apply','task':['Customize CV','Update Portfolio']},
     //                {'role':'Softawre','company':'ING','url':'www.ing.com/dasrdca','stage':'To Apply','task':['Customize CV','Update Portfolio']},
     //                {'role':'NT','company':'Bosch','url':'www.bosch.com/dasrdca','stage':'Follow-up','task':['Customize CV','Update Coverletter']},
