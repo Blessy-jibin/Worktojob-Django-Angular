@@ -78,7 +78,7 @@
                     <option >Selection</option>
                   </select>
                 </div>
-                <div class="form-group" ng-if="do==add">
+                <div class="form-group">
                   <label for="deadline" id="dlinelbl">Set your Deadline:</label>
                   <div class="row" id="dlinewpr" style="">
 
@@ -87,31 +87,42 @@
                     <!-- </div> -->
                     <div class="col-xs-12 btn-group" style="padding:0">
                       <div class="button-bar">
-                          <input data-provide="datepicker" class="col-sm-3 col-xs-2 dlinebtn btn-time-line"  style="text-align: center" value="Custom" id='btn-custom-days' ng-model="job.deadline">
+                          <input data-provide="datepicker" class="col-sm-3 col-xs-2 dlinebtn btn-time-line"  style="text-align: center" placeholder="Select a date" id='btn-custom-days' ng-model="job.deadline">
 
                       </div>
                     </div>
                   </div>  
                 </div>
-                <div class="row" style="margin-right:0px;margin-left:0px;padding-bottom:0px;height: 140px;">
-                  <div class="form-group">
+               
+                  <div class="form-group" style="margin-right:0px;margin-left:0px;padding-bottom:0px;height:auto;">
                     <label for="settask" style="font-size:12px" >Set Tasks:</label>
-                  </div>
-                  <div id="taskwrapper">
-                    <div id="tasklist" ng-model="selected_tasks">
+                  
+                  <div id="taskwrapper" style="">
+                    
                       <div class="row">
                         <button id='btn-99' ng-class="change_selected_color('update_cv') ? 'select-task-btn' : 'task-btn' " ng-click="change_task_list('update_cv')">Update CV and coverletter  <span>+</span></button>
+                        <input ng-if="check_element_existing_element('update_cv')" style="display: inline-block;" data-provide="datepicker" style="text-align: center;border: 1px solid black;border-radius: 5px;" ng-model="date" ng-change="save_tasks('update_cv',date);">
                       </div>
                       <div class="row">
-                        <button ng-click="change_task_list('check_company')" id='btn-98' ng-class="change_selected_color('check_company') ? 'select-task-btn' : 'task-btn' ">Research about Company <span>+</span></button>
+                        <button ng-click="change_task_list('Reasersch about Company')" id='btn-98' ng-class="change_selected_color('Reasersch about Company') ? 'select-task-btn' : 'task-btn' ">Research about Company <span>+</span></button>
+                        <input ng-if="check_element_existing_element('Reasersch about Company')" style="display: inline-block;" data-provide="datepicker" style="text-align: center;border: 1px solid black;border-radius: 5px;" ng-model="date" ng-change="save_tasks('Reasersch about Company',date);">
                       </div>
-                    </div>
-                    <div class="row">
-                      <button class="task-btn" ng-click="AddTasks()" ><i>Add your own</i></button>
-                    </div>
+                    
+                      <div ng-if="newtasklist.length > 0" ng-repeat="newtask in newtasklist" class="row" style="margin-bottom:8px;">
+                       <div style="border:1px solid grey;border-radius:5px;text-align:center;width:190px;padding:8px;display: inline-block;" ng-click="change_task_list(newtask)" id='btn-98' ng-class="change_selected_color(newtask) ? 'select-task-btn' : 'task-btn' ">{{newtask}}</div>
+                      <input ng-if="check_element_existing_element(newtask)" style="display: inline-block;" data-provide="datepicker" style="text-align: center;border: 1px solid black;border-radius: 5px;" ng-model="date" ng-change="save_tasks(newtask,date);">
+                      </div>
+                      <div ng-if="addmoretasks==true" class="row">
+                      <input type='text' class='task-btn' ng-model="newtask" placeholder="Add your task"> 
+                      <button class='btn-xs'  ng-click="newtasklist.push(newtask);change_task_list(newtask)">Save Task</button>
+                    
+                      </div>
+                      <div class="row" ng-if="addmoretasks==false">
+                       <button class="task-btn" ng-click="AddmoreTasks();"><i>Add your own</i></button>
+                      </div>
                   </div>
                 </div>
-
+              
 
               </div>         
               <div class="modal-footer" style="">
@@ -159,6 +170,7 @@
                   <div class="row" ng-click="toggle = !toggle;" ng-repeat="task in thisjob.tasks track by $index">
                     
                     <span style="color:#708090;margin-left:40px">{{task.action}}</span>
+                    <span >{{task.action_date}}</span>
                     <div style="display:inline-block;text-align:center;padding:2px;position: absolute;left:300px; ">
                       <span class="glyphicon glyphicon-remove-circle" ng-click="removeTask($index)" ng-confirm-message="Are you sure deleting {{task}}?"   style="color:red;font-size:17px;"></span>
                     </div>

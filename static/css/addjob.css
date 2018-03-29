@@ -166,10 +166,10 @@ width:50%;
 		width:120px;
 	}
 	#taskwrapper{
-	float:right;
+	/*float:right;*/
 	position:relative;
-	left:-230px;
-	top:-48px;
+	left:100px;
+	top:-22px;
 	margin-bottom:0px;
 }
 ./*modal-body{

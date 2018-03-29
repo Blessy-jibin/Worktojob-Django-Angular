@@ -125,7 +125,11 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
 
     $scope.initialize_job_controller = function(){
         $scope.task_list = [];
+        $scope.tasks = [];
         $scope.url_validation_error = false;
+        $scope.addmoretasks = false;
+        $scope.newtask = "";
+        $scope.newtasklist = [];
         userToken = sessionStorage.getItem("c_token");
         console.log('userToken', userToken)
         if (userToken == undefined) {
@@ -141,35 +145,46 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         else{ return false; }
     };
 
-    function check_element_existing_element(item){
-        if($scope.task_list.indexOf(item) !== -1) {
-            return true;
-        }else{
-            return false;
-        }
-    }
+    
+
+    // $scope.check_element_existing_element = function(item){
+
+    //    if($scope.task_list.indexOf(item) !== -1) {
+    //         return true;
+    //     }else{
+    //         return false;
+    //     } 
+    // }
 
     $scope.save_newjob = function(){
         lis = [];
         d = {};
-        console.log($scope.task_list.length);
+        
+        $scope.job.tasks = $scope.tasks;
+        console.log($scope.job.tasks);
+        console.log('job',$scope.job);
+        $scope.addmoretasks = false;
+        $scope.task_list = [];
+        $scope.newtasklist = [];
+        // console.log($scope.task_list.length);
 
-        for(i=0; i < $scope.task_list.length; i++)
-        {
-            if($scope.task_list[i] != undefined){
-                console.log(".................", $scope.task_list)
-                d['action'] = $scope.task_list[i];
-                d['action_date'] = "2018-03-20T17:24:13Z";
-                lis.push(d);
-            }
-        }
-        $scope.job['tasks'] = lis;
-        $scope.job['deadline'] = "2018-03-20T17:24:13Z";
-        console.log($scope.job);
+        // for(i=0; i < $scope.task_list.length; i++)
+        // {
+        //     if($scope.task_list[i] != undefined){
+        //         console.log(".................", $scope.task_list)
+        //         d['action'] = $scope.task_list[i];
+        //         d['action_date'] = "2018-03-20T17:24:13Z";
+        //         lis.push(d);
+        //     }
+        // }
+        // $scope.job['tasks'] = lis;
+        
+        // console.log($scope.job);
         createNewJobInfo ($scope.job, $cookies);
+
     };
 
-    function createNewJobInfo (jobData, $cookies) {
+    function createNewJobInfo (jobData,$cookies) {
         var headers = get_http_header($cookies)
         console.log(jobData);
         $http({
@@ -181,7 +196,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
             if(data.status == 201){
                 console.log(data);
                 console.log('datatoken',data);
-                $scope.get_job_list_view()
+                $scope.get_job_list_view();
                 }
         }, function (error) {
             console.log('error',error);
@@ -199,23 +214,74 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
             url_status  = is_url(job_url.job_url);
             if(url_status){
                 $('#myJobModal').modal('show');
+                $('#thisJob').modal('hide');  
             }else{
                 $scope.url_validation_error = true;
-
             }
         }
     };
     
+    
+    function check_element_existing_element(item){
+        if($scope.task_list.indexOf(item) !== -1) {
+            return true;
+        }else{
+            return false;
+        }
+    }
 
-    $scope.change_task_list = function(item){
+
+    $scope.check_element_existing_element=function(item){
+        if($scope.task_list.indexOf(item) !== -1) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    $scope.change_task_list = function(item,date){
         task_ele = check_element_existing_element(item);
         if(task_ele){
             index = $scope.task_list.indexOf(item);
-            delete $scope.task_list[index];
+            $scope.task_list.splice(index,1);
+            console.log('scope_list',$scope.task_list);
+            for(i in $scope.tasks) {
+                    if ($scope.tasks[i].action == item){
+                        task_index = i;
+                    }
+            }
+
+            $scope.tasks.splice(index,1);
+            console.log($scope.tasks);
+           
         }else{
             $scope.task_list.push(item);
+             console.log('scope_list',$scope.task_list);
+             var obj = {};
+             obj.action = item;
+             obj.action_date = date;
+             $scope.tasks.push(obj);
         }
+        console.log('scopetasks',$scope.tasks);
     };
+    
+    $scope.save_tasks = function(item,date){
+        not_found = true;
+        for(i in $scope.tasks) {
+            if ($scope.tasks[i].action == item){
+                $scope.tasks[i].action_date = date;
+                not_found = false;
+            }
+        }
+       if(not_found == true) {
+                var obj = {};
+                obj.action = item;
+                obj.action_date = date;
+                $scope.tasks.push(obj);
+        
+       }
+       console.log($scope.tasks);
+    }
 
     $scope.change_selected_color = function(item){
         task_ele = check_element_existing_element(item);
@@ -248,7 +314,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
 
     $scope.Wishlist = [];
     $scope.job = {};
-    $scope.tasks=[];
+    // $scope.tasks=[];
     $scope.job_stage = ['To Apply','Follow-up','Selection'];
     $scope.do="";//There is no variable 'do' in scope,we initialised and using it 
                   //identify whether gonna add or edit the job
@@ -283,7 +349,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     $scope.isMore = true;
    
     // $scope.taskidx = 0;
-    $scope.newtasks = [];
+ 
     $scope.add_more_task = false;
     $scope.ele_in_array = 0;
     $scope.number_of_repeat = [];
@@ -334,30 +400,30 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
 
 
 
-    $scope.sve = function(){
-        if($scope.do == "add"){
+    // $scope.sve = function(){
+    //     if($scope.do == "add"){
 
-        	for(i = 1;i<=$scope.newtasks.length;i++){
-        		$scope.job.tasks.push($scope.newtasks[i]);
-        	};
-            $scope.job_temp.push($scope.job);
-            $scope.job={};
+    //     	for(i = 1;i<=$scope.newtasks.length;i++){
+    //     		$scope.job.tasks.push($scope.newtasks[i]);
+    //     	};
+    //         $scope.job_temp.push($scope.job);
+    //         $scope.job={};
             
-        }else{
-        	console.log($scope.newtasks);
+    //     }else{
+    //     	console.log($scope.newtasks);
         	
-        	console.log()
+    //     	console.log()
         	
-        	for(i = 1; i<=$scope.newtasks.length; i++){
-        		console.log($scope.newtasks[i]);
-        		$scope.thisjob.task.push($scope.newtasks[i]);
-        	};
-        	console.log($scope.thisjob);
-            $scope.job_temp[index]=$scope.job;
-            $scope.job={};
-        }
+    //     	for(i = 1; i<=$scope.newtasks.length; i++){
+    //     		console.log($scope.newtasks[i]);
+    //     		$scope.thisjob.task.push($scope.newtasks[i]);
+    //     	};
+    //     	console.log($scope.thisjob);
+    //         $scope.job_temp[index]=$scope.job;
+    //         $scope.job={};
+    //     }
         
-    }
+    // }
 
     $scope.UpdateJob = function(thisjob){
         $scope.do = "edit";
@@ -393,29 +459,10 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
 
   
     $scope.task_id = 100;
-    $scope.AddTasks = function(){
-    	$scope.taskidx ++;
-    	console.log($scope.taskidx);
-        $scope.task_id ++;
-        var id = 'btn-'+ $scope.task_id
-        var tasklist = angular.element($("#tasklist"));
-        var addtask_html = "<div class='row' id ='"+id+"' ><input type='text' class='task-btn' id='input"+id+"'> <span>"
-          +"<button class='btn-xs' id='btn"+id+"' >Remove</button>"
-         +"</span></input></div>"
-        tasklist.append(addtask_html);
-        var new_element = angular.element($("#"+id));
-        var remove_button = angular.element($('#btn'+id));
-        remove_button.on('click',   function(){
-                 var task = angular.element($("#"+id));
-                  task.remove();
-     	});
-        var input_area = angular.element($("#input"+id));
-        input_area.on('blur',   function(){
-                 var task = input_area.val();
-                 console.log(task);
-                 $scope.newtasks.push(task);
-                 console.log($scope.newtasks);
-     	});
+    $scope.AddmoreTasks = function(){
+        $scope.addmoretasks=true;
+        console.log('testaddmoreTasks',$scope.addmoretasks);
+    	// $("#taskwrapper").css({'position':'relative','left':'-190px'});
 
     }
 
