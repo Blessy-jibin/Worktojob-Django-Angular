@@ -1,3 +1,5 @@
+
+
 var workToJob	 = angular.module('workToJob', ['ngRoute', 'ngCookies','ui.bootstrap']);
 
 
@@ -145,7 +147,15 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         else{ return false; }
     };
 
-    
+    $scope.toggle_collapse = function(index){
+        console.log( $scope.stage_index,index,$scope.collapse);
+        $scope.stage_index=index;
+        $scope.collapse[index]=!$scope.collapse[index];
+        $scope.collapse =  {0:$scope.collapse[0] , 1:$scope.collapse[1] , 2:$scope.collapse[2] };
+        console.log($scope.stage_index,index,$scope.collapse);
+
+
+    };
 
     // $scope.check_element_existing_element = function(item){
 
@@ -161,25 +171,9 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         d = {};
         
         $scope.job.tasks = $scope.tasks;
-        console.log($scope.job.tasks);
-        console.log('job',$scope.job);
         $scope.addmoretasks = false;
         $scope.task_list = [];
         $scope.newtasklist = [];
-        // console.log($scope.task_list.length);
-
-        // for(i=0; i < $scope.task_list.length; i++)
-        // {
-        //     if($scope.task_list[i] != undefined){
-        //         console.log(".................", $scope.task_list)
-        //         d['action'] = $scope.task_list[i];
-        //         d['action_date'] = "2018-03-20T17:24:13Z";
-        //         lis.push(d);
-        //     }
-        // }
-        // $scope.job['tasks'] = lis;
-        
-        // console.log($scope.job);
         createNewJobInfo ($scope.job, $cookies);
 
     };
@@ -194,6 +188,26 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
           data:jobData,
         }).then(function (data) {
             if(data.status == 201){
+                $scope.get_job_list_view();
+                $scope.job = {};
+            }
+        }, function (error) {
+            console.log('error',error);
+        });
+     };
+
+
+    $scope.deleteJobInfo = function(jobId) {
+        var headers = get_http_header($cookies)
+        console.log(jobId);
+        $http({
+          method: 'DELETE',
+          url: '/job/'+jobId,
+          headers: headers,
+          data:{'jobId' : jobId}
+        }).then(function (data) {
+            if(data.status == 204){
+                $('#thisJob').modal('hide');
                 console.log(data);
                 console.log('datatoken',data);
                 $scope.get_job_list_view();
@@ -202,6 +216,28 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
             console.log('error',error);
         });
      };
+
+    $scope.saveThisJob = function(job) {
+        var headers = get_http_header($cookies)
+        console.log(job);
+        $http({
+          method: 'PUT',
+          url: '/job/'+job.id,
+          headers: headers,
+          data:job,
+        }).then(function (data) {
+            if(data.status == 204){
+                $('#thisJob').modal('hide');
+                console.log(data);
+                console.log('datatoken',data);
+                $scope.get_job_list_view();
+                }
+        }, function (error) {
+            console.log('error',error);
+        });
+     };
+
+
 
     $scope.url_validation_popup = function(){        
         $scope.url_validation_error = false;
@@ -259,7 +295,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
              console.log('scope_list',$scope.task_list);
              var obj = {};
              obj.action = item;
-             obj.action_date = date;
+             obj.action_date = "23-12-2011";
              $scope.tasks.push(obj);
         }
         console.log('scopetasks',$scope.tasks);
@@ -269,7 +305,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         not_found = true;
         for(i in $scope.tasks) {
             if ($scope.tasks[i].action == item){
-                $scope.tasks[i].action_date = date;
+                $scope.tasks[i].action_date = "23-12-2011";
                 not_found = false;
             }
         }
@@ -298,8 +334,9 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         headers: headers,
       }).then(function (data) {
           if(data.status == 200){
-              $scope.job_temp = data.data;
-              console.log('ffffffffffff', $scope.job_temp );
+            $scope.job_temp = data.data;
+            console.log( $scope.collapse);
+
           }
       }, function (error) {
           console.log('ffffffffffff');
@@ -380,6 +417,10 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
  //   });
 // var x = $('#thisJob').relatedTarget.dataset.job;
 // console.log(x);
+
+    $scope.collapseInit = function () {
+        
+    }
 
 
     $scope.AddJob = function() {
@@ -497,7 +538,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
 
     	// list.splice(index, 1);
 
-    	$scope.thisjob.task.splice(index, 1);
+    	$scope.thisjob.tasks.splice(index, 1);
     };
 
 
@@ -506,7 +547,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         
         $scope.clickedIndex = $index;
         $scope.thisjob = item;
-        $scope.tsk="";
+        // $scope.tsk="";
         console.log($scope.showjobmodal);
         var modal=angular.element($('#thisJob')); 
         modal.modal('show');
@@ -570,11 +611,6 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     
     $scope.setselectedIndex = function (item,$index) {
         $scope.selectedIndex = $index;
-        // $scope.thisjob = item;
-        
-        console.log($scope.selectedIndex);
-        
-        // $scope.hidemodal = !$scope.hidemodal;
     };
 
     $scope.closeJobModal=function(){
@@ -594,6 +630,22 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         
         
     }
+    // $scope.showConfirm = function(job) {
+    // // Appending dialog to document.body to cover sidenav in docs app
+    //     var confirm = $mdDialog.confirm()
+    //           .title('Your data is not saved')
+    //           .textContent('Save your data')
+    //           .ariaLabel('Lucky day')
+    //           .targetEvent(ev)
+    //           .ok('Save')
+    //           .cancel('Dismiss');
+
+    //     $mdDialog.show(confirm).then(function() {
+    //         $scope.saveThisJob(job);
+    //     }, function() {
+    //       $scope.status = 'You decided to keep your debt.';
+    //     });
+    // };
 
     $scope.addtask_editmode = function(){
 

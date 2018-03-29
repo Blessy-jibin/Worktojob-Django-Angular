@@ -59,3 +59,18 @@ class JobInfoSerializer(serializers.ModelSerializer):
             print ("------------------", dic_save)
             Task.objects.create(job=job_obj, **dic_save)
         return job_obj
+
+    def update(self,job,validated_data):
+        job.job_title = validated_data.pop('job_title')
+        job.job_url = validated_data.pop('job_url')
+        job.deadline = validated_data.pop('deadline')
+        job.stage = validated_data.pop('stage')
+        tasks = Task.objects.filter(job=job)
+        for task in tasks:
+            task.delete()
+
+        for task in validated_data.pop('tasks'):
+            dic_save = {'action_date': task.get('action_date'), 'action': task.get('action')}
+            Task.objects.create(job=job, **dic_save)
+        job.save()
+        return job

@@ -101,16 +101,16 @@
                     
                       <div class="row">
                         <button id='btn-99' ng-class="change_selected_color('update_cv') ? 'select-task-btn' : 'task-btn' " ng-click="change_task_list('update_cv')">Update CV and coverletter  <span>+</span></button>
-                        <input ng-if="check_element_existing_element('update_cv')" style="display: inline-block;" data-provide="datepicker" style="text-align: center;border: 1px solid black;border-radius: 5px;" ng-model="date" ng-change="save_tasks('update_cv',date);">
+                        <!-- <input ng-if="check_element_existing_element('update_cv')" style="display: inline-block;" data-provide="datepicker" style="text-align: center;border: 1px solid black;border-radius: 5px;" ng-model="date" ng-change="save_tasks('update_cv',date);"> -->
                       </div>
                       <div class="row">
                         <button ng-click="change_task_list('Reasersch about Company')" id='btn-98' ng-class="change_selected_color('Reasersch about Company') ? 'select-task-btn' : 'task-btn' ">Research about Company <span>+</span></button>
-                        <input ng-if="check_element_existing_element('Reasersch about Company')" style="display: inline-block;" data-provide="datepicker" style="text-align: center;border: 1px solid black;border-radius: 5px;" ng-model="date" ng-change="save_tasks('Reasersch about Company',date);">
+                        <!-- <input ng-if="check_element_existing_element('Reasersch about Company')" style="display: inline-block;" data-provide="datepicker" style="text-align: center;border: 1px solid black;border-radius: 5px;" ng-model="date" ng-change="save_tasks('Reasersch about Company',date);"> -->
                       </div>
                     
                       <div ng-if="newtasklist.length > 0" ng-repeat="newtask in newtasklist" class="row" style="margin-bottom:8px;">
                        <div style="border:1px solid grey;border-radius:5px;text-align:center;width:190px;padding:8px;display: inline-block;" ng-click="change_task_list(newtask)" id='btn-98' ng-class="change_selected_color(newtask) ? 'select-task-btn' : 'task-btn' ">{{newtask}}</div>
-                      <input ng-if="check_element_existing_element(newtask)" style="display: inline-block;" data-provide="datepicker" style="text-align: center;border: 1px solid black;border-radius: 5px;" ng-model="date" ng-change="save_tasks(newtask,date);">
+                      <!-- <input ng-if="check_element_existing_element(newtask)" style="display: inline-block;" data-provide="datepicker" style="text-align: center;border: 1px solid black;border-radius: 5px;" ng-model="date" ng-change="save_tasks(newtask,date);"> -->
                       </div>
                       <div ng-if="addmoretasks==true" class="row">
                       <input type='text' class='task-btn' ng-model="newtask" placeholder="Add your task"> 
@@ -139,7 +139,7 @@
             <!-- Modal content-->
             <div class="modal-content" style="width:550px;" id="thisJobmodalcontent">
               <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" ng-click= "closeJobModal()" >&times;</button>
+                <button type="button" class="close" data-dismiss="modal" ng-click= "closeJobModal();" >&times;</button>
 
                 <div  id=" " style="margin-top:5px;">
                   <span>
@@ -158,7 +158,7 @@
                 <div class="form-group">
 
                   
-                  <select   ng-init="somethingHere = thisjob.stage" ng-model="thisjob.stage" ng-options="each for each in job_stage" ng-change="showjobon_statechange(selectedIndex)">
+                  <select   ng-init="somethingHere = thisjob.stage" ng-model="thisjob.stage" ng-options="each for each in job_stage"  ">
                   </select>
                   
 
@@ -170,7 +170,7 @@
                   <div class="row" ng-click="toggle = !toggle;" ng-repeat="task in thisjob.tasks track by $index">
                     
                     <span style="color:#708090;margin-left:40px">{{task.action}}</span>
-                    <span >{{task.action_date}}</span>
+                    <!-- <span >{{task.action_date}}</span> -->
                     <div style="display:inline-block;text-align:center;padding:2px;position: absolute;left:300px; ">
                       <span class="glyphicon glyphicon-remove-circle" ng-click="removeTask($index)" ng-confirm-message="Are you sure deleting {{task}}?"   style="color:red;font-size:17px;"></span>
                     </div>
@@ -180,7 +180,7 @@
                   <div  class="row" id=>
                     
                       <form name="myForm" style="display: inline-block;width:70%;margin-left:40px;">
-                        <input type='text' name="task" style="margin-top:5px;border:1px solid black;text-align: center;"  ng-model="tsk"  placeholder="Add yout task here" onfocus="this.placeholder=''" required ng-keypress="($event.which === 13) && myForm.task.$valid && thisjob.tasks.push(tsk) && ngkeypress(tsk)" >
+                        <input type='text' name="task" id="" style="margin-top:5px;border:1px solid black;text-align: center;"  ng-model="tsk"  placeholder="Add yout task here" onfocus="this.placeholder=''" required ng-keypress="($event.which === 13) && myForm.task.$valid && thisjob.tasks.push(tsk) && ngkeypress(tsk)" >
 
                         <!-- <div role="alert">
                           <span class="error" ng-show="myForm.task.$touched && myForm.task.$invalid" style="color: #ff8566;font-size:12px;margin-top:2px;">
@@ -200,7 +200,10 @@
                       
                     
                   </div>
-                
+                  <div style="float:right;margin-right:5px;margin-bottom:5px;">
+                  	<button ng-click="saveThisJob(thisjob)">Save</button>
+                    <button style="" ng-click="deleteJobInfo(thisjob.id)">Delete</button>
+                 </div>
                 <!-- <button class="btn-info btn-sm col-lg-offset-8"  ng-click="UpdateJob(thisjob);">Save Changes</button> -->
               </div>         
               <hr style="height:10px;color: #F8F8FF;background-color: #F8F8FF;border-top: 1px solid rgba(0,0,0,.2);border-bottom: 1px solid rgba(0,0,0,.2);">
@@ -259,7 +262,21 @@ ng-class="{'changestyle':togglemain}"
             
           <!-- </table> -->
        
-
+        <div style="visibility: hidden">
+		    <div class="md-dialog-container" id="myDialog">
+		      <md-dialog layout-padding>
+		        <h2>Pre-Rendered Dialog</h2>
+		        <p>
+		          This is a pre-rendered dialog, which means that <code>$mdDialog</code> doesn't compile its
+		          template on each opening.
+		          <br/><br/>
+		          The Dialog Element is a static element in the DOM, which is just visually hidden.<br/>
+		          Once the dialog opens, we just fetch the element from the DOM into our dialog and upon close
+		          we restore the element back into its old DOM position.
+		        </p>
+		      </md-dialog>
+		    </div>
+		  </div>
 
 
     {% endverbatim %}
