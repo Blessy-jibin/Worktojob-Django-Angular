@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view,  authentication_classes, permission_classes
 from rest_framework.response import Response
 from django.http import HttpResponse
 from django.views.generic import View
@@ -46,6 +46,8 @@ u'[{"id":1,"job_title":"Python Developer","job_url":"bcghfchc","created_date":"2
 """
 
 @api_view(["POST"])
+@authentication_classes([])
+@permission_classes([])
 def auth_login(request):
     print("test")
 
@@ -79,10 +81,11 @@ def job_list(request):
 def add_job(request):
     return render_to_response('myjobs.html', locals())
 
-
 class UserCreate(generics.CreateAPIView):
 
     serializer_class = UserSerializer
+    authentication_classes = ()
+    authentication_classes = ()
 
     def create(self, request, *args, **kwargs): # <- here i forgot self
 
