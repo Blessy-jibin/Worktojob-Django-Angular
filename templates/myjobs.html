@@ -180,14 +180,14 @@
                   <div  class="row" id=>
                     
                       <form name="myForm" style="display: inline-block;width:70%;margin-left:40px;">
-                        <input type='text' name="task" id="" style="margin-top:5px;border:1px solid black;text-align: center;"  ng-model="tsk"  placeholder="Add yout task here" onfocus="this.placeholder=''" required ng-keypress="($event.which === 13) && myForm.task.$valid && thisjob.tasks.push(tsk) && ngkeypress(tsk)" >
+                        <input type='text' name="task" id="" style="margin-top:5px;border:1px solid black;text-align: center;"  ng-model="tsk"  placeholder="Add yout task here" onfocus="this.placeholder=''" required ng-keypress="($event.which === 13) && myForm.task.$valid&& ngkeypress(tsk)" >
 
                         <!-- <div role="alert">
                           <span class="error" ng-show="myForm.task.$touched && myForm.task.$invalid" style="color: #ff8566;font-size:12px;margin-top:2px;">
                             Please enter a task!</span>
                         </div> -->
                         <div style="display:inline-block;text-align:center;padding:2px;position: absolute;left:297px;"">
-                        <button style="color:green;font-size:17px;background-color:white;border:none;font-weight:200;" type="submit" class="glyphicon glyphicon-plus" ng-click="myForm.task.$valid && thisjob.tasks.push({'action':tsk});">
+                        <button style="color:green;font-size:17px;background-color:white;border:none;font-weight:200;" type="submit" class="glyphicon glyphicon-plus" ng-click="myForm.task.$valid && thisjob.tasks.push({'action':tsk,'action_date':'23-12-2011'});">
                         <!--  <span class="glyphicon glyphicon-plus" style="color:green;font-size:17px;" ng-click="myForm.task.$valid && thisjob.task.push(tsk);"> </span> -->
                         </button>
                       </div>
