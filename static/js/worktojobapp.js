@@ -547,6 +547,8 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         
         $scope.clickedIndex = $index;
         $scope.thisjob = item;
+        $scope.thisjob_beforechange = angular.copy(item);
+        console.log($scope.thisjob_beforechange);
         // $scope.tsk="";
         console.log($scope.showjobmodal);
         var modal=angular.element($('#thisJob')); 
@@ -633,7 +635,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
 
 
 
-    $scope.showConfirm = function(ev,job) {
+    $scope.showConfirm = function(ev,job,id) {
     // Appending dialog to document.body to cover sidenav in docs app
         console.log('testing dialog');
         console.log(job);
@@ -647,11 +649,13 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
 
         $mdDialog.show(confirm).then(function() {
             $scope.saveThisJob(job);
-           
+
 
 
         }, function() {
-          $scope.get_job_list_view();
+
+          $scope.job_temp[$scope.clickedIndex] = $scope.thisjob_beforechange;
+          console.log('jobtemp',$scope.job_temp[$scope.clickedIndex] );
         });
     };
 
