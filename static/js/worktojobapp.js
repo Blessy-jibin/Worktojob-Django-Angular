@@ -1,6 +1,6 @@
 
 
-var workToJob	 = angular.module('workToJob', ['ngRoute', 'ngCookies','ui.bootstrap']);
+var workToJob	 = angular.module('workToJob', ['ngCookies','ui.bootstrap','ngMaterial', 'ngMessages']);
 
 
 workToJob.config(function($interpolateProvider) {
@@ -28,7 +28,8 @@ get_http_header = function($cookies){
   	return(headers);
 }
 
-workToJob.controller('loginController', function ($scope, $http, $rootScope, $cookies) {
+workToJob.controller('loginController',  function ($scope, $http, $rootScope, $cookies) {
+    
 
     $scope.authenticate_app = function(){
 		var data = {};
@@ -122,8 +123,7 @@ workToJob.controller('loginController', function ($scope, $http, $rootScope, $co
 
 });
 
-workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookies) {
-
+workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookies,$mdDialog) {
 
     $scope.initialize_job_controller = function(){
         $scope.task_list = [];
@@ -419,7 +419,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
 // console.log(x);
 
     $scope.collapseInit = function () {
-        
+
     }
 
 
@@ -630,22 +630,30 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         
         
     }
-    // $scope.showConfirm = function(job) {
-    // // Appending dialog to document.body to cover sidenav in docs app
-    //     var confirm = $mdDialog.confirm()
-    //           .title('Your data is not saved')
-    //           .textContent('Save your data')
-    //           .ariaLabel('Lucky day')
-    //           .targetEvent(ev)
-    //           .ok('Save')
-    //           .cancel('Dismiss');
 
-    //     $mdDialog.show(confirm).then(function() {
-    //         $scope.saveThisJob(job);
-    //     }, function() {
-    //       $scope.status = 'You decided to keep your debt.';
-    //     });
-    // };
+
+
+    $scope.showConfirm = function(ev,job) {
+    // Appending dialog to document.body to cover sidenav in docs app
+        console.log('testing dialog');
+        console.log(job);
+        var confirm = $mdDialog.confirm()
+              .title('Your data is not saved')
+              .textContent('Save your data')
+              .ariaLabel('Lucky day')
+              .targetEvent(ev)
+              .ok('Save')
+              .cancel('Dismiss');
+
+        $mdDialog.show(confirm).then(function() {
+            $scope.saveThisJob(job);
+           
+
+
+        }, function() {
+          $scope.get_job_list_view();
+        });
+    };
 
     $scope.addtask_editmode = function(){
 

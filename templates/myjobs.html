@@ -139,7 +139,10 @@
             <!-- Modal content-->
             <div class="modal-content" style="width:550px;" id="thisJobmodalcontent">
               <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" ng-click= "closeJobModal();" >&times;</button>
+                <!-- <button type="button" class="close" data-dismiss="modal" ng-click= "closeJobModal();" >&times;</button> -->
+                 <md-button class="md-primary md-raised close" type="button" data-dismiss="modal" ng-click="showConfirm($event,thisjob);closeJobModal();" >
+                 &times;
+                </md-button>
 
                 <div  id=" " style="margin-top:5px;">
                   <span>
@@ -187,7 +190,11 @@
                             Please enter a task!</span>
                         </div> -->
                         <div style="display:inline-block;text-align:center;padding:2px;position: absolute;left:297px;"">
+
                         <button style="color:green;font-size:17px;background-color:white;border:none;font-weight:200;" type="submit" class="glyphicon glyphicon-plus" ng-click="myForm.task.$valid && thisjob.tasks.push({'action':tsk,'action_date':'23-12-2011'});">
+
+                        <!-- <button style="color:green;font-size:17px;background-color:white;border:none;font-weight:200;" type="submit" class="glyphicon glyphicon-plus" ng-click="myForm.task.$valid && thisjob.tasks.push({'action':tsk,'action_date':'22/3/2018'});"> -->
+
                         <!--  <span class="glyphicon glyphicon-plus" style="color:green;font-size:17px;" ng-click="myForm.task.$valid && thisjob.task.push(tsk);"> </span> -->
                         </button>
                       </div>
@@ -256,13 +263,7 @@ ng-class="{'changestyle':togglemain}"
               
            </section>
           </div>
-        </div>
-            <!-- <td class="col-xs-8 col-md-1" align="text-center"><button class="btn btn-danger"  ng-click="delete(item)">Delete</button>
-            <button class="btn btn-info" data-toggle="modal" data-target="#myModal" ng-click="update(item)">Update</button></td> -->
-            
-          <!-- </table> -->
-       
-        <div style="visibility: hidden">
+          <div style="visibility: hidden">
 		    <div class="md-dialog-container" id="myDialog">
 		      <md-dialog layout-padding>
 		        <h2>Pre-Rendered Dialog</h2>
@@ -277,6 +278,13 @@ ng-class="{'changestyle':togglemain}"
 		      </md-dialog>
 		    </div>
 		  </div>
+        </div>
+            <!-- <td class="col-xs-8 col-md-1" align="text-center"><button class="btn btn-danger"  ng-click="delete(item)">Delete</button>
+            <button class="btn btn-info" data-toggle="modal" data-target="#myModal" ng-click="update(item)">Update</button></td> -->
+            
+          <!-- </table> -->
+       
+        
 
 
     {% endverbatim %}
