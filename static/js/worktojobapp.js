@@ -129,7 +129,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         $scope.task_list = [];
         $scope.tasks = [];
         $scope.url_validation_error = false;
-        $scope.addmoretasks = false;
+        $scope.changed_jobproperty = false;
         $scope.newtask = "";
         $scope.newtasklist = [];
         userToken = sessionStorage.getItem("c_token");
@@ -218,6 +218,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
      };
 
     $scope.saveThisJob = function(job) {
+        $scope.changed_jobproperty = false;
         var headers = get_http_header($cookies)
         console.log(job);
         $http({
@@ -534,28 +535,63 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
 
     $scope.removeTask = function(index) { 
     	console.log(index);
-    	
-
+    	console.log('before deletin',$scope.thisjob.tasks);
+        $scope.changed_jobproperty=true;
     	// list.splice(index, 1);
 
     	$scope.thisjob.tasks.splice(index, 1);
+        console.log('after deleteing',$scope.thisjob.tasks);
     };
 
 
     $scope.Show_this_Job=function(item,$index){
         // console.log(item);
+
+        var modal=angular.element($('#thisJob')); 
+
+        if($scope.changed_jobproperty == false){
+            $scope.clickedIndex = $index;
+            modal.modal('show');
+            console.log('modal is again here and clickedindex',$scope.clickedIndex);
+        };
+
+        if($scope.changed_jobproperty == true){
+            $scope.showConfirm($scope.thisjob);
+            modal.modal('hide');
+            console.log('modal is forecfully hided');
+        };
         
-        $scope.clickedIndex = $index;
+
+        
         $scope.thisjob = item;
+        $scope.changed_jobproperty = false;
+        $scope.taskentered = false;
         $scope.thisjob_beforechange = angular.copy(item);
+
         console.log($scope.thisjob_beforechange);
         // $scope.tsk="";
         console.log($scope.showjobmodal);
         var modal=angular.element($('#thisJob')); 
-        modal.modal('show');
+
         console.log();
         console.log($scope.thisjob);
     };
+
+    $scope.addtaskbutton_clicked = function(){
+     $scope.changed_jobproperty = true;
+     $('#inputtask').blur();
+     // // $scope.tsk = "";
+     // $scope.taskinput_blurred();
+     
+     
+    }
+   
+    $scope.taskinput_blurred=function(){
+        $('#inputtask').attr("placeholder", "Add your task here");
+        $('#inputtask').focus(function() {
+            $('#inputtask').attr("placeholder", "");
+        });
+    }
 
 	angular.element($('#thisJob')).on('shown.bs.modal', function() {
 			console.log('hey modal is shown');
@@ -590,7 +626,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
      //  // $scope.jobmodal_topfixed = false;  
     	// }
    });
-
+   
 
     $scope.moreItem=function(stage){
         //get more jobs from bacnend and addd.
@@ -649,13 +685,12 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
 
         $mdDialog.show(confirm).then(function() {
             $scope.saveThisJob(job);
-
-
-
-        }, function() {
+            $scope.changed_jobproperty = false;
+         }, function() {
 
           $scope.job_temp[$scope.clickedIndex] = $scope.thisjob_beforechange;
           console.log('jobtemp',$scope.job_temp[$scope.clickedIndex] );
+          $scope.changed_jobproperty = false;
         });
     };
 
