@@ -30,6 +30,16 @@
 	border-width: 1px;
 
 }
+
+/**:focus {
+    outline: none !important;
+    border: 0 !important;
+}*/
+
+.nofocus:focus {
+    outline: none;
+}
+
 .modal{
 	position: absolute;
 	top:0px;

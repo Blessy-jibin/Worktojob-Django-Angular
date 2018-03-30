@@ -132,6 +132,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         $scope.changed_jobproperty = false;
         $scope.newtask = "";
         $scope.newtasklist = [];
+        $scope.addmoretasks = false;
         userToken = sessionStorage.getItem("c_token");
         console.log('userToken', userToken)
         if (userToken == undefined) {
@@ -167,17 +168,13 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     // }
 
     $scope.save_newjob = function(){
-        lis = [];
-        d = {};
-        
+        console.log('test save');
         $scope.job.tasks = $scope.tasks;
         $scope.addmoretasks = false;
         $scope.task_list = [];
         $scope.newtasklist = [];
         createNewJobInfo ($scope.job, $cookies);
-
     };
-
     function createNewJobInfo (jobData,$cookies) {
         var headers = get_http_header($cookies)
         console.log(jobData);
@@ -189,6 +186,8 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         }).then(function (data) {
             if(data.status == 201){
                 $scope.get_job_list_view();
+                var modal=angular.element($('#myJobModal'));
+                modal.modal('hide');
                 $scope.job = {};
             }
         }, function (error) {
@@ -221,6 +220,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         $scope.changed_jobproperty = false;
         var headers = get_http_header($cookies)
         console.log(job);
+        $('#thisJob').modal('hide');
         $http({
           method: 'PUT',
           url: '/job/'+job.id,
@@ -228,7 +228,6 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
           data:job,
         }).then(function (data) {
             if(data.status == 204){
-                $('#thisJob').modal('hide');
                 console.log(data);
                 console.log('datatoken',data);
                 $scope.get_job_list_view();
@@ -385,16 +384,12 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     $scope.clickedIndex = -1;
 
     $scope.isMore = true;
-   
-    // $scope.taskidx = 0;
- 
-    $scope.add_more_task = false;
     $scope.ele_in_array = 0;
     $scope.number_of_repeat = [];
     $scope.jobIndex = -1;
     $scope.showjobmodal = false;
     $scope.jobmodal_topfixed = false;  
-    $scope.taskpalceholder = "Add your task";
+   
 // Assigns a value to it
         
     // $scope.showjobmodal = true;
@@ -425,19 +420,19 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
 
 
     $scope.AddJob = function() {
-        $scope.do = "add";
-        var addjobmodal = angular.element($('#myModal'));
-        addjobmodal.modal('show');
-        // $scope.job = {};
-        var body = angular.element($('body'));
-        body.removeClass('body_colour_change'); 
-        var jobs = angular.element($('#jobsview'));
-        jobs.removeClass('jobsview_change');
-        var add_link = angular.element($('#addlink'));
-        add_link.removeClass('addlink_change');
-        var modal=angular.element($('#thisJob'));
-        modal.modal('hide');    
-
+        $scope.job.stage = "To Apply";
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+        var yyyy = today.getFullYear();
+        if(dd<10){
+            dd='0'+dd;
+        } 
+        if(mm<10){
+        mm='0'+mm;
+        } 
+        var today = mm+'/'+dd+'/'+yyyy;
+        $scope.job.deadline = today;
     }
 
 

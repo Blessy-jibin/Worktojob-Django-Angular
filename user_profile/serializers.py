@@ -61,6 +61,7 @@ class JobInfoSerializer(serializers.ModelSerializer):
         return job_obj
 
     def update(self,job,validated_data):
+        print(job)
         job.job_title = validated_data.pop('job_title')
         job.job_url = validated_data.pop('job_url')
         job.deadline = validated_data.pop('deadline')

@@ -139,6 +139,7 @@ class JobInfoDetail(APIView):
 
     def put(self, request, pk, format=None):
         job_info = self.get_object(pk)
+        print(job_info)
         serializer = JobInfoSerializer(job_info, data=request.data)
         if serializer.is_valid():
             serializer.save()
