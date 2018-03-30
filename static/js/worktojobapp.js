@@ -666,7 +666,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
 
 
 
-    $scope.showConfirm = function(ev,job,id) {
+    $scope.showConfirm = function(ev,job) {
     // Appending dialog to document.body to cover sidenav in docs app
         console.log('testing dialog');
         console.log(job);
