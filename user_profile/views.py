@@ -20,7 +20,7 @@ from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.models import User
-# from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup
 from urllib.request import urlopen
 import requests
 import re
@@ -167,16 +167,17 @@ class MetaParsing (View):
 
      def get(self, request):
         meta = {}
-        url = 'https://in.linkedin.com/jobs/view/enterprise-architect-infrastructure-at-accenture-in-india-630725418?trkInfo=searchKeywordString%3A%2CsearchLocationString%3A%252C%2BBengaluru%2BArea%252C%2BIndia%2Cvertical%3Ajobs%2CpageNum%3A0%2Cposition%3A1%2CMSRPsearchId%3Aed6569b6-caa3-46bb-99aa-433fd488884b&refId=ed6569b6-caa3-46bb-99aa-433fd488884b&trk=jobs_jserp_job_listing_text'
+        url = request.GET['url']
         print  (url)
         response = requests.get(url)
         content = response.content
         soup = BeautifulSoup(content, 'html.parser')
         title = soup.title.string 
-        dat = re.split(r"[\[\]]", title)
-        if dat:
-            job = dat[0]
-            meta['title'] = str(job)
+        # dat = re.split(r'[`\-=~!@#$%^&*()_+\[\]{};\'\\:"|<,./<>?]', title)
+        # if dat:
+        #     job = dat[0]
+        #     meta['title'] = str(job)
+        meta['title'] = str(title)
         print ("dat-------", meta)
         return HttpResponse(json.dumps(meta))
 

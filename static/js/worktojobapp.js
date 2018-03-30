@@ -419,7 +419,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     }
 
 
-    $scope.AddJob = function() {
+    $scope.AddJob = function(url) {
         $scope.job.stage = "To Apply";
         var today = new Date();
         var dd = today.getDate();
@@ -433,6 +433,19 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         } 
         var today = mm+'/'+dd+'/'+yyyy;
         $scope.job.deadline = today;
+
+        $http({
+          method: 'GET',
+          url: '/meta',
+          headers: headers,
+          params: {'url' : url}
+        }).then(function (response) {
+            if(response.status == 200){
+                $scope.job.job_title = response.data.title;
+            }   
+        }, function (error) {
+            
+        });
     }
 
 

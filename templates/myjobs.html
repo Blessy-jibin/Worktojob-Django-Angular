@@ -33,7 +33,7 @@
         
             
             <!-- Trigger the modal with a button -->
-            <button type="submit" class="btn btn-info btn-sm" ng-click="url_validation_popup();AddJob();">Add job
+            <button type="submit" class="btn btn-info btn-sm" ng-click="url_validation_popup();AddJob(job.job_url);">Add job
             </button>
             </form>
             <!-- {{addlinkForm.joblink.$valid}} -->
@@ -62,7 +62,7 @@
               
 	                <div class="form-group" id="jobrole-edit" style="">
 	                  <label for="jobrole">Jobrole:</label>
-	                  <input type="text"  class="form-control"  name="jb_title" ng-model="job.job_title" rows="1" required>
+	                  <input type="text"  class="form-control"  name="jb_title" ng-model="job.job_title" style="padding-left:10px;" rows="1" required>
 	                </div>
 	                <!-- Editable  form ends here -->
 	                <div class="form-group">
