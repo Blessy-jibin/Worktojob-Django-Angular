@@ -9,7 +9,7 @@
     {% block customstyle %}
     {% endblock %}
     <body ng-class="{'body_colour_change':showjobmodal}">
-
+    <i class="fa fa-circle-o-notch fa-spin" ng-show="loadingData"></i>
     {% block content %}
     {% endblock %}
 

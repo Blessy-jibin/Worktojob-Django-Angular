@@ -433,6 +433,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         } 
         var today = mm+'/'+dd+'/'+yyyy;
         $scope.job.deadline = today;
+        $scope.loadingData = true;
 
         $http({
           method: 'GET',
@@ -440,10 +441,12 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
           headers: headers,
           params: {'url' : url}
         }).then(function (response) {
+            $scope.loadingData = false;
             if(response.status == 200){
                 $scope.job.job_title = response.data.title;
             }   
         }, function (error) {
+            $scope.loadingData = false;
             
         });
     }
