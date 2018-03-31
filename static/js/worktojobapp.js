@@ -104,25 +104,25 @@ workToJob.controller('loginController',  function ($scope, $http, $rootScope, $c
 
 
 
-	function get_job_list_view()  {
-		headers = get_http_header($rootScope)
-		console.log('headers', headers)
-		$http({
-		  method: 'GET',
-		  url: '/jobs',
-		  headers: headers,
-		}).then(function (data) {
-			if(data.status == 200){
-				$scope.jib_list_data = data;
-				console.log('ffffffffffff', data);
-			}
-	    }, function (error) {
-	    	if(error.status == 401){
-                window.location.replace("");
+	// function get_job_list_view()  {
+	// 	headers = get_http_header($rootScope)
+	// 	console.log('headers', headers)
+	// 	$http({
+	// 	  method: 'GET',
+	// 	  url: '/jobs',
+	// 	  headers: headers,
+	// 	}).then(function (data) {
+	// 		if(data.status == 200){
+	// 			$scope.jib_list_data = data;
+	// 			console.log('ffffffffffff', data);
+	// 		}
+	//     }, function (error) {
+	//     	if(error.status == 401){
+ //                window.location.replace("");
 
-            }
-	    });
-    }
+ //            }
+	//     });
+ //    }
 
 });
 
