@@ -110,13 +110,14 @@
 	                        <!-- <input ng-if="check_element_existing_element('Reasersch about Company')" style="display: inline-block;" data-provide="datepicker" style="text-align: center;border: 1px solid black;border-radius: 5px;" ng-model="date" ng-change="save_tasks('Reasersch about Company',date);"> -->
 	                      </div>
 	                    
-	                      <div ng-if="newtasklist.length > 0" ng-repeat="newtask in newtasklist" class="row nofocus" style="margin-bottom:8px;">
+	                      <div ng-if="newtasklist.length > 0" ng-repeat="newtask in newtasklist track by $index" class="row nofocus" style="margin-bottom:8px;">
 	                       <div style="border:1px solid grey;border-radius:5px;text-align:center;width:190px;padding:8px;display: inline-block;" class="nofocus"  ng-click="change_task_list(newtask)" id='btn-98' ng-class="change_selected_color(newtask) ? 'select-task-btn' : 'task-btn' ">{{newtask}}</div>
 	                      <!-- <input ng-if="check_element_existing_element(newtask)" style="display: inline-block;" data-provide="datepicker" style="text-align: center;border: 1px solid black;border-radius: 5px;" ng-model="date" ng-change="save_tasks(newtask,date);"> -->
 	                      </div>
 	                      <div ng-if="addmoretasks==true" class="row">
-	                      <input type='text' class='task-btn' ng-model="newtask" placeholder="Add your task"> 
-	                      <button class='btn-xs'  ng-click="newtasklist.push(newtask);change_task_list(newtask)">Save Task</button>
+	                      <input type='text'  ng-model="newtask" placeholder="Add your task" id="newtask"> 
+	                      <!-- <button class='btn-xs'  ng-click="newtasklist.push(newtask);change_task_list(newtask)">Save Task</button> -->
+	                      <button style="color:green;font-size:17px;background-color:white;border:none;font-weight:200;"  class="glyphicon glyphicon-plus nofocus" ng-click="save_task_to_new_job(newtask)">
 	                    
 	                      </div>
 	                      <div class="row" ng-if="addmoretasks==false">

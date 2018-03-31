@@ -166,6 +166,12 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     //         return false;
     //     } 
     // }
+    $scope.save_task_to_new_job = function(newtask){
+        if( $("#newtask").val() ){
+            $scope.newtasklist.push(newtask);
+            $scope.change_task_list(newtask);
+          }
+    }
 
     $scope.save_newjob = function(){
         console.log('test save');
@@ -189,6 +195,8 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
                 var modal=angular.element($('#myJobModal'));
                 modal.modal('hide');
                 $scope.job = {};
+                $scope.newtasks = [];
+                $scope.tasks = [];
             }
         }, function (error) {
             console.log('error',error);
@@ -434,6 +442,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         var today = mm+'/'+dd+'/'+yyyy;
         $scope.job.deadline = today;
         $scope.loadingData = true;
+        console.log($scope.loadingData);
 
         $http({
           method: 'GET',
@@ -441,9 +450,10 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
           headers: headers,
           params: {'url' : url}
         }).then(function (response) {
-            $scope.loadingData = false;
+            
             if(response.status == 200){
                 $scope.job.job_title = response.data.title;
+                $scope.loadingData = false;
             }   
         }, function (error) {
             $scope.loadingData = false;
