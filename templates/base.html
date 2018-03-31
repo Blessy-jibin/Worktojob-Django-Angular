@@ -2,6 +2,7 @@
   <html lang="en-US" ng-app="workToJob" ng-init="set_default_token_value()">{% load staticfiles %}
     <title>WorkToJob</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
     <link rel = "stylesheet" href = "https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
 
@@ -9,7 +10,7 @@
     {% block customstyle %}
     {% endblock %}
     <body ng-class="{'body_colour_change':showjobmodal}">
-    <i class="fa fa-circle-o-notch fa-spin" ng-show="loadingData"></i>
+    
     {% block content %}
     {% endblock %}
 

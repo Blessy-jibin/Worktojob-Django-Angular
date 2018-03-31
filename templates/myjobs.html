@@ -33,7 +33,7 @@
         
             
             <!-- Trigger the modal with a button -->
-            <button type="submit" class="btn btn-info btn-sm" ng-click="url_validation_popup();AddJob(job.job_url);">Add job
+            <button type="submit" class="btn btn-info btn-sm" ng-click="url_validation_popup();">Add job
             </button>
             </form>
             <!-- {{addlinkForm.joblink.$valid}} -->
@@ -45,7 +45,9 @@
           </div>
         </div>
             <!--add job area ends here-->
-
+        <div ng-show = "loadingData">
+          <i class="fa fa-circle-o-notch fa-spin" style="font-size:20px;"></i>
+        </div>
   <!-- Modal -->
             <!-- Modal -->
         <div id="myJobModal" class="modal fade col-md-offset-4" role="dialog">
@@ -112,13 +114,17 @@
 	                    
 	                      <div ng-if="newtasklist.length > 0" ng-repeat="newtask in newtasklist track by $index" class="row nofocus" style="margin-bottom:8px;">
 	                       <div style="border:1px solid grey;border-radius:5px;text-align:center;width:190px;padding:8px;display: inline-block;" class="nofocus"  ng-click="change_task_list(newtask)" id='btn-98' ng-class="change_selected_color(newtask) ? 'select-task-btn' : 'task-btn' ">{{newtask}}</div>
-	                      <!-- <input ng-if="check_element_existing_element(newtask)" style="display: inline-block;" data-provide="datepicker" style="text-align: center;border: 1px solid black;border-radius: 5px;" ng-model="date" ng-change="save_tasks(newtask,date);"> -->
+	                        <div style="display: inline-block;position: absolute;left:200px;">
+	                       		 <span class="glyphicon glyphicon-remove-circle nofocus" ng-click="newtasklist.splice($index,1);"    style="vertical-align:middle;color:red;font-size:17px;"></span>
+	                       	</div>
 	                      </div>
 	                      <div ng-if="addmoretasks==true" class="row">
 	                      <input type='text'  ng-model="newtask" placeholder="Add your task" id="newtask"> 
 	                      <!-- <button class='btn-xs'  ng-click="newtasklist.push(newtask);change_task_list(newtask)">Save Task</button> -->
-	                      <button style="color:green;font-size:17px;background-color:white;border:none;font-weight:200;"  class="glyphicon glyphicon-plus nofocus" ng-click="save_task_to_new_job(newtask)">
-	                    
+	                      <div style="display: inline-block;position: absolute;left:200px;">
+	                         <button style="vertical-align: middle;color:green;font-size:17px;background-color:white;border:none;font-weight:200;"  class="glyphicon glyphicon-plus nofocus" ng-click="save_task_to_new_job(newtask)">
+	                        </button>
+	                      </div>
 	                      </div>
 	                      <div class="row" ng-if="addmoretasks==false">
 	                       <button class="task-btn" ng-click="AddmoreTasks();"><i>Add your own</i></button>
@@ -144,7 +150,7 @@
             <div class="modal-content" style="width:550px;" id="thisJobmodalcontent">
               <div class="modal-header">
                 <!-- <button type="button" class="close" data-dismiss="modal" ng-click= "closeJobModal();" >&times;</button> -->
-                 <md-button class="md-primary md-raised close" type="button" data-dismiss="modal" ng-click="changed_jobproperty && showConfirm($event,thisjob);closeJobModal();" >
+                 <md-button class="md-primary md-raised close" type="button" data-dismiss="modal"  ng-click="changed_jobproperty && showConfirm($event,thisjob);closeJobModal();" >
 
                  &times;
                 </md-button>

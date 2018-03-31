@@ -161,23 +161,13 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
 
     };
 
-<<<<<<< HEAD
-    // $scope.check_element_existing_element = function(item){
-
-    //    if($scope.task_list.indexOf(item) !== -1) {
-    //         return true;
-    //     }else{
-    //         return false;
-    //     } 
-    // }
     $scope.save_task_to_new_job = function(newtask){
         if( $("#newtask").val() ){
             $scope.newtasklist.push(newtask);
             $scope.change_task_list(newtask);
           }
     }
-=======
->>>>>>> f1533419881ffcff03d14d37e590721cfbf9d0d6
+
 
     $scope.save_newjob = function(){
         console.log('test save');
@@ -267,16 +257,17 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
 
     $scope.url_validation_popup = function(){        
         $scope.url_validation_error = false;
-        job_url = $scope.job;
+        job_url = $scope.job.job_url;
         console.log(job_url);
-        if(job_url == undefined || job_url.job_url == ""){
+        if(job_url == undefined || job_url == ""){
             $scope.url_validation_error = true;
         }else{
 
-            url_status  = is_url(job_url.job_url);
+            url_status  = is_url(job_url);
             if(url_status){
-                $('#myJobModal').modal('show');
-                $('#thisJob').modal('hide');  
+                // $('#myJobModal').modal('show');
+                // $('#thisJob').modal('hide'); 
+                $scope.Show_add_job_modal(job_url);
             }else{
                 $scope.url_validation_error = true;
             }
@@ -378,51 +369,25 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     $scope.job = {};
     // $scope.tasks=[];
     $scope.job_stage = ['To Apply','Follow-up','Selection'];
-    $scope.do="";//There is no variable 'do' in scope,we initialised and using it 
-                  //identify whether gonna add or edit the job
- // HEAD:user_profile/static/js/controller.js
-    //$scope.job_temp=[{'role':'AST','company':'TCS','url':'www.tcs.com/dasrdca','deadline':'24/05/2011','stage':'To Apply','task':['Customize CV','Update Portfolio']},
-    //               {'role':'NT','company':'Bosch','url':'www.bosch.com/dasrdca','deadline':'31/05/2018','stage':'Follow-up','task':['Customize CV','Update Coverletter']},
-    //               {'role':'ST','company':'KPN','url':'www.KPN.com/dasrdca','deadline':'25/04/2013','stage':'Selection','task':['Customize CV','Attach Portfolio']}  ];
-    // $scope.job_temp=[{'role':'AST','company':'TCS','url':'www.tcs.com/dasrdca','stage':'To Apply','task':['Customize CV','Update Portfolio']},
-    //                {'role':'Softawre','company':'ING','url':'www.ing.com/dasrdca','stage':'To Apply','task':['Customize CV','Update Portfolio']},
-    //                {'role':'NT','company':'Bosch','url':'www.bosch.com/dasrdca','stage':'Follow-up','task':['Customize CV','Update Coverletter']},
-    //                {'role':'ST','company':'KPN','url':'www.KPN.com/dasrdca','stage':'Selection','task':['Customize CV','Attach Portfolio']}  ];
-    
-    $scope.job_temp2= {
-                    "toapply" :   [ {'role':'Test5','company':'TCS','url':'www.tcs.com/dasrdca','stage':'To Apply','task':['Customize CV','Update Portfolio']},
-                        {'role':'Test6','company':'ING','url':'www.ing.com/dasrdca','stage':'To Apply','task':['Customize CV','Update Portfolio']},
-                        {'role':'Test7','company':'Bosch','url':'www.bosch.com/dasrdca','stage':'To Apply','task':['Customize CV','Update Coverletter']},
-                        {'role':'Test8','company':'KPN','url':'www.KPN.com/dasrdca','stage':'To Apply','task':['Customize CV','Attach Portfolio']}  ],
-                    "selection" :   [ 
-                                {'role':'Test3','company':'Bosch','url':'www.bosch.com/dasrdca','stage':'Selection','task':['Customize CV','Update Coverletter']},
-                                {'role':'Test4','company':'KPN','url':'www.KPN.com/dasrdca','stage':'Selection','task':['Customize CV','Attach Portfolio']}  ],
-                    "followup" :   [ {'role':'Test9','company':'Bosch','url':'www.bosch.com/dasrdca','stage':'Follow-up','task':['Customize CV','Update Coverletter']},
-                        {'role':'Test10','company':'KPN','url':'www.KPN.com/dasrdca','stage':'Follow-up','task':['Customize CV','Attach Portfolio']}  ]
-                    
-
-                    }    ;
-    
+    $scope.do="";
     $scope.toggle = true;
     $scope.isCollapsed = true;
     $scope.selectedIndex = -1;
     $scope.clickedIndex = -1;
-
     $scope.isMore = true;
     $scope.ele_in_array = 0;
     $scope.number_of_repeat = [];
     $scope.jobIndex = -1;
     $scope.showjobmodal = false;
     $scope.jobmodal_topfixed = false;  
-
     $scope.taskpalceholder = "Add your task";
-
     $scope.collapseInit = function () {
 
     }
 
 
-    $scope.AddJob = function(url) {
+    $scope.Show_add_job_modal = function(url) {
+        $scope.loadingData = true;
         $scope.job.stage = "To Apply";
         var today = new Date();
         var dd = today.getDate();
@@ -436,7 +401,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         } 
         var today = mm+'/'+dd+'/'+yyyy;
         $scope.job.deadline = today;
-        $scope.loadingData = true;
+        
         console.log($scope.loadingData);
 
         $http({
@@ -448,7 +413,11 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
             
             if(response.status == 200){
                 $scope.job.job_title = response.data.title;
+                setTimeout( function() {$('#myJobModal').modal('show');} ,500);
                 $scope.loadingData = false;
+                console.log($scope.loadingData);
+                $('#thisJob').modal('hide');
+                
             }   
         }, function (error) {
             $scope.loadingData = false;
@@ -458,10 +427,6 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
 
     $scope.UpdateJob = function(thisjob){
         $scope.do = "edit";
-        // $scope.add_more_task = true;
-        // console.log($scope.add_more_task);
-        // $scope.job = $scope.thisjob;
-        // index = $scope.job_temp.indexOf(item);
         $scope.thisjob.stage = $scope.thisjobstage;
         $scope.thisjob.deadline = $scope.thisjobdeadline;
         console.log($scope.thisjob);
@@ -469,9 +434,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         
     }
 
-     
-    
-    $scope.SelectTimeline =  function(id) {
+      $scope.SelectTimeline =  function(id) {
         var element = angular.element($('.btn-time-line'));
         for ( var i in element) {
             var btn = angular.element($( '#'+element[i].id));
@@ -493,7 +456,6 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     $scope.AddmoreTasks = function(){
         $scope.addmoretasks=true;
         console.log('testaddmoreTasks',$scope.addmoretasks);
-    	// $("#taskwrapper").css({'position':'relative','left':'-190px'});
 
     }
 
