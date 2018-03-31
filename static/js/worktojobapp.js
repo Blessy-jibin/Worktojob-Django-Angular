@@ -117,7 +117,10 @@ workToJob.controller('loginController',  function ($scope, $http, $rootScope, $c
 				console.log('ffffffffffff', data);
 			}
 	    }, function (error) {
-	    	console.log('ffffffffffff');
+	    	if(error.status == 401){
+                window.location.replace("");
+
+            }
 	    });
     }
 
@@ -158,6 +161,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
 
     };
 
+<<<<<<< HEAD
     // $scope.check_element_existing_element = function(item){
 
     //    if($scope.task_list.indexOf(item) !== -1) {
@@ -172,6 +176,8 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
             $scope.change_task_list(newtask);
           }
     }
+=======
+>>>>>>> f1533419881ffcff03d14d37e590721cfbf9d0d6
 
     $scope.save_newjob = function(){
         console.log('test save');
@@ -199,6 +205,10 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
                 $scope.tasks = [];
             }
         }, function (error) {
+            if(error.status == 401){
+                window.location.replace("");
+
+            }
             console.log('error',error);
         });
      };
@@ -220,6 +230,10 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
                 $scope.get_job_list_view();
                 }
         }, function (error) {
+            if(error.status == 401){
+                window.location.replace("");
+
+            }
             console.log('error',error);
         });
      };
@@ -242,6 +256,10 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
                 }
         }, function (error) {
             console.log('error',error);
+            if(error.status == 401){
+                window.location.replace("");
+
+            }
         });
      };
 
@@ -347,15 +365,14 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
 
           }
       }, function (error) {
-          console.log('ffffffffffff');
+         if(error.status == 401){
+            window.location.replace("");
+
+          }
       });
      }
 
      $scope.get_job_list_view();
-
-
-
-
 
     $scope.Wishlist = [];
     $scope.job = {};
@@ -397,30 +414,8 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     $scope.jobIndex = -1;
     $scope.showjobmodal = false;
     $scope.jobmodal_topfixed = false;  
-   
-// Assigns a value to it
-        
-    // $scope.showjobmodal = true;
-    
-// >>>>>>> 4d50ce293fe56f8db47538de3bb279e0df237567:static/js/controller.js
 
-// for(i in $scope.Wishlist){
-//                 var job = $scope.Wishlist[i];
-//                 var stage = job['stage'];
-//                 console.log(job);
-//                 var sec_id='stage'+stage;
-//                 console.log(angular.element($('#job_view')));
-//      }
-
-
- // $('#thisJob').on('show.bs.modal', function(e) {
- //            var job = e.relatedTarget.dataset.job;
- //            var job = JSON.parse(job);
- //            $scope.thisjob = job;
- //            console.log($scope.thisjob.company)
- //   });
-// var x = $('#thisJob').relatedTarget.dataset.job;
-// console.log(x);
+    $scope.taskpalceholder = "Add your task";
 
     $scope.collapseInit = function () {
 
@@ -460,33 +455,6 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
             
         });
     }
-
-
-
-    // $scope.sve = function(){
-    //     if($scope.do == "add"){
-
-    //     	for(i = 1;i<=$scope.newtasks.length;i++){
-    //     		$scope.job.tasks.push($scope.newtasks[i]);
-    //     	};
-    //         $scope.job_temp.push($scope.job);
-    //         $scope.job={};
-            
-    //     }else{
-    //     	console.log($scope.newtasks);
-        	
-    //     	console.log()
-        	
-    //     	for(i = 1; i<=$scope.newtasks.length; i++){
-    //     		console.log($scope.newtasks[i]);
-    //     		$scope.thisjob.task.push($scope.newtasks[i]);
-    //     	};
-    //     	console.log($scope.thisjob);
-    //         $scope.job_temp[index]=$scope.job;
-    //         $scope.job={};
-    //     }
-        
-    // }
 
     $scope.UpdateJob = function(thisjob){
         $scope.do = "edit";
@@ -641,11 +609,6 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     		console.log('scroll less than 70')
     		angular.element('#thisJob').css({'position': 'absolute','top':'50px','bottom':'20px'});
         }
-    	// }else if ($(window).scrollTop() > 100) {
-    	// 	angular.element('#thisJob').css({'position': 'fixed','top':'5px'});
-   	 // 	} else {
-     //  // $scope.jobmodal_topfixed = false;  
-    	// }
    });
    
 
@@ -673,13 +636,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     };
 
     $scope.closeJobModal=function(){
-        // var body = angular.element($('body'));
-        // body.removeClass('body_colour_change'); 
-        // var jobs = angular.element($('#jobsview'));
-        // jobs.removeClass('jobsview_change');
-        // var add_link = angular.element($('#addlink'));
-        // add_link.removeClass('addlink_change');
-        // $scope.selectedIndex = -1;
+        
         var modal=angular.element($('#thisJob'));
         modal.modal('hide');
         console.log(modal);
@@ -714,6 +671,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
           $scope.changed_jobproperty = false;
         });
     };
+
 
     $scope.addtask_editmode = function(){
 
