@@ -24,7 +24,7 @@
             <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal"ng-click="AddJob()">Add job</button>
           </div>
         </div> -->
-        <p style="color:red" ng-if="url_validation_error">Please enter a valid URL</p>
+        <p style="color:red" ng-if="url_validation_error" ng-cloak>Please enter a valid URL</p>
         <div class="row" id="addlink" ng-class="{'change_on_showjobmodal':showjobmodal}">
           <div class="col-xs-12">
             <form name="addlinkForm">
@@ -46,7 +46,7 @@
         </div>
             <!--add job area ends here-->
         <div ng-show = "loadingData">
-          <i class="fa fa-circle-o-notch fa-spin" style="font-size:20px;"></i>
+          <i class="fa fa-circle-o-notch fa-spin" ng-cloak style="font-size:20px;"></i>
         </div>
   <!-- Modal -->
             <!-- Modal -->
@@ -247,9 +247,9 @@
           </table>ng-class="{'green' : togglemain }"
 ng-class="{'changestyle':togglemain}"
         </div> -->
-        <div ng-if="job_temp.length>0" style="padding: 15px;margin-top:10px;font-size: 16px;" id='jobsview' ng-class="{'dividebody':showjobmodal}" class="nofocus">
+        <div ng-if="job_temp.length>0"  style="padding: 15px;margin-top:10px;font-size: 16px;" id='jobsview' ng-class="{'dividebody':showjobmodal}" class="nofocus">
           <div ng-repeat="stage in job_stage"  class="nofocus" style="margin-bottom:10px" >
-           <section >
+           <section ng-cloak>
               <div ng-click="isCollapsed = !isCollapsed" class="nofocus">
                 <span class="glyphicon glyphicon-triangle-bottom"  ng-show="isCollapsed" style="position: relative;top: 5px;"></span>
                 <span class="glyphicon glyphicon-triangle-top" ng-show="!isCollapsed" style="position: relative;top: 5px;"></span>
