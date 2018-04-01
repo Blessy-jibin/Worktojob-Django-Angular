@@ -71,7 +71,7 @@ workToJob.controller('loginController',  function ($scope, $http, $rootScope, $c
                 console.log("temp", response);
 
                 sessionStorage.setItem("c_token", response.data.token);
-                window.location.replace("/myjobs");
+                window.location.replace("/home");
 
             }
         }, function (error) {
@@ -94,7 +94,7 @@ workToJob.controller('loginController',  function ($scope, $http, $rootScope, $c
 				console.log(data);
                 sessionStorage.setItem("c_token", data.data.token);
                 
-                window.location.replace("/myjobs");
+                window.location.replace("/home");
 
 				}
 	    }, function (error) {
@@ -196,7 +196,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
             }
         }, function (error) {
             if(error.status == 401){
-                window.location.replace("");
+                window.location.replace("/login");
 
             }
             console.log('error',error);
@@ -221,7 +221,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
                 }
         }, function (error) {
             if(error.status == 401){
-                window.location.replace("");
+                window.location.replace("/login");
 
             }
             console.log('error',error);
@@ -247,7 +247,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         }, function (error) {
             console.log('error',error);
             if(error.status == 401){
-                window.location.replace("");
+                window.location.replace("/login");
 
             }
         });
@@ -267,7 +267,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
             if(url_status){
                 // $('#myJobModal').modal('show');
                 // $('#thisJob').modal('hide'); 
-                $scope.Show_add_job_modal(job_url);
+                $scope.show_add_job_modal(job_url);
             }else{
                 $scope.url_validation_error = true;
             }
@@ -357,7 +357,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
           }
       }, function (error) {
          if(error.status == 401){
-            window.location.replace("");
+            window.location.replace("/login");
 
           }
       });
@@ -386,7 +386,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     }
 
 
-    $scope.Show_add_job_modal = function(url) {
+    $scope.show_add_job_modal = function(url) {
         $scope.loadingData = true;
         $scope.job.stage = "To Apply";
         var today = new Date();

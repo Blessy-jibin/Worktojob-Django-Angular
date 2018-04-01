@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import (auth_login, JobInfoList, JobInfoDetail, UserCreate, UserDetail, MetaParsing)
+from .views import (auth_login,login,JobInfoList, JobInfoDetail, UserCreate, UserDetail, MetaParsing)
 from user_profile import views
 from django.conf import settings
 from django.conf.urls import url
@@ -13,10 +13,13 @@ urlpatterns = [
 	path('create_user', UserCreate.as_view(), name='user_view'),
 	path('users', UserCreate.as_view(), name='user-detail'),
 	# path('auth_login', views.auth_login, name='login'),
-	path('auth_login',views.auth_login,name='login'),
+	path('auth_login',views.auth_login,name='auth_login'),
+	path('login',views.login,name='login'),
 
 	path('myjobs',views.add_job,name='adding jobs'),
-	path('',views.home,name='home'),
+	path('',views.home,name='default'),
+	path('home',views.home,name='home'),
+
 	path('job/view',views.job_list,name='job_list'),
 
 	path('meta',MetaParsing.as_view(), name='meta')

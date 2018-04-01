@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view,  authentication_classes, permiss
 from rest_framework.response import Response
 from django.http import HttpResponse
 from django.views.generic import View
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 
 from rest_framework.status import HTTP_401_UNAUTHORIZED
 from rest_framework.authtoken.models import Token
@@ -18,9 +19,9 @@ from rest_framework.views import APIView
 from rest_framework import generics
 
 from rest_framework.response import Response
-from rest_framework import status
-from django.contrib.auth.models import User
+from rest_framework import status 
 from bs4 import BeautifulSoup
+from django.contrib.auth.models import User
 from urllib.request import urlopen
 import requests
 import re
@@ -66,18 +67,31 @@ def auth_login(request):
     
 
 
+@authentication_classes([TokenAuthentication])
+@permission_classes([])
 def login(request):
     #boards = Board.objects.all()
-    return render_to_response('login.html', locals())
+    print (request.user,request.user.is_authenticated)
+    if(request.user.is_authenticated):
 
+        return render_to_response('myjobs.html', locals())
+    else:
+        return render_to_response('auth.html', locals())  
+
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def home(request):
     #boards = Board.objects.all()
-    return render_to_response('auth.html')
+    return render_to_response('myjobs.html',locals())
 
+@authentication_classes([SessionAuthentication])
+@permission_classes([IsAuthenticated])
 def job_list(request):
     #boards = Board.objects.all()
     return render_to_response('jobs.html')
 
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def add_job(request):
     return render_to_response('myjobs.html', locals())
 
@@ -169,17 +183,22 @@ class MetaParsing (View):
         meta = {}
         url = request.GET['url']
         print  (url)
-        response = requests.get(url)
-        content = response.content
-        soup = BeautifulSoup(content, 'html.parser')
-        title = soup.title.string 
-        # dat = re.split(r'[`\-=~!@#$%^&*()_+\[\]{};\'\\:"|<,./<>?]', title)
-        # if dat:
-        #     job = dat[0]
-        #     meta['title'] = str(job)
-        meta['title'] = str(title)
-        print ("dat-------", meta)
-        return HttpResponse(json.dumps(meta))
+        try:
+            response = requests.get(url)
+            content = response.content
+            soup = BeautifulSoup(content, 'html.parser')
+            title = soup.title.string 
+            # dat = re.split(r'[`\-=~!@#$%^&*()_+\[\]{};\'\\:"|<,./<>?]', title)
+            # if dat:
+            #     job = dat[0]
+            #     meta['title'] = str(job)
+            meta['title'] = str(title)
+            print ("dat-------", meta)
+            return HttpResponse(json.dumps(meta))
+        except:
+            meta = {}
+            return HttpResponse(json.dumps(meta))
+
 
 
 class JobInfoDetail(APIView):
