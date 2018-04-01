@@ -180,10 +180,10 @@
                   <!-- <input type="text" value="">
                    -->
                 </div>
-                <div class="">
-                  <div class="row" ng-click="toggle = !toggle;" ng-repeat="task in thisjob.tasks track by $index" class="nofocus">
+                <div class="nofocus">
+                  <div class="row nofocus" ng-click="toggle = !toggle;" ng-repeat="task in thisjob.tasks track by $index">
                     
-                    <span style="color:#708090;margin-left:40px">{{task.action}}</span>
+                    <span style="color:#708090;margin-left:40px" class="nofocus">{{task.action}}</span>
                     <!-- <span >{{task.action_date}}</span> -->
                     <div style="display:inline-block;text-align:center;padding:2px;position: absolute;left:300px; ">
                       <span class="glyphicon glyphicon-remove-circle nofocus" ng-click="removeTask($index);" ng-confirm-message="Are you sure deleting {{task}}?"   style="color:red;font-size:17px;"></span>
@@ -258,7 +258,7 @@ ng-class="{'changestyle':togglemain}"
               </div>
               <hr style="width:100%">
              
-              <div class="" ng-repeat="item in job_temp track by $index" id="jobdiv{{$index}}" ng-if="item.stage==stage"  ng-click="Show_this_Job(item,$index);" data-job={{item}} ng-class="{'emphasize' : $index == clickedIndex}" style="padding: 5px;" uib-collapse="isCollapsed" ng-mouseenter="setselectedIndex(item,$index);" autofocus="true" class="nofocus">
+              <div ng-repeat="item in job_temp track by $index" id="jobdiv{{$index}}" ng-if="item.stage==stage"  ng-click="Show_this_Job(item,$index);" data-job={{item}} class="nofocus"  ng-class="{'emphasize' : $index == clickedIndex}" style="padding: 5px;" uib-collapse="isCollapsed" ng-mouseenter="setselectedIndex(item,$index);" autofocus="true" >
                 <span class="glyphicon glyphicon-ok-circle" ng-class="{'green' : taskglychange = $index == clickedIndex}" style="margin-right:5px;"></span>
                 <span class="jobtitle nofocus" ng-class="{'changestyle':$index == selectedIndex}" id='job"+job_temp.indexOf(item)+"'
                 style="margin-bottom:5px;color:#5D6D7E;font-weight: bold;">{{item['job_title']}} </span>
