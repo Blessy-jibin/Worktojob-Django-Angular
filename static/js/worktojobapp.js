@@ -388,47 +388,62 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
 
 
     $scope.show_add_job_modal = function(url) {
-     
-        $scope.job.stage = "To Apply";
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth()+1; //January is 0!
-        var yyyy = today.getFullYear();
-        if(dd<10){
-            dd='0'+dd;
-        } 
-        if(mm<10){
-        mm='0'+mm;
-        } 
-        var today = mm+'/'+dd+'/'+yyyy;
-        $scope.job.deadline = today;
-        
-        console.log($scope.loadingData);
+        console.log($scope.changed_jobproperty);
+        if(!$scope.changed_jobproperty){
+            $scope.job.stage = "To Apply";
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth()+1; //January is 0!
+            var yyyy = today.getFullYear();
+            if(dd<10){
+                dd='0'+dd;
+            } 
+            if(mm<10){
+            mm='0'+mm;
+            } 
+            var today = mm+'/'+dd+'/'+yyyy;
+            $scope.job.deadline = today;
+            
+            console.log($scope.loadingData);
 
-        $http({
-          method: 'GET',
-          url: '/meta',
-          headers: headers,
-          params: {'url' : url}
-        }).then(function (response) {
-            
-            if(response.status == 200){
-                $scope.job.job_title = response.data.title;
-                $('#myJobModal').modal('show');
-                $('#myJobModal').on('show.bs.modal', function() {
-                    //lets see .We wanna make loading symbol hide only after the modal is shown.
-                    //to ensure it we have inclused the empty function.
-                });
-                $scope.loadingData = false;
-                console.log($scope.loadingData);
-                $('#thisJob').modal('hide');
+            $http({
+              method: 'GET',
+              url: '/meta',
+              headers: headers,
+              params: {'url' : url}
+            }).then(function (response) {
                 
-            }   
-        }, function (error) {
-            $scope.loadingData = false;
-            
-        });
+                if(response.status == 200){
+                    $scope.job.job_title = response.data.title;
+                    $('#myJobModal').modal('show');
+                    $('#myJobModal').on('show.bs.modal', function() {
+                        //lets see .We wanna make loading symbol hide only after the modal is shown.
+                        //to ensure it we have inclused the empty function.
+                    });
+                    $scope.loadingData = false;
+                    console.log($scope.loadingData);
+                    $('#thisJob').modal('hide');
+                    
+                }   
+            }, function (error) {
+                $scope.loadingData = false;
+                
+            });
+        }
+        else if($scope.changed_jobproperty){
+        $scope.loadingData = false;
+        $scope.showConfirm($scope.thisjob);
+        var modal=angular.element($('#thisJob'));
+        modal.modal('hide');
+        // angular.element('#dialog').off('focusin.modal');
+       
+        // $scope.show_add_job_modal($scope.job.job_url);
+
+
+        }
     }
+
+
 
     $scope.UpdateJob = function(thisjob){
         $scope.do = "edit";

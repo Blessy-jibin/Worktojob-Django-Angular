@@ -14,16 +14,34 @@
 
  <div class="container" ng-controller="Jobcontroller" ng-class="{'body_colour_change':showjobmodal}" id="jobpagecontainer" style="width:100%" ng-init="initialize_job_controller()">
         {% verbatim %}
-        <hr>
-        <!--Add job area--><!-- Commented below can be used after some time.Please donot delete the  div below -->
-        <!-- <div class="row" id="addlink">
-          <div class="col-sm-12 col-sm-offset-3 col-xs-12 col-xs-offset-2">
-            <input type="text" ng-model="job.link" class="col-sm-9 col-xs-6" style="margin-right:5px;height:30px;border-radius:4px;"> -->
-
-            <!-- Trigger the modal with a button
-            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal"ng-click="AddJob()">Add job</button>
-          </div>
-        </div> -->
+<nav class="navbar navbar-default" style="width:100%;">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">WorktoJob</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <!-- <li class="active"><a href="#"></a></li> -->
+      <li class="dropdown" style="float: right;">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Help
+        <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Help with features</a></li>
+          <li><a href="#">Way to use WorktoJob</a></li>
+          <li><a href="#">Contact Support</a></li>
+        </ul>
+      </li>
+      <li class="dropdown" style="float: right;">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Username
+        <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="#">More</a></li>
+          <li><a href="#">Profile Settings</a></li>
+          <li><a href="#">Logout</a></li>
+        </ul>
+      </li>  
+    </ul>
+  </div>
+</nav>
         <p style="color:red" ng-if="url_validation_error" ng-cloak>Please enter a valid URL</p>
         <div class="row" id="addlink" ng-class="{'change_on_showjobmodal':showjobmodal}">
           <div class="col-xs-12">
@@ -274,7 +292,7 @@ ng-class="{'changestyle':togglemain}"
               
            </section>
           </div>
-          <div style="visibility: hidden">
+          <div style="visibility: hidden" id="dialog">
 		    <div class="md-dialog-container" id="myDialog">
 		      <md-dialog layout-padding>
 		        <h2>Pre-Rendered Dialog</h2>
