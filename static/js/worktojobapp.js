@@ -267,6 +267,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
             if(url_status){
                 // $('#myJobModal').modal('show');
                 // $('#thisJob').modal('hide'); 
+                $scope.loadingData = true;
                 $scope.show_add_job_modal(job_url);
             }else{
                 $scope.url_validation_error = true;
@@ -387,7 +388,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
 
 
     $scope.show_add_job_modal = function(url) {
-        $scope.loadingData = true;
+     
         $scope.job.stage = "To Apply";
         var today = new Date();
         var dd = today.getDate();
@@ -413,7 +414,11 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
             
             if(response.status == 200){
                 $scope.job.job_title = response.data.title;
-                setTimeout( function() {$('#myJobModal').modal('show');} ,500);
+                $('#myJobModal').modal('show');
+                $('#myJobModal').on('show.bs.modal', function() {
+                    //lets see .We wanna make loading symbol hide only after the modal is shown.
+                    //to ensure it we have inclused the empty function.
+                });
                 $scope.loadingData = false;
                 console.log($scope.loadingData);
                 $('#thisJob').modal('hide');

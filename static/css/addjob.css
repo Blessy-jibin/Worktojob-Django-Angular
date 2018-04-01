@@ -35,10 +35,25 @@
     outline: none !important;
     border: 0 !important;
 }*/
-
+.overlay {
+    /*background:black;
+    opacity:.3; */     
+    position: absolute;   
+    top: 50%;                 
+    right: 0;                
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    height:100%;
+    width: 100%;
+    text-align: center;
+   
+}
 .nofocus:focus {
     outline: none;
 }
+
+
 
 .modal{
 	position: absolute;
