@@ -72,11 +72,8 @@ def auth_login(request):
 def login(request):
     #boards = Board.objects.all()
     print (request.user,request.user.is_authenticated)
-    if(request.user.is_authenticated):
-
-        return render_to_response('myjobs.html', locals())
-    else:
-        return render_to_response('auth.html', locals())  
+    
+    return render_to_response('auth.html', locals())  
 
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])

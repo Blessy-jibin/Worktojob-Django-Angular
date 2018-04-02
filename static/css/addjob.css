@@ -30,6 +30,16 @@
 	border-width: 1px;
 
 }
+#jobpagecontainer {
+	padding-left:0px;
+	padding-right:0px;
+}
+
+#content_body {
+	padding-left:15px;
+	padding-right:15px;
+}
+
 
 /**:focus {
     outline: none !important;

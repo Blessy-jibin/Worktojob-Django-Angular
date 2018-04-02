@@ -19,10 +19,8 @@ get_http_header = function($cookies){
    		"Content-Type": "application/json",
  	}
 
-    userToken = localStorage.getItem("c_token");
-    console.log();
-    if (userToken == undefined) {
-        
+    var userToken = localStorage.getItem("c_token");
+    if (userToken == null) {
         return(headers);
     }else{
         headers.Authorization = "Token " + userToken
@@ -31,10 +29,8 @@ get_http_header = function($cookies){
 }
 
 already_logged_in =  function($cookies){
-    userToken = localStorage.getItem("c_token");
-    console.log(userToken);
-    if (userToken == undefined) {
-        
+    var userToken = localStorage.getItem("c_token");
+    if (  userToken === undefined || userToken === "undefined"  ||  userToken === null) {
         return false;
     } else {
           return true;
@@ -120,6 +116,8 @@ workToJob.controller('loginController',  function ($scope, $http, $rootScope, $c
 
 });
 
+
+
 workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookies,$mdDialog) {
 
     $scope.initialize_job_controller = function(){
@@ -149,6 +147,12 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
 
 
     };
+
+    $scope.logoutUser = function ($cookies) {
+        localStorage.setItem("c_token", undefined);
+        window.location.replace("/login");
+
+     };
 
     $scope.save_task_to_new_job = function(newtask){
         if( $("#newtask").val() ){
@@ -185,6 +189,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
             }
         }, function (error) {
             if(error.status == 401){
+                localStorage.setItem("c_token", undefined);
                 window.location.replace("/login");
 
             }
@@ -210,6 +215,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
                 }
         }, function (error) {
             if(error.status == 401){
+                localStorage.setItem("c_token", undefined);
                 window.location.replace("/login");
 
             }
@@ -345,6 +351,8 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
           }
       }, function (error) {
          if(error.status == 401){
+            localStorage.setItem("c_token", undefined);
+            console.log( localStorage.getItem("c_token"));
             window.location.replace("/login");
 
           }

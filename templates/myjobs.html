@@ -14,300 +14,303 @@
 
  <div class="container" ng-controller="Jobcontroller" ng-class="{'body_colour_change':showjobmodal}" id="jobpagecontainer" style="width:100%" ng-init="initialize_job_controller()">
         {% verbatim %}
-<nav class="navbar navbar-default" style="width:100%;">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">WorktoJob</a>
-    </div>
-    <ul class="nav navbar-nav">
-      <!-- <li class="active"><a href="#"></a></li> -->
-      <li class="dropdown" style="float: right;">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Help
-        <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <li><a href="#">Help with features</a></li>
-          <li><a href="#">Way to use WorktoJob</a></li>
-          <li><a href="#">Contact Support</a></li>
-        </ul>
-      </li>
-      <li class="dropdown" style="float: right;">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Username
-        <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <li><a href="#">More</a></li>
-          <li><a href="#">Profile Settings</a></li>
-          <li><a href="#">Logout</a></li>
-        </ul>
-      </li>  
-    </ul>
-  </div>
-</nav>
-        <p style="color:red" ng-if="url_validation_error" ng-cloak>Please enter a valid URL</p>
-        <div class="row" id="addlink" ng-class="{'change_on_showjobmodal':showjobmodal}">
-          <div class="col-xs-12">
-            <form name="addlinkForm">
-               <input type="text" ng-model="job.job_url" class="col-sm-9 col-xs-9" name="joblink"
-              style="margin-right:5px;height:30px;border-radius:4px;" required >
-        
-            
-            <!-- Trigger the modal with a button -->
-            <button type="submit" class="btn btn-info btn-sm" ng-click="url_validation_popup();">Add job
-            </button>
-            </form>
-            <!-- {{addlinkForm.joblink.$valid}} -->
-            <!-- div role="alert">
-              <span class="error" ng-show="addlinkForm.joblink.$touched && addlinkForm.joblink.$invalid" style="color: #ff8566;font-size:12px;margin-top:2px;">
-                Please enter a url</span>
-
-            </div> -->
+        <nav class="navbar navbar-default" style="width:100%;">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <a class="navbar-brand" href="#">WorktoJob</a>
+            </div>
+            <ul class="nav navbar-nav" style="float: right;">
+              <!-- <li class="active"><a href="#"></a></li> -->
+              <li class="dropdown" >
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Help
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu" style="left: auto; right: 0 ">
+                  <li><a href="#">Help with features</a></li>
+                  <li><a href="#">Way to use WorktoJob</a></li>
+                  <li><a href="#">Contact Support</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#"> 
+                  <buton class = "glyphicon glyphicon-user" >
+                </a>
+                <ul class="dropdown-menu" style="left: auto; right: 0 ">
+                  <li><a href="#">More</a></li>
+                  <li><a href="#">Profile Settings</a></li>
+                  <li ng-click="logoutUser()"><a href="#">Logout</a></li>
+                </ul>
+              </li>  
+            </ul>
           </div>
-        </div>
-            <!--add job area ends here-->
-        <div ng-show = "loadingData" class="overlay" ng-cloak >
-          <i class="fa fa-circle-o-notch fa-spin" style="font-size:25px;color:grey;vertical-align: middle;"></i>
-        </div>
-  <!-- Modal -->
-            <!-- Modal -->
-        <div id="myJobModal" class="modal fade col-md-offset-4" role="dialog">
-          <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content" id="modalcontent">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <form name="jb_form">
-                <!-- <div class="form-group" id="company-edit" style="margin-top:25px;">
-                  <label for="company">Company:</label>
-                  <textarea class="form-control"  ng-model="job.company" rows="1" placeholder=""></textarea>
-                </div> -->
+        </nav>
+        <div id = "content_body">
+          <p style="color:red" ng-if="url_validation_error" ng-cloak>Please enter a valid URL</p>
+          <div class="row" id="addlink" ng-class="{'change_on_showjobmodal':showjobmodal}">
+            <div class="col-xs-12">
+              <form name="addlinkForm">
+                 <input type="text" ng-model="job.job_url" class="col-sm-9 col-xs-9" name="joblink"
+                style="margin-right:5px;height:30px;border-radius:4px;" required >
+          
               
-	                <div class="form-group" id="jobrole-edit" style="">
-	                  <label for="jobrole">Jobrole:</label>
-	                  <input type="text"  class="form-control"  name="jb_title" ng-model="job.job_title" style="padding-left:10px;" rows="1" required>
-	                </div>
-	                <!-- Editable  form ends here -->
-	                <div class="form-group">
-	                    <label for="Link">Link:</label>
-	                    <a href="{{job.job_url}}">{{job.job_url}}</a>
-	                    
-	                </div>
-	                
-	              </div>
-	              <div class="modal-body" style="">
-	                <div class="form-group">
-	                  <label for="jobstage" style="font-size:12px;">Stage:</label>
-	                  <select class="selectpicker" name="jb_stage" data-style="btn-primary" id="stageselector" ng-model="job.stage">
-	                    <option  selected="selected">To Apply</option>
-	                    <option >Follow-up</option>
-	                    <option >Selection</option>
-	                  </select>
-	                </div>
-	                <div class="form-group">
-	                  <label for="deadline" id="dlinelbl">Set your Deadline:</label>
-	                  <div class="row" id="dlinewpr" style="">
+              <!-- Trigger the modal with a button -->
+              <button type="submit" class="btn btn-info btn-sm" ng-click="url_validation_popup();">Add job
+              </button>
+              </form>
+              <!-- {{addlinkForm.joblink.$valid}} -->
+              <!-- div role="alert">
+                <span class="error" ng-show="addlinkForm.joblink.$touched && addlinkForm.joblink.$invalid" style="color: #ff8566;font-size:12px;margin-top:2px;">
+                  Please enter a url</span>
 
-	                    <!-- <div class="col-sm-2" style="padding:0;"> -->
-	                      
-	                    <!-- </div> -->
-	                    <div class="col-xs-12 btn-group" style="padding:0">
-	                      <div class="button-bar nofocus">
-	                          <input data-provide="datepicker" name="jb_deadline" class="col-sm-3 col-xs-2 dlinebtn btn-time-line nofocus"  style="text-align: center" placeholder="Select a date" id='btn-custom-days' ng-model="job.deadline" required>
-	                      </div>
-	                    </div>
-	                  </div>  
-	                </div>
-	               
-	                  <div class="form-group" style="margin-right:0px;margin-left:0px;padding-bottom:0px;height:auto;">
-	                    <label for="settask" style="font-size:12px" >Set Tasks:</label>
-	                  
-	                  <div id="taskwrapper" style="">
-	                    
-	                      <div class="row">
-	                        <button id='btn-99' class="nofocus" ng-class="change_selected_color('update_cv') ? 'select-task-btn' : 'task-btn' " ng-click="change_task_list('update_cv')">Update CV and coverletter  <span>+</span></button>
-	                        <!-- <input ng-if="check_element_existing_element('update_cv')" style="display: inline-block;" data-provide="datepicker" style="text-align: center;border: 1px solid black;border-radius: 5px;" ng-model="date" ng-change="save_tasks('update_cv',date);"> -->
-	                      </div>
-	                      <div class="row">
-	                        <button ng-click="change_task_list('Reasersch about Company')" id='btn-98' class="nofocus" ng-class="change_selected_color('Reasersch about Company') ? 'select-task-btn' : 'task-btn' ">Research about Company <span>+</span></button>
-	                        <!-- <input ng-if="check_element_existing_element('Reasersch about Company')" style="display: inline-block;" data-provide="datepicker" style="text-align: center;border: 1px solid black;border-radius: 5px;" ng-model="date" ng-change="save_tasks('Reasersch about Company',date);"> -->
-	                      </div>
-	                    
-	                      <div ng-if="newtasklist.length > 0" ng-repeat="newtask in newtasklist track by $index" class="row nofocus" style="margin-bottom:8px;">
-	                       <div style="border:1px solid grey;border-radius:5px;text-align:center;width:190px;padding:8px;display: inline-block;" class="nofocus"  ng-click="change_task_list(newtask)" id='btn-98' ng-class="change_selected_color(newtask) ? 'select-task-btn' : 'task-btn' ">{{newtask}}</div>
-	                        <div style="display: inline-block;position: absolute;left:200px;">
-	                       		 <span class="glyphicon glyphicon-remove-circle nofocus" ng-click="newtasklist.splice($index,1);"    style="vertical-align:middle;color:red;font-size:17px;"></span>
-	                       	</div>
-	                      </div>
-	                      <div ng-if="addmoretasks==true" class="row">
-	                      <input type='text'  ng-model="newtask" placeholder="Add your task" id="newtask"> 
-	                      <!-- <button class='btn-xs'  ng-click="newtasklist.push(newtask);change_task_list(newtask)">Save Task</button> -->
-	                      <div style="display: inline-block;position: absolute;left:200px;">
-	                         <button style="vertical-align: middle;color:green;font-size:17px;background-color:white;border:none;font-weight:200;"  class="glyphicon glyphicon-plus nofocus" ng-click="save_task_to_new_job(newtask)">
-	                        </button>
-	                      </div>
-	                      </div>
-	                      <div class="row" ng-if="addmoretasks==false">
-	                       <button class="task-btn" ng-click="AddmoreTasks();"><i>Add your own</i></button>
-	                      </div>
-	                  </div>
-	                </div>
-	              
-
-	              </div>         
-	              <div class="modal-footer" style="">
-	                <button type="submit" name="save" class="btn btn-lg" ng-click="jb_form.jb_title.$valid && save_newjob();" style="background:#009900;color:white;width:75%;border-radius=8px;">OK</button>
-	              </div>
-             </form>
+              </div> -->
             </div>
           </div>
-        </div>
-        <!--first modal ends here-->
+              <!--add job area ends here-->
+          <div ng-show = "loadingData" class="overlay" ng-cloak >
+            <i class="fa fa-circle-o-notch fa-spin" style="font-size:25px;color:grey;vertical-align: middle;"></i>
+          </div>
+    <!-- Modal -->
+              <!-- Modal -->
+          <div id="myJobModal" class="modal fade col-md-offset-4" role="dialog">
+            <div class="modal-dialog">
+              <!-- Modal content-->
+              <div class="modal-content" id="modalcontent">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <form name="jb_form">
+                  <!-- <div class="form-group" id="company-edit" style="margin-top:25px;">
+                    <label for="company">Company:</label>
+                    <textarea class="form-control"  ng-model="job.company" rows="1" placeholder=""></textarea>
+                  </div> -->
+                
+  	                <div class="form-group" id="jobrole-edit" style="">
+  	                  <label for="jobrole">Jobrole:</label>
+  	                  <input type="text"  class="form-control"  name="jb_title" ng-model="job.job_title" style="padding-left:10px;" rows="1" required>
+  	                </div>
+  	                <!-- Editable  form ends here -->
+  	                <div class="form-group">
+  	                    <label for="Link">Link:</label>
+  	                    <a href="{{job.job_url}}">{{job.job_url}}</a>
+  	                    
+  	                </div>
+  	                
+  	              </div>
+  	              <div class="modal-body" style="">
+  	                <div class="form-group">
+  	                  <label for="jobstage" style="font-size:12px;">Stage:</label>
+  	                  <select class="selectpicker" name="jb_stage" data-style="btn-primary" id="stageselector" ng-model="job.stage">
+  	                    <option  selected="selected">To Apply</option>
+  	                    <option >Follow-up</option>
+  	                    <option >Selection</option>
+  	                  </select>
+  	                </div>
+  	                <div class="form-group">
+  	                  <label for="deadline" id="dlinelbl">Set your Deadline:</label>
+  	                  <div class="row" id="dlinewpr" style="">
 
-        <!--modal specefic to one job-->
-        <div  id="thisJob" class="modal jobmodal col-md-offset-5" role="dialog" tabindex="-1"  aria-labelledby="More about this job" aria-hidden="true" data-backdrop="false" style="overflow-y: hidden;" ng-class="{'jobmodal_topfixed':jobmodal_topfixed}">
-          <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content" style="width:550px;" id="thisJobmodalcontent">
-              <div class="modal-header">
-                <!-- <button type="button" class="close" data-dismiss="modal" ng-click= "closeJobModal();" >&times;</button> -->
-                 <md-button class="md-primary md-raised close" type="button" data-dismiss="modal"  ng-click="changed_jobproperty && showConfirm($event,thisjob);closeJobModal();" >
+  	                    <!-- <div class="col-sm-2" style="padding:0;"> -->
+  	                      
+  	                    <!-- </div> -->
+  	                    <div class="col-xs-12 btn-group" style="padding:0">
+  	                      <div class="button-bar nofocus">
+  	                          <input data-provide="datepicker" name="jb_deadline" class="col-sm-3 col-xs-2 dlinebtn btn-time-line nofocus"  style="text-align: center" placeholder="Select a date" id='btn-custom-days' ng-model="job.deadline" required>
+  	                      </div>
+  	                    </div>
+  	                  </div>  
+  	                </div>
+  	               
+  	                  <div class="form-group" style="margin-right:0px;margin-left:0px;padding-bottom:0px;height:auto;">
+  	                    <label for="settask" style="font-size:12px" >Set Tasks:</label>
+  	                  
+  	                  <div id="taskwrapper" style="">
+  	                    
+  	                      <div class="row">
+  	                        <button id='btn-99' class="nofocus" ng-class="change_selected_color('update_cv') ? 'select-task-btn' : 'task-btn' " ng-click="change_task_list('update_cv')">Update CV and coverletter  <span>+</span></button>
+  	                        <!-- <input ng-if="check_element_existing_element('update_cv')" style="display: inline-block;" data-provide="datepicker" style="text-align: center;border: 1px solid black;border-radius: 5px;" ng-model="date" ng-change="save_tasks('update_cv',date);"> -->
+  	                      </div>
+  	                      <div class="row">
+  	                        <button ng-click="change_task_list('Reasersch about Company')" id='btn-98' class="nofocus" ng-class="change_selected_color('Reasersch about Company') ? 'select-task-btn' : 'task-btn' ">Research about Company <span>+</span></button>
+  	                        <!-- <input ng-if="check_element_existing_element('Reasersch about Company')" style="display: inline-block;" data-provide="datepicker" style="text-align: center;border: 1px solid black;border-radius: 5px;" ng-model="date" ng-change="save_tasks('Reasersch about Company',date);"> -->
+  	                      </div>
+  	                    
+  	                      <div ng-if="newtasklist.length > 0" ng-repeat="newtask in newtasklist track by $index" class="row nofocus" style="margin-bottom:8px;">
+  	                       <div style="border:1px solid grey;border-radius:5px;text-align:center;width:190px;padding:8px;display: inline-block;" class="nofocus"  ng-click="change_task_list(newtask)" id='btn-98' ng-class="change_selected_color(newtask) ? 'select-task-btn' : 'task-btn' ">{{newtask}}</div>
+  	                        <div style="display: inline-block;position: absolute;left:200px;">
+  	                       		 <span class="glyphicon glyphicon-remove-circle nofocus" ng-click="newtasklist.splice($index,1);"    style="vertical-align:middle;color:red;font-size:17px;"></span>
+  	                       	</div>
+  	                      </div>
+  	                      <div ng-if="addmoretasks==true" class="row">
+  	                      <input type='text'  ng-model="newtask" placeholder="Add your task" id="newtask"> 
+  	                      <!-- <button class='btn-xs'  ng-click="newtasklist.push(newtask);change_task_list(newtask)">Save Task</button> -->
+  	                      <div style="display: inline-block;position: absolute;left:200px;">
+  	                         <button style="vertical-align: middle;color:green;font-size:17px;background-color:white;border:none;font-weight:200;"  class="glyphicon glyphicon-plus nofocus" ng-click="save_task_to_new_job(newtask)">
+  	                        </button>
+  	                      </div>
+  	                      </div>
+  	                      <div class="row" ng-if="addmoretasks==false">
+  	                       <button class="task-btn" ng-click="AddmoreTasks();"><i>Add your own</i></button>
+  	                      </div>
+  	                  </div>
+  	                </div>
+  	              
 
-                 &times;
-                </md-button>
-
-                <div  id=" " style="margin-top:5px;">
-                  <span>
-                  <img src="/static/image/logo.jpg" alt="" style="height:40px;width:40px">
-                  </span>
-                  <div style="display: inline-block;">
-                    <h3>{{thisjob.job_title}}</h3>
-                    <h5>{{thisjob.role}}</h5>
-                  </div>
-                </div>
-                <div id="thisjobslink">
-                  <a href={{thisjob.url}}>{{thisjob.url}}</a>
-                </div>
+  	              </div>         
+  	              <div class="modal-footer" style="">
+  	                <button type="submit" name="save" class="btn btn-lg" ng-click="jb_form.jb_title.$valid && save_newjob();" style="background:#009900;color:white;width:75%;border-radius=8px;">OK</button>
+  	              </div>
+               </form>
               </div>
-              <div class="modal-body" style="">
-                <div class="form-group">
+            </div>
+          </div>
+          <!--first modal ends here-->
 
-                  
-                  <select   ng-init="somethingHere = thisjob.stage" ng-model="thisjob.stage" ng-options="each for each in job_stage"  ng-change="changed_jobproperty=true">
-                  </select>
-                  
+          <!--modal specefic to one job-->
+          <div  id="thisJob" class="modal jobmodal col-md-offset-5" role="dialog" tabindex="-1"  aria-labelledby="More about this job" aria-hidden="true" data-backdrop="false" style="overflow-y: hidden;" ng-class="{'jobmodal_topfixed':jobmodal_topfixed}">
+            <div class="modal-dialog">
+              <!-- Modal content-->
+              <div class="modal-content" style="width:550px;" id="thisJobmodalcontent">
+                <div class="modal-header">
+                  <!-- <button type="button" class="close" data-dismiss="modal" ng-click= "closeJobModal();" >&times;</button> -->
+                   <md-button class="md-primary md-raised close" type="button" data-dismiss="modal"  ng-click="changed_jobproperty && showConfirm($event,thisjob);closeJobModal();" >
 
-                  <input data-provide="datepicker" style="text-align: center; margin-left: 17px;border: 1px solid black;border-radius: 5px;" ng-model="thisjob.deadline" class="" value="thisjob.deadline"  ng-change="changed_jobproperty=true">
-                  <!-- <input type="text" value="">
-                   -->
-                </div>
-                <div class="nofocus">
-                  <div class="row nofocus" ng-click="toggle = !toggle;" ng-repeat="task in thisjob.tasks track by $index">
-                    
-                    <span style="color:#708090;margin-left:40px" class="nofocus">{{task.action}}</span>
-                    <!-- <span >{{task.action_date}}</span> -->
-                    <div style="display:inline-block;text-align:center;padding:2px;position: absolute;left:300px; ">
-                      <span class="glyphicon glyphicon-remove-circle nofocus" ng-click="removeTask($index);" ng-confirm-message="Are you sure deleting {{task}}?"   style="color:red;font-size:17px;"></span>
+                   &times;
+                  </md-button>
+
+                  <div  id=" " style="margin-top:5px;">
+                    <span>
+                    <img src="/static/image/logo.jpg" alt="" style="height:40px;width:40px">
+                    </span>
+                    <div style="display: inline-block;">
+                      <h3>{{thisjob.job_title}}</h3>
+                      <h5>{{thisjob.role}}</h5>
                     </div>
-                    <hr style="margin:10px;">
+                  </div>
+                  <div id="thisjobslink">
+                    <a href={{thisjob.url}}>{{thisjob.url}}</a>
                   </div>
                 </div>
-                  <div  class="row" id=>
-                    
-                      <form name="myForm" style="display: inline-block;width:70%;margin-left:40px;">
-                        <input type='text' name="task" id="inputtask" style="margin-top:5px;border:1px solid black;text-align: center;"  ng-model="tsk"  placeholder="Add yout task here" onfocus="this.placeholder=''" required ng-keypress="($event.which === 13) && myForm.task.$valid&& ngkeypress(tsk)" ng-blur="taskinput_blurred();" >
-
-                        <!-- <div role="alert">
-                          <span class="error" ng-show="myForm.task.$touched && myForm.task.$invalid" style="color: #ff8566;font-size:12px;margin-top:2px;">
-                            Please enter a task!</span>
-                        </div> -->
-                        <div style="display:inline-block;text-align:center;padding:2px;position: absolute;left:297px;"">
-
-                        <button style="color:green;font-size:17px;background-color:white;border:none;font-weight:200;" type="submit" class="glyphicon glyphicon-plus nofocus" ng-click="myForm.task.$valid && thisjob.tasks.push({'action':tsk,'action_date':'23-12-2011'}); myForm.task.$valid && addtaskbutton_clicked();">
-
-                        <!-- <button style="color:green;font-size:17px;background-color:white;border:none;font-weight:200;" type="submit" class="glyphicon glyphicon-plus" ng-click="myForm.task.$valid && thisjob.tasks.push({'action':tsk,'action_date':'22/3/2018'});"> -->
-
-                        <!--  <span class="glyphicon glyphicon-plus" style="color:green;font-size:17px;" ng-click="myForm.task.$valid && thisjob.task.push(tsk);"> </span> -->
-                        </button>
-                      </div>
-                    </form>
-                      
-                     
-               
+                <div class="modal-body" style="">
+                  <div class="form-group">
 
                     
-                      
+                    <select   ng-init="somethingHere = thisjob.stage" ng-model="thisjob.stage" ng-options="each for each in job_stage"  ng-change="changed_jobproperty=true">
+                    </select>
                     
+
+                    <input data-provide="datepicker" style="text-align: center; margin-left: 17px;border: 1px solid black;border-radius: 5px;" ng-model="thisjob.deadline" class="" value="thisjob.deadline"  ng-change="changed_jobproperty=true">
+                    <!-- <input type="text" value="">
+                     -->
                   </div>
-                  <div style="float:right;margin-right:5px;margin-bottom:5px;">
-                  	<button ng-click="saveThisJob(thisjob)">Save</button>
-                    <button style="" ng-click="deleteJobInfo(thisjob.id)">Delete</button>
-                 </div>
-                <!-- <button class="btn-info btn-sm col-lg-offset-8"  ng-click="UpdateJob(thisjob);">Save Changes</button> -->
-              </div>         
-              <hr style="height:10px;color: #F8F8FF;background-color: #F8F8FF;border-top: 1px solid rgba(0,0,0,.2);border-bottom: 1px solid rgba(0,0,0,.2);">
+                  <div class="nofocus">
+                    <div class="row nofocus" ng-click="toggle = !toggle;" ng-repeat="task in thisjob.tasks track by $index">
+                      
+                      <span style="color:#708090;margin-left:40px" class="nofocus">{{task.action}}</span>
+                      <!-- <span >{{task.action_date}}</span> -->
+                      <div style="display:inline-block;text-align:center;padding:2px;position: absolute;left:300px; ">
+                        <span class="glyphicon glyphicon-remove-circle nofocus" ng-click="removeTask($index);" ng-confirm-message="Are you sure deleting {{task}}?"   style="color:red;font-size:17px;"></span>
+                      </div>
+                      <hr style="margin:10px;">
+                    </div>
+                  </div>
+                    <div  class="row" id=>
+                      
+                        <form name="myForm" style="display: inline-block;width:70%;margin-left:40px;">
+                          <input type='text' name="task" id="inputtask" style="margin-top:5px;border:1px solid black;text-align: center;"  ng-model="tsk"  placeholder="Add yout task here" onfocus="this.placeholder=''" required ng-keypress="($event.which === 13) && myForm.task.$valid&& ngkeypress(tsk)" ng-blur="taskinput_blurred();" >
 
-              <div class="modal-footer" style="border-top:0px;overflow-y:auto;height:auto;max-height:250px;">
-                <div style="">
-                  <img src='/static/image/logo.jpg' alt="" style="max-width: 100%;
-                max-height: 100%;">
-              </div>
+                          <!-- <div role="alert">
+                            <span class="error" ng-show="myForm.task.$touched && myForm.task.$invalid" style="color: #ff8566;font-size:12px;margin-top:2px;">
+                              Please enter a task!</span>
+                          </div> -->
+                          <div style="display:inline-block;text-align:center;padding:2px;position: absolute;left:297px;"">
+
+                          <button style="color:green;font-size:17px;background-color:white;border:none;font-weight:200;" type="submit" class="glyphicon glyphicon-plus nofocus" ng-click="myForm.task.$valid && thisjob.tasks.push({'action':tsk,'action_date':'23-12-2011'}); myForm.task.$valid && addtaskbutton_clicked();">
+
+                          <!-- <button style="color:green;font-size:17px;background-color:white;border:none;font-weight:200;" type="submit" class="glyphicon glyphicon-plus" ng-click="myForm.task.$valid && thisjob.tasks.push({'action':tsk,'action_date':'22/3/2018'});"> -->
+
+                          <!--  <span class="glyphicon glyphicon-plus" style="color:green;font-size:17px;" ng-click="myForm.task.$valid && thisjob.task.push(tsk);"> </span> -->
+                          </button>
+                        </div>
+                      </form>
+                        
+                       
+                 
+
+                      
+                        
+                      
+                    </div>
+                    <div style="float:right;margin-right:5px;margin-bottom:5px;">
+                    	<button ng-click="saveThisJob(thisjob)">Save</button>
+                      <button style="" ng-click="deleteJobInfo(thisjob.id)">Delete</button>
+                   </div>
+                  <!-- <button class="btn-info btn-sm col-lg-offset-8"  ng-click="UpdateJob(thisjob);">Save Changes</button> -->
+                </div>         
+                <hr style="height:10px;color: #F8F8FF;background-color: #F8F8FF;border-top: 1px solid rgba(0,0,0,.2);border-bottom: 1px solid rgba(0,0,0,.2);">
+
+                <div class="modal-footer" style="border-top:0px;overflow-y:auto;height:auto;max-height:250px;">
+                  <div style="">
+                    <img src='/static/image/logo.jpg' alt="" style="max-width: 100%;
+                  max-height: 100%;">
+                </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        
-        <!--modal specific to one job ends here-->
-        <!-- <div ng-if="Wishlist.length>0" style="padding: 15px;">
-          <table class="table table-striped table-hover table-bordered"  style="width: 50vw;">
-            <tr ng-repeat="item in Wishlist">
-            <td class="col-xs-4 col-md-4 text-center">{{item.job_title}}</td>
-            <td class="col-xs-8 col-md-1" align="text-center"><button class="btn btn-danger"  ng-click="delete(item)">Delete</button>
-            <button class="btn btn-info" data-toggle="modal" data-target="#myModal" ng-click="update(item)">Update</button></td>
-            </tr>
-          </table>ng-class="{'green' : togglemain }"
-ng-class="{'changestyle':togglemain}"
-        </div> -->
-        <div ng-if="job_temp.length>0"  style="padding: 15px;margin-top:10px;font-size: 16px;" id='jobsview' ng-class="{'dividebody':showjobmodal}" class="nofocus">
-          <div ng-repeat="stage in job_stage"  class="nofocus" style="margin-bottom:10px" >
-           <section ng-cloak>
-              <div ng-click="isCollapsed = !isCollapsed" class="nofocus">
-                <span class="glyphicon glyphicon-triangle-bottom"  ng-show="isCollapsed" style="position: relative;top: 5px;"></span>
-                <span class="glyphicon glyphicon-triangle-top" ng-show="!isCollapsed" style="position: relative;top: 5px;"></span>
+          
+          <!--modal specific to one job ends here-->
+          <!-- <div ng-if="Wishlist.length>0" style="padding: 15px;">
+            <table class="table table-striped table-hover table-bordered"  style="width: 50vw;">
+              <tr ng-repeat="item in Wishlist">
+              <td class="col-xs-4 col-md-4 text-center">{{item.job_title}}</td>
+              <td class="col-xs-8 col-md-1" align="text-center"><button class="btn btn-danger"  ng-click="delete(item)">Delete</button>
+              <button class="btn btn-info" data-toggle="modal" data-target="#myModal" ng-click="update(item)">Update</button></td>
+              </tr>
+            </table>ng-class="{'green' : togglemain }"
+  ng-class="{'changestyle':togglemain}"
+          </div> -->
+          <div ng-if="job_temp.length>0"  style="padding: 15px;margin-top:10px;font-size: 16px;" id='jobsview' ng-class="{'dividebody':showjobmodal}" class="nofocus">
+            <div ng-repeat="stage in job_stage"  class="nofocus" style="margin-bottom:10px" >
+             <section ng-cloak>
+                <div ng-click="isCollapsed = !isCollapsed" class="nofocus">
+                  <span class="glyphicon glyphicon-triangle-bottom"  ng-show="isCollapsed" style="position: relative;top: 5px;"></span>
+                  <span class="glyphicon glyphicon-triangle-top" ng-show="!isCollapsed" style="position: relative;top: 5px;"></span>
 
-                <h5 style="margin-bottom:10px;font-weight:bold;display: inline-block;" class="nofocus">{{stage}}</h5>
-              </div>
-              <hr style="width:100%">
-             
-              <div ng-repeat="item in job_temp track by $index" id="jobdiv{{$index}}" ng-if="item.stage==stage"  ng-click="Show_this_Job(item,$index);" data-job={{item}} class="nofocus"  ng-class="{'emphasize' : $index == clickedIndex}" style="padding: 5px;" uib-collapse="isCollapsed" ng-mouseenter="setselectedIndex(item,$index);" autofocus="true" >
-                <span class="glyphicon glyphicon-ok-circle" ng-class="{'green' : taskglychange = $index == clickedIndex}" style="margin-right:5px;"></span>
-                <span class="jobtitle nofocus" ng-class="{'changestyle':$index == selectedIndex}" id='job"+job_temp.indexOf(item)+"'
-                style="margin-bottom:5px;color:#5D6D7E;font-weight: bold;">{{item['job_title']}} </span>
-                <span style="margin-left:10px;color:#5D6D7E;">{{item['deadline']}}</span>
-                <hr style="margin-bottom:10px;">
-                <div ng-repeat="task in item['tasks'] track by $index" class='col-lg-offset-1 col-xs-offset-2 nofocus' style="margin-bottom:5px;line-height:0px;font-size:14px;min-height:2px;" ng-click="taskrem = !taskrem;">
-                  <span class="glyphicon glyphicon-ok-circle" ng-class="{'green' : taskglychange}"></span>
-                  <span style="color:#708090;font-size:16px;" class="nofocus">{{task.action}}</span>
-                  <hr style="margin:10px;width: 80%;">
+                  <h5 style="margin-bottom:10px;font-weight:bold;display: inline-block;" class="nofocus">{{stage}}</h5>
                 </div>
-              </div>
-              
-              
-           </section>
-          </div>
-          <div style="visibility: hidden" id="dialog">
-		    <div class="md-dialog-container" id="myDialog">
-		      <md-dialog layout-padding>
-		        <h2>Pre-Rendered Dialog</h2>
-		        <p>
-		          This is a pre-rendered dialog, which means that <code>$mdDialog</code> doesn't compile its
-		          template on each opening.
-		          <br/><br/>
-		          The Dialog Element is a static element in the DOM, which is just visually hidden.<br/>
-		          Once the dialog opens, we just fetch the element from the DOM into our dialog and upon close
-		          we restore the element back into its old DOM position.
-		        </p>
-		      </md-dialog>
-		    </div>
-		  </div>
+                <hr style="width:100%">
+               
+                <div ng-repeat="item in job_temp track by $index" id="jobdiv{{$index}}" ng-if="item.stage==stage"  ng-click="Show_this_Job(item,$index);" data-job={{item}} class="nofocus"  ng-class="{'emphasize' : $index == clickedIndex}" style="padding: 5px;" uib-collapse="isCollapsed" ng-mouseenter="setselectedIndex(item,$index);" autofocus="true" >
+                  <span class="glyphicon glyphicon-ok-circle" ng-class="{'green' : taskglychange = $index == clickedIndex}" style="margin-right:5px;"></span>
+                  <span class="jobtitle nofocus" ng-class="{'changestyle':$index == selectedIndex}" id='job"+job_temp.indexOf(item)+"'
+                  style="margin-bottom:5px;color:#5D6D7E;font-weight: bold;">{{item['job_title']}} </span>
+                  <span style="margin-left:10px;color:#5D6D7E;">{{item['deadline']}}</span>
+                  <hr style="margin-bottom:10px;">
+                  <div ng-repeat="task in item['tasks'] track by $index" class='col-lg-offset-1 col-xs-offset-2 nofocus' style="margin-bottom:5px;line-height:0px;font-size:14px;min-height:2px;" ng-click="taskrem = !taskrem;">
+                    <span class="glyphicon glyphicon-ok-circle" ng-class="{'green' : taskglychange}"></span>
+                    <span style="color:#708090;font-size:16px;" class="nofocus">{{task.action}}</span>
+                    <hr style="margin:10px;width: 80%;">
+                  </div>
+                </div>
+                
+                
+             </section>
+            </div>
+            <div style="visibility: hidden" id="dialog">
+  		    <div class="md-dialog-container" id="myDialog">
+  		      <md-dialog layout-padding>
+  		        <h2>Pre-Rendered Dialog</h2>
+  		        <p>
+  		          This is a pre-rendered dialog, which means that <code>$mdDialog</code> doesn't compile its
+  		          template on each opening.
+  		          <br/><br/>
+  		          The Dialog Element is a static element in the DOM, which is just visually hidden.<br/>
+  		          Once the dialog opens, we just fetch the element from the DOM into our dialog and upon close
+  		          we restore the element back into its old DOM position.
+  		        </p>
+  		      </md-dialog>
+  		    </div>
+  		  </div>
         </div>
+      </div>
             <!-- <td class="col-xs-8 col-md-1" align="text-center"><button class="btn btn-danger"  ng-click="delete(item)">Delete</button>
             <button class="btn btn-info" data-toggle="modal" data-target="#myModal" ng-click="update(item)">Update</button></td> -->
             
