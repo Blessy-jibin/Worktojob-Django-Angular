@@ -173,6 +173,7 @@ width:50%;
 #thisJobmodalcontent{
 	position: relative;
     left:100px;
+    top:32px;
 
 
 }
@@ -200,7 +201,7 @@ width:50%;
 		padding:0px; 
 		width:120px;
 	}
-	
+
 	#taskwrapper{
 	/*float:right;*/
 	width:60%;
