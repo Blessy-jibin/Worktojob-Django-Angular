@@ -128,6 +128,8 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         $scope.newtask = "";
         $scope.newtasklist = [];
         $scope.addmoretasks = false;
+        $scope.collapse = {0 : true, 1 :false, 2 :false};
+
     };
 
     function is_url(str)
@@ -170,6 +172,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         $scope.newtasklist = [];
         createNewJobInfo ($scope.job, $cookies);
     };
+
     function createNewJobInfo (jobData,$cookies) {
         var headers = get_http_header($cookies)
         console.log(jobData);
@@ -186,6 +189,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
                 $scope.job = {};
                 $scope.newtasks = [];
                 $scope.tasks = [];
+                $scope.changeCollapse(jobData.stage);
             }
         }, function (error) {
             if(error.status == 401){
@@ -197,6 +201,22 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         });
      };
 
+    $scope.changeCollapse =function (stage) {
+        if (stage == 'To Apply') {
+            $scope.collapse[0] = true;
+            $scope.collapse[1] = false;
+            $scope.collapse[2] = false;
+        } else  if (stage == 'Follow-up') {
+            $scope.collapse[1] = true;
+            $scope.collapse[0] = false;
+            $scope.collapse[2] = false;
+        } else  if (stage == 'Selection') {
+            $scope.collapse[2] = true;
+            $scope.collapse[0] = false;
+            $scope.collapse[1] = false;
+        }
+        console.log( stage,$scope.collapse);
+    }
 
     $scope.deleteJobInfo = function(jobId) {
         var headers = get_http_header($cookies)
@@ -234,11 +254,13 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
           headers: headers,
           data:job,
         }).then(function (data) {
-            if(data.status == 204){
+            if(data.status == 204 || data.status == 200){
                 console.log(data);
                 console.log('datatoken',data);
                 $scope.get_job_list_view();
-                }
+                $scope.changeCollapse(job.stage);
+
+            }
         }, function (error) {
             console.log('error',error);
             if(error.status == 401){
@@ -573,7 +595,6 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     angular.element($('#thisJob')).on('hidden.bs.modal', function () {
   // do something…
      $scope.showjobmodal = false;
-     console.log('hey jobmodal is closed');
 	});
 
     angular.element(document).bind('scroll', function() {
