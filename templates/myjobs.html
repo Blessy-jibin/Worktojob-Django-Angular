@@ -278,7 +278,7 @@
                 </div>
                 <hr style="width:100%">
                
-                <div ng-repeat="item in job_temp track by $index" id="jobdiv{{$index}}" ng-if="item.stage==stage"  ng-click="Show_this_Job(item,$index);" data-job={{item}} class="nofocus"  ng-class="{'emphasize' : $index == clickedIndex}" style="padding: 5px;" uib-collapse="!collapse[prev_index]" ng-mouseenter="setselectedIndex(item,$index);" autofocus="true" >
+                <div ng-repeat="item in job_temp track by $index" id="jobdiv{{$index}}" ng-if="item.stage==stage"  ng-click="show_this_Job(item,$index);" data-job={{item}} class="nofocus"  ng-class="{'emphasize' : $index == clickedIndex}" style="padding: 5px;" uib-collapse="!collapse[prev_index]" ng-mouseenter="setselectedIndex(item,$index);" autofocus="true" >
                   <span class="glyphicon glyphicon-ok-circle" ng-class="{'green' : taskglychange = $index == clickedIndex}" style="margin-right:5px;"></span>
                   <span class="jobtitle nofocus" ng-class="{'changestyle':$index == selectedIndex}" id='job"+job_temp.indexOf(item)+"'
                   style="margin-bottom:5px;color:#5D6D7E;font-weight: bold;">{{item['job_title']}} </span>

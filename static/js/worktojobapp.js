@@ -140,15 +140,6 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         else{ return false; }
     };
 
-    $scope.toggle_collapse = function(index){
-        console.log( $scope.stage_index,index,$scope.collapse);
-        $scope.stage_index=index;
-        $scope.collapse[index]=!$scope.collapse[index];
-        $scope.collapse =  {0:$scope.collapse[0] , 1:$scope.collapse[1] , 2:$scope.collapse[2] };
-        console.log($scope.stage_index,index,$scope.collapse);
-
-
-    };
 
     $scope.logoutUser = function ($cookies) {
         localStorage.setItem("c_token", undefined);
@@ -532,16 +523,11 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     };
 
 
-    $scope.Show_this_Job=function(item,$index){
+    $scope.show_this_Job=function(item,$index){
         // console.log(item);
 
         var modal=angular.element($('#thisJob')); 
 
-        if($scope.changed_jobproperty == false){
-            $scope.clickedIndex = $index;
-            modal.modal('show');
-            console.log('modal is again here and clickedindex',$scope.clickedIndex);
-        };
 
         if($scope.changed_jobproperty == true){
             $scope.showConfirm($scope.thisjob);
@@ -549,20 +535,19 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
             console.log('modal is forecfully hided');
         };
         
+        if($scope.changed_jobproperty == false){
+            modal.modal('show');
+            console.log('modal is again here and clickedindex',$scope.clickedIndex);
+             $scope.thisjob = item;
+            $scope.changed_jobproperty = false;
+            $scope.taskentered = false;
+            $scope.thisjob_beforechange = angular.copy(item);
+            $scope.clickedIndex = $index;
 
-        
-        $scope.thisjob = item;
-        $scope.changed_jobproperty = false;
-        $scope.taskentered = false;
-        $scope.thisjob_beforechange = angular.copy(item);
-
-        console.log($scope.thisjob_beforechange);
+        };
         // $scope.tsk="";
-        console.log($scope.showjobmodal);
         var modal=angular.element($('#thisJob')); 
 
-        console.log();
-        console.log($scope.thisjob);
     };
 
     $scope.addtaskbutton_clicked = function(){
@@ -665,6 +650,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
          }, function() {
 
           $scope.job_temp[$scope.clickedIndex] = $scope.thisjob_beforechange;
+          $scope.changeCollapse($scope.thisjob_beforechange.stage);
           console.log('jobtemp',$scope.job_temp[$scope.clickedIndex] );
           $scope.changed_jobproperty = false;
         });
