@@ -6,8 +6,12 @@
    <link rel="stylesheet" type="text/css" href="{% static "css/login.css" %}">
 {% endblock %}
 
+{% block customscript %}
+<script type="text/javascript" src="{% static "js/login.js" %}"></script>
+{% endblock %}
+
 {% block content %}
-   <div class = "container">
+   <div class = "container" ng-cloak  ng-controller="loginController"  ng-init="initialize_login_controller()">
    <div class = "row">
    <div class = "col-xs-12 col-sm-4 col-sm-offset-8 ">
    <div class = "panel panel-login">
@@ -22,7 +26,7 @@
       </div>
       <hr>
    </div>
-   <div class="panel-body"  ng-controller="loginController">
+   <div class="panel-body">
       <div class="row">
          <div class="col-lg-12">
             <form id="login-form" action="" method="post" style="display: block;">
@@ -74,8 +78,4 @@
          </div>
       </div>
    </div>
-{% endblock %}
-
-{% block customscript %}
-<script type="text/javascript" src="{% static "js/login.js" %}"></script>
 {% endblock %}

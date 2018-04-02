@@ -18,7 +18,9 @@ get_http_header = function($cookies){
   	headers = {
    		"Content-Type": "application/json",
  	}
-    userToken = sessionStorage.getItem("c_token");
+
+    userToken = localStorage.getItem("c_token");
+    console.log();
     if (userToken == undefined) {
         
         return(headers);
@@ -28,8 +30,25 @@ get_http_header = function($cookies){
   	return(headers);
 }
 
+already_logged_in =  function($cookies){
+    userToken = localStorage.getItem("c_token");
+    console.log(userToken);
+    if (userToken == undefined) {
+        
+        return false;
+    } else {
+          return true;
+    }
+
+}
+
 workToJob.controller('loginController',  function ($scope, $http, $rootScope, $cookies) {
     
+    $scope.initialize_login_controller = function(){
+        if(already_logged_in($cookies)) {
+             window.location.replace("/");
+        }
+    };
 
     $scope.authenticate_app = function(){
 		var data = {};
@@ -68,10 +87,8 @@ workToJob.controller('loginController',  function ($scope, $http, $rootScope, $c
             if(response.status == 200){
                 $scope.pwd_error_status = false;
                 $scope.new_user_status = true;
-                console.log("temp", response);
-
-                sessionStorage.setItem("c_token", response.data.token);
-                window.location.replace("/home");
+                localStorage.setItem("c_token", response.data.token);
+                window.location.replace("/");
 
             }
         }, function (error) {
@@ -81,6 +98,7 @@ workToJob.controller('loginController',  function ($scope, $http, $rootScope, $c
      };
 
 	function loginValidation (userData, $cookies) {
+       
 		var headers = get_http_header($cookies)
 		console.log(headers);
 		$http({
@@ -91,38 +109,14 @@ workToJob.controller('loginController',  function ($scope, $http, $rootScope, $c
 		}).then(function (data) {
 			if(data.status == 200){
 				$scope.login_error_status = false;
-				console.log(data);
-                sessionStorage.setItem("c_token", data.data.token);
-                
-                window.location.replace("/home");
+                localStorage.setItem("c_token", data.data.token);
+                window.location.replace("/");
 
 				}
 	    }, function (error) {
 	    	$scope.login_error_status = true;
 	    });
 	 };
-
-
-
-	// function get_job_list_view()  {
-	// 	headers = get_http_header($rootScope)
-	// 	console.log('headers', headers)
-	// 	$http({
-	// 	  method: 'GET',
-	// 	  url: '/jobs',
-	// 	  headers: headers,
-	// 	}).then(function (data) {
-	// 		if(data.status == 200){
-	// 			$scope.jib_list_data = data;
-	// 			console.log('ffffffffffff', data);
-	// 		}
-	//     }, function (error) {
-	//     	if(error.status == 401){
- //                window.location.replace("");
-
- //            }
-	//     });
- //    }
 
 });
 
@@ -136,11 +130,6 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         $scope.newtask = "";
         $scope.newtasklist = [];
         $scope.addmoretasks = false;
-        userToken = sessionStorage.getItem("c_token");
-        console.log('userToken', userToken)
-        if (userToken == undefined) {
-            window.location.replace("/");
-        }
     };
 
     function is_url(str)
@@ -345,7 +334,6 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
 
   $scope.get_job_list_view = function(){
       headers = get_http_header($rootScope)
-      console.log('headers', headers)
       $http({
         method: 'GET',
         url: '/jobs',
@@ -353,7 +341,6 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
       }).then(function (data) {
           if(data.status == 200){
             $scope.job_temp = data.data;
-            console.log( $scope.collapse);
 
           }
       }, function (error) {
