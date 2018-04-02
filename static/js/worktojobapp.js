@@ -278,7 +278,9 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
                 $scope.loadingData = true;
                 $scope.show_add_job_modal(job_url);
             }else{
-                $scope.url_validation_error = true;
+                var html = $('#joblink')[0];
+                html.setCustomValidity('Please Enter valid URL');
+
             }
         }
     };
@@ -393,6 +395,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     $scope.collapseInit = function () {
 
     }
+
 
 
     $scope.show_add_job_modal = function(url) {
@@ -656,7 +659,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         });
     };
 
-
+    
     $scope.addtask_editmode = function(){
 
     	$scope.number_of_repeat.push($scope.ele_in_array);
