@@ -193,8 +193,7 @@ class ResetUserPassword(generics.CreateAPIView):
             </html>
         """
         try:
-            user_data = User.objects.get(username='sovinjosepez@gmail.com')
-            print ("....................", user_data)
+            user_data = User.objects.get(username=data)
             random_pwd = get_random_pwd()
             d = user_data.set_password(random_pwd)
             user_data.save()

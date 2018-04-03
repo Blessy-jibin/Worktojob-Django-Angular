@@ -44,12 +44,12 @@ workToJob.controller('resetPasswordController',  function ($scope, $http, $rootS
 
     $scope.reset_pwd = function(){
         $('#login-form').hide();
+        $('#email-error').html('');
         $scope.login_error_status = true;
         if($scope.data.email == undefined){
             $('#create_error').html('enter a valid email');
             return(0)
         }
-
         userData = $scope.data
         var headers = get_http_header($cookies)
         $http({
@@ -66,6 +66,9 @@ workToJob.controller('resetPasswordController',  function ($scope, $http, $rootS
             }
         }, function (error) {
             $scope.login_error_status = false;
+            $('#email-error').html(error.data);
+            $('#login-form').show();
+            
         });
      };
 
