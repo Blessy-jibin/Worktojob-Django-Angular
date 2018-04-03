@@ -664,11 +664,11 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
 
     angular.element(document).bind('scroll', function() {
      
-     	if ($(window).scrollTop() > 40) {
+     	if ($(window).scrollTop() > 100) {
     		angular.element('#thisJob').css({'position': 'fixed','top':'-10px','bottom':'20px'});
     	}
 
-    	else if ($(window).scrollTop() < 40) {
+    	else if ($(window).scrollTop() < 100) {
     		console.log('scroll less than 70')
     		angular.element('#thisJob').css({'position': 'absolute','top':'50px','bottom':'20px'});
         }
