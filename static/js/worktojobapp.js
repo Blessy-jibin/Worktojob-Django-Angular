@@ -38,6 +38,80 @@ already_logged_in =  function($cookies){
 
 }
 
+workToJob.controller('resetPasswordController',  function ($scope, $http, $rootScope, $cookies) {
+
+    $scope.login_error_status = false;
+
+    $scope.reset_pwd = function(){
+        $('#login-form').hide();
+        $scope.login_error_status = true;
+        if($scope.data.email == undefined){
+            $('#create_error').html('enter a valid email');
+            return(0)
+        }
+
+        userData = $scope.data
+        var headers = get_http_header($cookies)
+        $http({
+          method: 'POST',
+          url: '/reset/password',
+          headers: headers,
+          data:userData,
+        }).then(function (response) {
+            console.log('create status', response.status);
+            if(response.status == 201){
+                $scope.login_error_status = true;
+                localStorage.setItem("c_token", '');
+                $('#login-form').html('');
+            }
+        }, function (error) {
+            $scope.login_error_status = false;
+        });
+     };
+
+});
+
+workToJob.controller('changePasswordController',  function ($scope, $http, $rootScope, $cookies) {
+
+    $scope.initialize_job_controller = function(){
+        userToken = localStorage.getItem("c_token");
+        console.log('hhhhhhh', userToken)
+        if (userToken == 'undefined' || userToken == null || userToken == '') {
+            window.location.replace("/login");
+        }
+    };
+
+    $scope.reset_pwd = function(){
+        $('#create_error').html('');
+        $scope.login_error_status = false;
+        if($scope.data.old_password == undefined || $scope.data.new_password == undefined){
+            $('#create_error').html('Please enter a valid password!');
+            return(0)
+        }
+
+        userData = $scope.data
+        var headers = get_http_header($cookies)
+        $http({
+          method: 'PUT',
+          url: '/change/password',
+          headers: headers,
+          data:userData,
+        }).then(function (response) {
+            console.log('create status', response.status);
+            if(response.status == 200){
+                $scope.login_error_status = true;
+                localStorage.setItem("c_token", '');
+                window.location.replace("/login");
+            }
+        }, function (error) {
+            console.log('sfdfdsfdf', $scope.data, error);
+            $scope.login_error_status = true;
+            $('#create_error').html('Please enter a valid password!');
+        });
+     };
+
+});
+
 workToJob.controller('loginController',  function ($scope, $http, $rootScope, $cookies) {
     
     $scope.initialize_login_controller = function(){

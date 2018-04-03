@@ -25,6 +25,28 @@ class UserSerializer(serializers.ModelSerializer):
         print ("......................", user)
         return user
 
+class ResetPasswordSerializer(serializers.ModelSerializer):
+    """
+    Serializer for password change endpoint.
+    """
+    email = serializers.CharField(required=True)
+
+    class Meta:
+        model = User
+        fields = ('email')
+
+
+class ChangePasswordSerializer(serializers.ModelSerializer):
+    """
+    Serializer for password change endpoint.
+    """
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+
+    class Meta:
+        model = User
+        fields = ('old_password', 'new_password')
+        
 
 class TaskSerializer(serializers.ModelSerializer):
 

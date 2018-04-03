@@ -10,7 +10,8 @@ from rest_framework.status import HTTP_401_UNAUTHORIZED
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets
-from .serializers import UserSerializer, JobInfoSerializer, TaskSerializer
+from .serializers import ( UserSerializer, JobInfoSerializer, TaskSerializer, 
+                          ChangePasswordSerializer, ResetPasswordSerializer)
 from .models import JobInfo, Task
 #for activating the static file such as s and css i have include dthe below line
 from django.shortcuts import render_to_response
@@ -23,6 +24,12 @@ from rest_framework import status
 from bs4 import BeautifulSoup
 from django.contrib.auth.models import User
 from urllib.request import urlopen
+
+from django.core.mail import send_mail
+from django.core.mail import EmailMessage
+import string
+import random
+
 import requests
 import re
 import json
@@ -92,6 +99,14 @@ def job_list(request):
 def add_job(request):
     return render_to_response('myjobs.html', locals())
 
+def get_random_pwd(size=6, chars=string.ascii_uppercase + string.digits):
+    return ''.join(random.choice(chars) for _ in range(size))
+def change_pwd(request):
+    return render_to_response('change_pwd.html')
+
+def reset_password(request):
+    return render_to_response('reset.html')
+
 class UserCreate(generics.CreateAPIView):
 
     serializer_class = UserSerializer
@@ -115,6 +130,86 @@ class UserDetail(generics.RetrieveAPIView):
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+
+class ChangePasswordView(generics.UpdateAPIView):
+    """
+    An endpoint for changing password.
+    """
+    serializer_class = ChangePasswordSerializer
+    model = User
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self, queryset=None):
+        obj = self.request.user
+        return obj
+
+    def update(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        serializer = self.get_serializer(data=request.data)
+
+        if serializer.is_valid():
+            # Check old password
+            if not self.object.check_password(serializer.data.get("old_password")):
+                return Response({"old_password": ["Wrong password."]}, status=status.HTTP_400_BAD_REQUEST)
+            # set_password also hashes the password that the user will get
+            self.object.set_password(serializer.data.get("new_password"))
+            self.object.save()
+            return Response("Success.", status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class ResetUserPassword(generics.CreateAPIView):
+    """
+    Reset password.
+    """
+    serializer_class = ResetPasswordSerializer
+    authentication_classes = ()
+
+    def post(self, request, format=None):
+        data = request.data.get('email')
+        msg = """
+            <!DOCTYPE html>
+            <html>
+            <head>
+            </head>
+
+            <body style="font-family: Arial; font-size: 12px;">
+            <div>
+                <p>
+                    You have requested a password reset, please find the new password.
+                </p>
+                <p>
+                </p>
+
+                <p>
+                    <p>UserName: %s</p>
+                    <p>Password: %s</p>
+                </p>
+            </div>
+            </body>
+            </html>
+        """
+        try:
+            user_data = User.objects.get(username='sovinjosepez@gmail.com')
+            print ("....................", user_data)
+            random_pwd = get_random_pwd()
+            d = user_data.set_password(random_pwd)
+            user_data.save()
+            msg = EmailMessage(
+                'WRK Password Reset',
+                 msg % (user_data.email, random_pwd),
+                'pezsovi@gmail.com',
+                [user_data.email],
+            )
+            msg.content_subtype = 'html'
+            msg.send()
+            return Response('password sent to email', status=status.HTTP_201_CREATED)
+        except Exception as e:
+            print ("kkkkkkkkk", e)
+            return Response('Email is not registred with us', status=status.HTTP_400_BAD_REQUEST)
 
 
 class JobInfoList(generics.ListCreateAPIView):
