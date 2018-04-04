@@ -231,18 +231,26 @@
                     <a href={{thisjob.url}}>{{thisjob.job_url}}</a>
                   </div>
                 </div>
-                <div class="modal-body" style="max-height: 500px">
+                <div class="modal-body" style="max-height: 500px;margin-top:10px;" >
                   <div>
                     <div class="form-group">  
                       <select   ng-init="somethingHere = thisjob.stage" ng-model="thisjob.stage" ng-options="each for each in job_stage"  ng-change="changed_jobproperty=true; changeCollapse(thisjob.stage)">
                       </select>
-                      
+                      <!-- <div>
+                      <md-datepicker ng-model="thisjob.deadline" md-placeholder="{{thisjob.deadline}}"></md-datepicker>
+                      </div> -->
+                      <div class="input-group date" data-provide="datepicker" style="width:250px;margin-top:8px;width:100px;float: right;position: relative;left: -250px;top:-10px;" class="datepicker" ng-click="activate_datepicker()">
+                      	 <div class="input-group-addon" style="background-color: #FFF;border:1px solid #e0e0d1;border-style:dashed;border-radius:50%;height:25px;width: 25px;">
+        					<span class="glyphicon glyphicon-calendar" style="font-size:11px;color:#e0e0d1;"></span>
+   						 </div>
+         				 <input type="text" class="form-control" ng-model="thisjob.deadline" style="display: none;">
+         				 <div ng-bind="formatDate(thisjob.deadline) |  date:'MMMM dd'" style="margin-left:5px;background-color: white;border: none;" class="input-group-addon">
+    					 </div>
+					  </div>
+   
 
-                      <input data-provide="datepicker" style="text-align: center; margin-left: 17px;border: 1px solid black;border-radius: 5px;" ng-model="thisjob.deadline" class="glyphicon glyphicon-calendar" value="thisjob.deadline"  ng-change="changed_jobproperty=true">
-                      <!-- <input type="text" value="">
-                       -->
                     </div>
-                    <div class="nofocus">
+                    <div class="nofocus" style="margin-top: 35px;">
                       <div class="row nofocus" ng-click="toggle = !toggle;" ng-repeat="task in thisjob.tasks track by $index">
                         
                         <span style="color:#708090;margin-left:40px" class="nofocus">{{task.action}}</span>
@@ -253,7 +261,7 @@
                         <hr style="margin:10px;">
                       </div>
                     </div>
-                      <div  class="row" id=>
+                      <div  class="row" style="margin-top:8px;">
                         
                           <form name="myForm" style="display: inline-block;width:70%;margin-left:40px;">
                             <input type='text' name="task" id="inputtask" style="margin-top:5px;border:1px solid black;text-align: center;"  ng-model="tsk"  placeholder="Add yout task here" onfocus="this.placeholder=''" required ng-keypress="($event.which === 13) && myForm.task.$valid&& ngkeypress(tsk)" ng-blur="taskinput_blurred();" >
@@ -312,7 +320,7 @@
                 </div>
                 <hr style="width:100%">
                
-                <div ng-repeat="item in job_temp track by $index" id="jobdiv{{$index}}" ng-if="item.stage==stage"  ng-click="show_this_Job(item,$index);" data-job={{item}} class="nofocus"  ng-class="{'emphasize' : $index == clickedIndex}" style="padding: 5px;" uib-collapse="!collapse[prev_index]" ng-mouseenter="setselectedIndex(item,$index);" autofocus="true" >
+                <div ng-repeat="item in job_temp track by $index" id="jobdiv{{$index}}" ng-if="item.stage==stage"  ng-click="show_this_Job(item,$index);"  class="nofocus"  ng-class="{'emphasize' : $index == clickedIndex}" style="padding: 5px;" uib-collapse="!collapse[prev_index]">
                   <span class="glyphicon glyphicon-ok-circle" ng-class="{'green' : taskglychange = $index == clickedIndex}" style="margin-right:5px;"></span>
                   <span class="jobtitle nofocus" ng-class="{'changestyle':$index == selectedIndex}" id='job"+job_temp.indexOf(item)+"'
                   style="margin-bottom:5px;color:#5D6D7E;font-weight: bold;">{{item['job_title']}} </span>
@@ -362,19 +370,18 @@
 
 <script type="text/javascript">
 
+// $(function () {
+
+//        $("#datepicker2").click(function () {
+//           $(this).datepicker();
+//         });
+    
+       
+   
+  
 
 
-$.fn.singleDatePicker = function() {
-  $(this).on("apply.daterangepicker", function(e, picker) {
-    picker.element.val(picker.startDate.format(picker.locale.format));
-  });
-  return $(this).daterangepicker({
-    singleDatePicker: true,
-    autoUpdateInput: false
-  });
-};
 
-$('.datepicker').datepicker();
 
 
 

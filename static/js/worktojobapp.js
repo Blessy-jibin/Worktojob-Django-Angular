@@ -603,9 +603,8 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     };
 
 
-    $scope.show_this_Job=function(item,$index){
-        // console.log(item);
-
+    $scope.show_this_Job=function(item,index){
+        console.log(item);
         var modal=angular.element($('#thisJob')); 
 
 
@@ -618,15 +617,14 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         if($scope.changed_jobproperty == false){
             modal.modal('show');
             console.log('modal is again here and clickedindex',$scope.clickedIndex);
-             $scope.thisjob = item;
+            $scope.thisjob = item;
             $scope.changed_jobproperty = false;
             $scope.taskentered = false;
             $scope.thisjob_beforechange = angular.copy(item);
-            $scope.clickedIndex = $index;
+            $scope.clickedIndex = index;
 
         };
-        // $scope.tsk="";
-        var modal=angular.element($('#thisJob')); 
+    
 
     };
 
@@ -755,5 +753,16 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
       console.log(tsk);
     };
 
-  
+   $scope.activate_datepicker= function(){
+    console.log('actiavted datepicker');
+   var date = angular.element($('.datepicker'));
+   // date.datepicker();
+
+   }
+
+   $scope.formatDate = function(date){
+      var dateOut = new Date(date);
+      return dateOut;
+
+   }
 });
