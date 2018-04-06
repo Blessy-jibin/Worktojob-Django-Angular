@@ -161,43 +161,76 @@
   	                  </div>  
   	                </div>
   	               
-  	                  <div class="form-group" style="margin-right:0px;margin-left:0px;padding-bottom:0px;height:auto;">
+  	                <div class="form-group" style="margin-right:0px;margin-left:0px;padding-bottom:0px;height:auto;">
   	                    <label for="settask" style="font-size:12px" >Set Tasks:</label>
   	                  
   	                  <div id="taskwrapper" style="">
+  	                    <div class="row">
+  	                        <button class="nofocus " ng-class="{'select-task-btn':select_btn1,'task-btn':!select_btn1}" ng-click="select_btn1 = !select_btn1; change_tasks({action:'update_cv',action_date:update_cv_date})">Update CV and coverletter</button>
+  	                        <div class="input-group date" data-provide="datepicker" style="width:250px;margin-top:8px;width:100px;float: right;position: relative;left: -60px;top:-10px;" class="datepicker" ng-click="activate_datepicker()">
+                      	        <div class="input-group-addon" style="background-color: #FFF;border:1px solid #e0e0d1;border-style:dashed;border-radius:50%;height:25px;width: 25px;">
+        					    <span class="glyphicon glyphicon-calendar" style="font-size:11px;color:#e0e0d1;"></span>
+   						        </div>
+         				        <input type="text" class="form-control" ng-model="update_cv_date" style="display: none;" ng-init="update_cv_date = today();" ng-change="update_date({action:'update_cv',action_date:update_cv_date})">
+         				        <div ng-bind="formatDate(update_cv_date) |  date:'MMMM dd'" style="margin-left:5px;background-color: white;border: none;" class="input-group-addon">
+    					        </div>
+					        </div>
+  	                    </div>
+  	                    <div class="row">
+  	                        <button class="nofocus " ng-class="{'select-task-btn':select_btn2,'task-btn':!select_btn2}" ng-click="select_btn2 = !select_btn2; change_tasks({action:'Research about company',action_date: research_date})">Research about company</button>
+  	                        <div class="input-group date" data-provide="datepicker" style="width:250px;margin-top:8px;width:100px;float: right;position: relative;left: -60px;top:-10px;" class="datepicker" ng-click="activate_datepicker()">
+                      	        <div class="input-group-addon" style="background-color: #FFF;border:1px solid #e0e0d1;border-style:dashed;border-radius:50%;height:25px;width: 25px;">
+        					    <span class="glyphicon glyphicon-calendar" style="font-size:11px;color:#e0e0d1;"></span>
+   						        </div>
+         				        <input type="text" class="form-control" ng-model="research_date" style="display: none;" ng-init="research_date = today();" ng-change="update_date({action:'Research about company', action_date:research_date})">
+         				        <div ng-bind="formatDate(research_date) |  date:'MMMM dd'" style="margin-left:5px;background-color: white;border: none;" class="input-group-addon">
+    					        </div>
+					        </div>
+  	                        
+  	                    </div>
   	                    
-  	                      <div class="row">
-  	                        <button id='btn-99' class="nofocus" ng-class="change_selected_color('update_cv') ? 'select-task-btn' : 'task-btn' " ng-click="change_task_list('update_cv')">Update CV and coverletter  <span>+</span></button>
-  	                        <!-- <input ng-if="check_element_existing_element('update_cv')" style="display: inline-block;" data-provide="datepicker" style="text-align: center;border: 1px solid black;border-radius: 5px;" ng-model="date" ng-change="save_tasks('update_cv',date);"> -->
-  	                      </div>
-  	                      <div class="row">
-  	                        <button ng-click="change_task_list('Reasersch about Company')" id='btn-98' class="nofocus" ng-class="change_selected_color('Reasersch about Company') ? 'select-task-btn' : 'task-btn' ">Research about Company <span>+</span></button>
-  	                        <!-- <input ng-if="check_element_existing_element('Reasersch about Company')" style="display: inline-block;" data-provide="datepicker" style="text-align: center;border: 1px solid black;border-radius: 5px;" ng-model="date" ng-change="save_tasks('Reasersch about Company',date);"> -->
-  	                      </div>
-  	                    
-  	                      <div ng-if="newtasklist.length > 0" ng-repeat="newtask in newtasklist track by $index" class="row nofocus" style="margin-bottom:8px;">
-  	                       <div style="border:1px solid grey;border-radius:5px;text-align:center;width:190px;padding:8px;display: inline-block;" class="nofocus"  ng-click="change_task_list(newtask)" id='btn-98' ng-class="change_selected_color(newtask) ? 'select-task-btn' : 'task-btn' ">{{newtask}}</div>
-  	                        <div style="display: inline-block;position: absolute;left:200px;">
-  	                       		 <span class="glyphicon glyphicon-remove-circle nofocus" ng-click="newtasklist.splice($index,1);"    style="vertical-align:middle;color:red;font-size:17px;"></span>
+  	                    <div ng-if="newtasklist.length > 0" ng-repeat="each in newtasklist track by $index" class="row nofocus" style="margin-bottom:8px;">
+  	                        <!-- <div style="border:1px solid grey;border-radius:5px;text-align:center;width:190px;padding:8px;display: inline-block;" class="nofocus">{{each.action}}
+  	                        </div> -->
+  	                        <input ng-model="each.action" class="editable_task" id="new_job_task">
+  	                        <div class="input-group date" data-provide="datepicker" style="width:250px;margin-top:8px;width:100px;float: right;position: relative;left: -60px;top:-10px;" class="datepicker" ng-click="activate_datepicker()">
+                      	        <div class="input-group-addon" style="background-color: #FFF;border:1px solid #e0e0d1;border-style:dashed;border-radius:50%;height:25px;width: 25px;">
+        					    <span class="glyphicon glyphicon-calendar" style="font-size:11px;color:#e0e0d1;"></span>
+   						        </div>
+         				        <input type="text" class="form-control" ng-model="each.action_date" style="display: none;">
+         				        <div ng-bind="formatDate(each.action_date) |  date:'MMMM dd'" style="margin-left:5px;background-color: white;border: none;" class="input-group-addon">
+    					        </div>
+					        </div>
+  							<div style="display: inline-block;position: absolute;left:335px;">
+  	                       		 <span class="glyphicon glyphicon-remove-circle nofocus" ng-click="delete_task(each)"    style="vertical-align:middle;color:red;font-size:17px;"></span>
+
   	                       	</div>
-  	                      </div>
-  	                      <div ng-if="addmoretasks==true" class="row">
-  	                      <input type='text'  ng-model="newtask" placeholder="Add your task" id="newtask"> 
-  	                      <!-- <button class='btn-xs'  ng-click="newtasklist.push(newtask);change_task_list(newtask)">Save Task</button> -->
-  	                      <div style="display: inline-block;position: absolute;left:200px;">
-  	                         <button style="vertical-align: middle;color:green;font-size:17px;background-color:white;border:none;font-weight:200;"  class="glyphicon glyphicon-plus nofocus" ng-click="save_task_to_new_job(newtask)">
+  	                       
+  	                    </div>
+  	                    <div class="row">
+  	                        <input type='text'  ng-model="newtask" placeholder="Add your task" id="newtask_input"> 
+  	                        <div class="input-group date" data-provide="datepicker" style="width:250px;margin-top:8px;width:100px;float: right;position: relative;left: -60px;top:-10px;" class="datepicker" ng-click="activate_datepicker()">
+                      	        <div class="input-group-addon" style="background-color: #FFF;border:1px solid #e0e0d1;border-style:dashed;border-radius:50%;height:25px;width: 25px;">
+        					    <span class="glyphicon glyphicon-calendar" style="font-size:11px;color:#e0e0d1;"></span>
+   						        </div>
+         				        <input type="text" class="form-control" ng-model="date" style="display: none;" ng-init ="date = today();">
+         				        <div ng-bind="formatDate(date) |  date:'MMMM dd'" style="margin-left:5px;background-color: white;border: none;" class="input-group-addon">
+    					        </div>
+					        </div>
+  	                        <button style="vertical-align: middle;color:green;font-size:17px;background-color:white;border:none;font-weight:200;left:170px;"  class="glyphicon glyphicon-plus nofocus" ng-click="add_task(newtask,date);">
   	                        </button>
-  	                      </div>
-  	                      </div>
-  	                      <div class="row" ng-if="addmoretasks==false">
-  	                       <button class="task-btn" ng-click="AddmoreTasks();"><i>Add your own</i></button>
-  	                      </div>
-  	                  </div>
+  	                    </div>
   	                </div>
+  	                <!-- <div class="row" ng-if="addmoretasks==false">
+  	                    <button class="task-btn" ng-click="AddmoreTasks();"><i>Add your own</i>
+  	                    </button>
+  	                </div> -->
+  	            </div>
+  	         </div><!--modal body ends here-->
   	              
 
-  	              </div>         
-  	              <div class="modal-footer" style="">
+  	            
+  	            <div class="modal-footer" style="">
   	                <button type="submit" name="save" class="btn btn-lg" ng-click="jb_form.jb_title.$valid && save_newjob();" style="background:#009900;color:white;width:75%;border-radius=8px;">OK</button>
   	              </div>
                </form>
@@ -255,7 +288,17 @@
                         
                         <span style="color:#708090;margin-left:40px" class="nofocus">{{task.action}}</span>
                         <!-- <span >{{task.action_date}}</span> -->
-                        <div style="display:inline-block;text-align:center;padding:2px;position: absolute;left:300px; ">
+                        <div class="input-group date" data-provide="datepicker" style="width:250px;margin-top:8px;width:100px;float: right;position: relative;left: -60px;top:-10px;" class="datepicker" ng-click="activate_datepicker()">
+                      	        <div class="input-group-addon" style="background-color: #FFF;border:1px solid #e0e0d1;border-style:dashed;border-radius:50%;height:25px;width: 25px;">
+        					    <span class="glyphicon glyphicon-calendar" style="font-size:11px;color:#e0e0d1;"></span>
+   						        </div>
+         				        <input type="text" class="form-control" ng-model="task.action_date" style="display: none;" >
+         				        <div ng-bind="formatDate(task.action_date) |  date:'MMMM dd'" style="margin-left:5px;background-color: white;border: none;" class="input-group-addon">
+    					        </div>
+					        </div>
+
+
+                        <div style="display:inline-block;text-align:center;padding:2px;position: absolute;left:500px; ">
                           <span class="glyphicon glyphicon-remove-circle nofocus" ng-click="removeTask($index);" ng-confirm-message="Are you sure deleting {{task}}?"   style="color:red;font-size:17px;"></span>
                         </div>
                         <hr style="margin:10px;">

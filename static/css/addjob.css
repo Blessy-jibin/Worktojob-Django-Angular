@@ -63,7 +63,14 @@
     outline: none;
 }
 
-
+#newtask_input{
+	text-align: center;
+	width:180px;
+	height: 40px;
+	border-color: #293d3d;
+	border-style: outset;
+	border-radius: 5px;
+}
 
 .modal{
 	position: absolute;
@@ -72,7 +79,26 @@
 	left: 0px;
 
 }
+#new_job_task.editable_task{
+	height: 30px;
+	width: 181px;
+	border: none;
+}
+#new_job_task.editable_task:hover{
+  border: 1px solid black;
+  border-style: outset;
+  background-color: #e6f9ff;
+}
+.editable_task{
+	border: none;
+    text-align: center;
 
+}
+
+input.editable_task:hover{
+  border: 1px solid black;
+  border-style: outset;
+}
 .modal-header{
 	padding-bottom:2px;
 }

@@ -198,12 +198,14 @@ workToJob.controller('loginController',  function ($scope, $http, $rootScope, $c
 workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookies,$mdDialog) {
 
     $scope.initialize_job_controller = function(){
-        $scope.task_list = [];
+      
         $scope.tasks = [];
         $scope.url_validation_error = false;
         $scope.changed_jobproperty = false;
         $scope.newtask = "";
         $scope.newtasklist = [];
+        $scope.select_btn1 = false;
+        $scope.select_btn2 = false;
         $scope.addmoretasks = false;
         $scope.collapse = {0 : true, 1 :false, 2 :false};
 
@@ -228,7 +230,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         if( $("#newtask").val() ){
             $scope.newtasklist.push(newtask);
             $scope.change_task_list(newtask);
-          }
+        }
     }
 
 
@@ -347,11 +349,8 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         if(job_url == undefined || job_url == ""){
             $scope.url_validation_error = true;
         }else{
-
             url_status  = is_url(job_url);
             if(url_status){
-                // $('#myJobModal').modal('show');
-                // $('#thisJob').modal('hide'); 
                 $scope.loadingData = true;
                 $scope.show_add_job_modal(job_url);
             }else{
@@ -363,93 +362,84 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     };
     
     
-    function check_element_existing_element(item){
-        if($scope.task_list.indexOf(item) !== -1) {
-            return true;
-        }else{
-            return false;
-        }
-    }
-
+   
 
     $scope.check_element_existing_element=function(item){
-        if($scope.task_list.indexOf(item) !== -1) {
+        console.log(item,$scope.tasks.indexOf(item));
+        if($scope.tasks.indexOf(item) !== -1) {
             return true;
         }else{
             return false;
         }
     }
 
-    $scope.change_task_list = function(item,date){
-        task_ele = check_element_existing_element(item);
-        if(task_ele){
-            index = $scope.task_list.indexOf(item);
-            $scope.task_list.splice(index,1);
-            console.log('scope_list',$scope.task_list);
-            for(i in $scope.tasks) {
-                    if ($scope.tasks[i].action == item){
-                        task_index = i;
-                    }
-            }
+    $scope.change_tasks = function(item){
+        $scope.found = false;
 
-            $scope.tasks.splice(index,1);
-            console.log($scope.tasks);
-           
-        }else{
-            $scope.task_list.push(item);
-             console.log('scope_list',$scope.task_list);
-             var obj = {};
-             obj.action = item;
-             obj.action_date = "23-12-2011";
-             $scope.tasks.push(obj);
+        for(i in $scope.tasks){
+            // console.log($scope.tasks[i],$scope.tasks[i].action);
+           if($scope.tasks[i].action == item.action){
+                $scope.found = true;
+                $scope.tasks.splice(i,1);
+                
+            }
         }
-        console.log('scopetasks',$scope.tasks);
+        if($scope.found == false){
+            $scope.tasks.push(item);
+            
+        }
+        console.log($scope.tasks);
     };
     
-    $scope.save_tasks = function(item,date){
-        not_found = true;
-        for(i in $scope.tasks) {
-            if ($scope.tasks[i].action == item){
-                $scope.tasks[i].action_date = "23-12-2011";
-                not_found = false;
+    $scope.add_task = function(item,date){
+
+       $scope.newtasklist.push({action:item,action_date:date});
+       $scope.tasks.push({action:item,action_date:date});
+       console.log('newtasks are',$scope.tasks,$scope.newtasklist);
+
+    }
+    $scope.delete_task = function(item){
+        var index1 = $scope.newtasklist.indexOf(item);
+        var index2 = $scope.tasks.indexOf(item);
+        $scope.newtasklist.splice(index1,1);
+        $scope.tasks.splice(index2,1);
+        console.log( $scope.newtasklist);
+    }
+    $scope.update_date = function(item){
+        for(i in $scope.tasks){
+                // console.log($scope.tasks[i],$scope.tasks[i].action);
+               if($scope.tasks[i].action == item.action){
+                    $scope.tasks[i].action_date = item.action_date;
+                }
+            }   
+        console.log($scope.tasks);
+    }
+   
+    $scope.today = function(){
+        var today = new Date();
+        return today;
+    }
+   
+    $scope.get_job_list_view = function(){
+        headers = get_http_header($rootScope)
+        $http({
+            method: 'GET',
+            url: '/jobs',
+            headers: headers,
+          }).then(function (data) {
+              if(data.status == 200){
+                $scope.job_temp = data.data;
+
             }
-        }
-       if(not_found == true) {
-                var obj = {};
-                obj.action = item;
-                obj.action_date = date;
-                $scope.tasks.push(obj);
-        
-       }
-       console.log($scope.tasks);
+          }, function (error) {
+             if(error.status == 401){
+                localStorage.setItem("c_token", undefined);
+                console.log( localStorage.getItem("c_token"));
+                window.location.replace("/login");
+
+            }
+            });
     }
-
-    $scope.change_selected_color = function(item){
-        task_ele = check_element_existing_element(item);
-        return task_ele;
-    }
-
-
-  $scope.get_job_list_view = function(){
-      headers = get_http_header($rootScope)
-      $http({
-        method: 'GET',
-        url: '/jobs',
-        headers: headers,
-      }).then(function (data) {
-          if(data.status == 200){
-            $scope.job_temp = data.data;
-
-          }
-      }, function (error) {
-         if(error.status == 401){
-            localStorage.setItem("c_token", undefined);
-            console.log( localStorage.getItem("c_token"));
-            window.location.replace("/login");
-
-          }
-      });
-     }
 
      $scope.get_job_list_view();
 
@@ -469,9 +459,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     $scope.showjobmodal = false;
     $scope.jobmodal_topfixed = false;  
     $scope.taskpalceholder = "Add your task";
-    $scope.collapseInit = function () {
-
-    }
+    
 
 
 
@@ -542,23 +530,6 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         
     }
 
-      $scope.SelectTimeline =  function(id) {
-        var element = angular.element($('.btn-time-line'));
-        for ( var i in element) {
-            var btn = angular.element($( '#'+element[i].id));
-            btn.css({"background-color": "white"});
-            btn.val('Custom');
-        }
-        emnt = angular.element($('#'+id));
-        emnt.css({"background-color": "blue"});
-        emnt.val('selected');
-        $scope.selectedTimeLine = id;
-        if (id =='btn-today'){
-        	var date = new Date();
-        	var dateinformat =   ('0' + date.getDate()).slice(-2) + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + date.getFullYear();
-        }
-    }
-
   
     $scope.task_id = 100;
     $scope.AddmoreTasks = function(){
@@ -618,23 +589,17 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
             modal.modal('show');
             console.log('modal is again here and clickedindex',$scope.clickedIndex);
             $scope.thisjob = item;
+            console.log($scope.thisjob,'this job');
             $scope.changed_jobproperty = false;
             $scope.taskentered = false;
             $scope.thisjob_beforechange = angular.copy(item);
             $scope.clickedIndex = index;
-
         };
-    
-
     };
 
     $scope.addtaskbutton_clicked = function(){
-     $scope.changed_jobproperty = true;
-     $('#inputtask').blur();
-     // // $scope.tsk = "";
-     // $scope.taskinput_blurred();
-     
-     
+        $scope.changed_jobproperty = true;
+        $('#inputtask').blur();
     }
    
     $scope.taskinput_blurred=function(){
@@ -670,42 +635,14 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     		console.log('scroll less than 70')
     		angular.element('#thisJob').css({'position': 'absolute','top':'50px','bottom':'20px'});
         }
-   });
+    });
    
-
-    $scope.moreItem=function(stage){
-        //get more jobs from bacnend and addd.
-        var data = [];
-        if (stage == 'To Apply'){
-            data = $scope.job_temp2.toapply
-        }
-        if (stage == 'Follow-up'){
-            data = $scope.job_temp2.followup
-        }
-        if (stage == 'Selection'){
-            data = $scope.job_temp2.selection
-        }
-        for (index in data){
-            $scope.job_temp.push(data[index]);
-        }
-    }
-
-
-    
-    $scope.setselectedIndex = function (item,$index) {
-        $scope.selectedIndex = $index;
-    };
-
     $scope.closeJobModal=function(){
         
         var modal=angular.element($('#thisJob'));
         modal.modal('hide');
         console.log(modal);
         $scope.showjobmodal = false;
-        // console.log('hey close job modal is called'); 
-        // $scope.showmodal = true;
-        
-        
     }
 
 
@@ -758,11 +695,12 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
    var date = angular.element($('.datepicker'));
    // date.datepicker();
 
-   }
+   };
 
    $scope.formatDate = function(date){
       var dateOut = new Date(date);
       return dateOut;
 
-   }
+    }
+
 });
