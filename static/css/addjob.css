@@ -84,21 +84,68 @@
 	width: 181px;
 	border: none;
 }
-#new_job_task.editable_task:hover{
+#new_job_task:hover{
   border: 1px solid black;
   border-style: outset;
   background-color: #e6f9ff;
 }
-.editable_task{
+
+.editable_input{
 	border: none;
-    text-align: center;
+    text-align: left;
 
 }
+input.editable_input:focus{
+    outline: none;
+}
+.highlight_tsk{
+	border-top:1px solid blue;
+	border-bottom: 1px solid blue;
+	margin: 0px;
+	padding-bottom: 2.5px; 
+	padding-top: 2.5px;
+	vertical-align: middle;
+	
 
-input.editable_task:hover{
-  border: 1px solid black;
+}
+.task_not_higlighted{
+	border-bottom: .2px solid grey;
+	padding-bottom: 2.5px; 
+	padding-top: 2.5px;
+	margin-right:4px;
+	margin-left: 4px;
+}
+
+.task_hovered{
+	background-color: #e6fffa;
+	border-top:.002px solid grey;
+	border-bottom:.002px solid grey;
+	padding-bottom: 2.5px; 
+	padding-top: 2.5px;
+
+}
+.mark_task_as_done{
+	color: #25e8c8;
+    fill: #25e8c8;
+    cursor: pointer;
+}
+.task_not_done{
+    color: #848f99;
+    fill: #848f99;
+}
+
+.overdue{
+	color : red;
+}
+.no-due{
+	color:green;
+}
+
+/*input.editable_task:hover{
+  border: 1px solid 
+  lid black;
   border-style: outset;
-}
+}*/
 .modal-header{
 	padding-bottom:2px;
 }

@@ -207,6 +207,8 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         $scope.select_btn1 = false;
         $scope.select_btn2 = false;
         $scope.addmoretasks = false;
+        $scope.clicked_task_index = -1;
+        $scope.hovered_task_index = -1;
         $scope.collapse = {0 : true, 1 :false, 2 :false};
 
     };
@@ -232,7 +234,17 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
             $scope.change_task_list(newtask);
         }
     }
+    
+    $scope.clicked_task = function($index){
 
+        $scope.clicked_task_index = $index;
+        console.log($scope.clicked_task_index);
+    }
+    
+    $scope.hovered_task = function($index){
+        $scope.hovered_task_index = $index;
+        console.log($scope.hovered_task_index)
+    }
 
     $scope.save_newjob = function(){
         console.log('test save');
@@ -456,6 +468,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     $scope.ele_in_array = 0;
     $scope.number_of_repeat = [];
     $scope.jobIndex = -1;
+    $scope.task_done_index = -1;
     $scope.showjobmodal = false;
     $scope.jobmodal_topfixed = false;  
     $scope.taskpalceholder = "Add your task";
@@ -601,7 +614,29 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         $scope.changed_jobproperty = true;
         $('#inputtask').blur();
     }
-   
+    $scope.overdue = function(date){
+        thisday = $scope.today();
+        thisday.setHours(0, 0, 0, 0);
+        due = new Date(date);
+        due.setHours(0, 0, 0, 0);
+        date_comp = Math.round((due-thisday) / 8.64e7);
+        console.log(date_comp);
+        if (date_comp>=0){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+    $scope.mark_as_done = function(index,task){
+        task_done_index = index;
+        task.done = true;
+        console.log(task,task_done_index);
+
+
+    
+    }
+
     $scope.taskinput_blurred=function(){
         $('#inputtask').attr("placeholder", "Add your task here");
         $('#inputtask').focus(function() {
