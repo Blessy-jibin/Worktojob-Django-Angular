@@ -265,7 +265,7 @@ class MetaParsing (View):
     def get(self, request):
         meta = {}
         url = request.GET['url']
-        if(sys.argv[1] != 'runserver'):
+        # if(sys.argv[1] != 'runserver'):
             # data = get_screenshot(url)
         try:
             response = requests.get(url)
