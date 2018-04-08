@@ -39,6 +39,7 @@ import urllib.parse as urlparse
 from django.conf import settings
 from datetime import datetime
 from selenium import webdriver
+import sys;
 
 DRIVER = settings.BASE_DIR+'/chrome_server/chromedriver'
 
@@ -264,7 +265,8 @@ class MetaParsing (View):
     def get(self, request):
         meta = {}
         url = request.GET['url']
-        data = get_screenshot(url)
+        if(sys.argv[1] != 'runserver'):
+            # data = get_screenshot(url)
         try:
             response = requests.get(url)
             content = response.content
