@@ -33,6 +33,14 @@ import random
 import requests
 import re
 import json
+import base64
+import os
+import urllib.parse as urlparse
+from django.conf import settings
+from datetime import datetime
+from selenium import webdriver
+
+DRIVER = settings.BASE_DIR+'/chrome_server/chromedriver'
 
 #usage example
 
@@ -256,6 +264,7 @@ class MetaParsing (View):
     def get(self, request):
         meta = {}
         url = request.GET['url']
+        data = get_screenshot(url)
         try:
             response = requests.get(url)
             content = response.content
@@ -266,8 +275,10 @@ class MetaParsing (View):
             #     job = dat[0]
             #     meta['title'] = str(job)
             meta['title'] = str(title)
+            meta['data'] = data
             return HttpResponse(json.dumps(meta))
-        except:
+        except Exception as e:
+            print ('.........', e)
             meta = {}
             return HttpResponse(json.dumps(meta))
 
@@ -301,6 +312,37 @@ class JobInfoDetail(APIView):
         job_info.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
+
+def get_screenshot(url):
+    """
+    Take a screenshot and return a png file based on the url.
+    """
+    width = 1024
+    height = 768
+    if url is not None and url != '':
+        params = urlparse.parse_qs(urlparse.urlparse(url).query)
+        if len(params) > 0:
+            if 'w' in params: width = int(params['w'][0])
+            if 'h' in params: height = int(params['h'][0])
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument('headless')
+        driver = webdriver.Chrome(executable_path=DRIVER, options=chrome_options)
+        driver.get(url)
+        driver.set_window_size(width, height)
+        now = str(datetime.today().timestamp())
+        img_dir = settings.STATICFILES_DIRS[0]+'/screenshot'
+        img_name = ''.join([now, '_image.png'])
+        full_img_path = os.path.join(img_dir, img_name)
+        if not os.path.exists(img_dir):
+            os.makedirs(img_dir)
+        
+        driver.save_screenshot(full_img_path)
+        screenshot = open(full_img_path, 'rb').read()
+        var_dict = {'screenshot': img_name, 'save': True}
+        driver.quit()    
+        return {'url': '/static/screenshot/'+img_name, 'status': True}
+    else:
+        return {'url': '', 'status': False}
 
 
 
