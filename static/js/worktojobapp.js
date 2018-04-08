@@ -405,8 +405,8 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     
     $scope.add_task = function(item,date){
 
-       $scope.newtasklist.push({action:item,action_date:date});
-       $scope.tasks.push({action:item,action_date:date});
+       $scope.newtasklist.push({action:item,action_date:date,done:false});
+       $scope.tasks.push({action:item,action_date:date,done:false});
        console.log('newtasks are',$scope.tasks,$scope.newtasklist);
 
     }
@@ -629,12 +629,20 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         }
     }
     $scope.mark_as_done = function(index,task){
-        task_done_index = index;
-        task.done = true;
-        console.log(task,task_done_index);
+        // $scope.task_done_index = index;
 
+        task.done = !task.done;
+        console.log(task,$scope.task_done_index,task.done);
+    }
 
-    
+    $scope.highlight_task_onhover = function(taskid){
+        console.log('tasting ng-hover for div')
+        angular.element($('#taskid')).addClass('highlight_task_onhover');
+    }
+
+    $scope.add_task_job_modal = function(tsk){
+        $scope.thisjob.tasks.push({'action':tsk,'action_date':$scope.thisjob.deadline,'done':false});
+        $scope.tsk = 'Add your task here';
     }
 
     $scope.taskinput_blurred=function(){
@@ -642,6 +650,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         $('#inputtask').focus(function() {
             $('#inputtask').attr("placeholder", "");
         });
+
     }
 
 	angular.element($('#thisJob')).on('shown.bs.modal', function() {

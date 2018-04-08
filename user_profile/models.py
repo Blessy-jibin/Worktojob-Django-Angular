@@ -14,4 +14,5 @@ class JobInfo(models.Model):
 class Task(models.Model):
 	action = models.CharField(max_length=255)
 	action_date = models.CharField(max_length=255)
+	done = models.BooleanField(default=False)
 	job = models.ForeignKey(JobInfo, related_name='tasks', on_delete=models.CASCADE)

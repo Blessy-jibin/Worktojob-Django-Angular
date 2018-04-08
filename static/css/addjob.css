@@ -98,18 +98,31 @@
 input.editable_input:focus{
     outline: none;
 }
-.highlight_tsk{
-	border-top:1px solid blue;
-	border-bottom: 1px solid blue;
-	margin: 0px;
+.highlight_task_onhover{
+	background-color: #e6fff7;
+	border-top:.2px solid blue;
+	border-bottom: .2px solid blue;
 	padding-bottom: 2.5px; 
-	padding-top: 2.5px;
-	vertical-align: middle;
-	
-
+	padding-top: 10px;
+	margin-right:4px;
+	margin-left: 4px;
 }
+
+.highlight_task_onhover > input{
+	background-color: #e6fff7;	
+}
+
+.highlight_tsk{
+	border-top:.2px solid blue;
+	border-bottom: .2px solid blue;
+	padding-bottom: 2.5px; 
+	padding-top: 10px;
+	margin-right:4px;
+	margin-left: 4px;
+}
+
 .task_not_higlighted{
-	border-bottom: .2px solid grey;
+	border-bottom: .05px solid #e0e0d1;
 	padding-bottom: 2.5px; 
 	padding-top: 2.5px;
 	margin-right:4px;
@@ -128,10 +141,12 @@ input.editable_input:focus{
 	color: #25e8c8;
     fill: #25e8c8;
     cursor: pointer;
+    font-size: 16px;
 }
 .task_not_done{
     color: #848f99;
     fill: #848f99;
+    font-size: 16px;
 }
 
 .overdue{

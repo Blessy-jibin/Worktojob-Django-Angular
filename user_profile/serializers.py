@@ -52,7 +52,7 @@ class TaskSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Task
-        fields = ('action', 'action_date')
+        fields = ('action', 'action_date','done')
 
 
 class JobInfoSerializer(serializers.ModelSerializer):
@@ -77,7 +77,7 @@ class JobInfoSerializer(serializers.ModelSerializer):
 
         job_obj = JobInfo.objects.create(user=user, **validated_data)
         for task_data in tasks_data:
-            dic_save = {'action_date': task_data.get('action_date'), 'action': task_data.get('action')}
+            dic_save = {'action_date': task_data.get('action_date'), 'action': task_data.get('action'),'done':task.get('done')}
             print ("------------------", dic_save)
             Task.objects.create(job=job_obj, **dic_save)
         return job_obj
@@ -93,7 +93,7 @@ class JobInfoSerializer(serializers.ModelSerializer):
             task.delete()
 
         for task in validated_data.pop('tasks'):
-            dic_save = {'action_date': task.get('action_date'), 'action': task.get('action')}
+            dic_save = {'action_date': task.get('action_date'), 'action': task.get('action'),'done':task.get('done')}
             Task.objects.create(job=job, **dic_save)
         job.save()
         return job
