@@ -1,6 +1,6 @@
 
 
-var workToJob	 = angular.module('workToJob', ['ngCookies','ui.bootstrap','ngMaterial', 'ngMessages','ngTouch']);
+var workToJob	 = angular.module('workToJob', ['ngCookies','ui.bootstrap','ngMaterial', 'ngMessages']);
 
 
 workToJob.config(function($interpolateProvider) {
