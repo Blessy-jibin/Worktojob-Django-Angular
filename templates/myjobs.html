@@ -277,47 +277,52 @@
         					<span class="glyphicon glyphicon-calendar" style="font-size:11px;color:#e0e0d1;"></span>
    						 </div>
          				 <input type="text" class="form-control" ng-model="thisjob.deadline" style="display: none;">
-         				 <div ng-bind="formatDate(thisjob.deadline) |  date:'MMMM dd'" style="margin-left:5px;background-color: white;border: none;" class="input-group-addon">
+         				 <div ng-bind="formatDate(thisjob.deadline) |  date:'MMMM dd'" style="margin-left:5px;background-color: white;border: none;" class="input-group-addon" ng-class="overdue(thisjob.deadline) ? 'overdue' :'no-due' ">
     					 </div>
 					  </div>
    
 
                     </div>
                     <div class="nofocus" style="margin-top: 35px;">
-                      <div class="row nofocus " ng-repeat="task in thisjob.tasks track by $index" ng-class=" $index == clicked_task_index  ? 'highlight_tsk' : 'task_not_higlighted' " ng-click="clicked_task($index)"   tabindex="-1" id="task{{$index}}" ng-mouseover="highlight_task_onhover();">
-                        
+                      <div class="row nofocus " ng-repeat="task in thisjob.tasks track by $index" ng-class=" $index == clicked_task_index  ? 'highlight_tsk' : 'task_not_higlighted'" ng-click="clicked_task($index)" ng-swipe-right="removeTask($index);">
+                        <!-- ng-mouseover="highlight_task_onhover($index)" -->
+                        <!-- $index == hovered_task_index ?'highlight_task_onhover':'task_not_higlighted' -->
                         <!-- <span style="color:#708090;margin-left:40px" class="nofocus">{{task.action}}</span> -->
                         <span class="glyphicon glyphicon-ok-circle nofocus" ng-class="task.done ? 'mark_task_as_done' :'task_not_done' " ng-click="mark_as_done($index,task)" >
                         </span>
-                        <input style="color:#708090;margin-left:40px;width:60%;height: 100%;" ng-model="task.action" class="editable_input" readonly="true" ondblclick="this.readOnly='';">
+                        <input style="color:#708090;margin-left:40px;width:60%;height: 100%;" ng-model="task.action" class="editable_input" readonly="true" onclick="this.readOnly='';">
                        
                         <!-- <span >{{task.action_date}}</span> -->
                         <div class="input-group date" data-provide="datepicker" style="width:250px;margin-top:8px;width:100px;float: right;position: relative;left: -5px;top:-10px;" class="datepicker" ng-click="activate_datepicker()">
-                      	        <!-- <div class="input-group-addon" style="background-color: #FFF;border:1px solid #e0e0d1;border-style:dashed;border-radius:50%;height:25px;width: 25px;">
-        					    /<span class="glyphicon glyphicon-calendar" style="font-size:11px;color:#e0e0d1;"></span> -->
-   						        <!-- </div> --> <!-- -->
          				        <input type="text" class="form-control" ng-model="task.action_date" style="display: none;" >
-         				        <div ng-bind="formatDate(task.action_date) |  date:'MMMM dd'" style="margin-left:5px;background-color: white;border: none;"  class="input-group-addon" ng-class="overdue(task.action_date) ? 'overdue' :'no-due' ">
+         				        <div ng-bind="formatDate(task.action_date) |  date:'MMMM dd'" style="margin-left:5px;border: none;"  class="input-group-addon" ng-class="overdue(task.action_date) ? 'overdue' :'no-due' ">
     					        </div>
 					        </div>
 
-
                         <!-- <div style="display:inline-block;text-align:center;padding:2px;position: absolute;left:500px; ">
-                          <span class="glyphicon glyphicon-remove-circle nofocus" ng-click="removeTask($index);" ng-confirm-message="Are you sure deleting {{task}}?"   style="color:red;font-size:17px;"></span>
+                          <span class="glyphicon glyphicon-remove-circle nofocus" ng-click="" ng-confirm-message="Are you sure deleting {{task}}?"   style="color:red;font-size:17px;"></span>
                         </div>
  -->                        <!-- <hr style="margin:10px;"> -->
                       </div>
                     </div>
                       <div  class="row" style="margin-top:8px;">
                         
-                          <form name="myForm" style="display: inline-block;width:70%;margin-left:40px;">
-                            <input type='text' name="task" id="inputtask" style="margin-top:5px;border:1px solid black;text-align: center;"  ng-model="tsk"  placeholder="Add yout task here" onfocus="this.placeholder=''" ng-click="tsk=''" required ng-keypress="($event.which === 13) && myForm.task.$valid && add_task_job_modal(tsk); " >
+                          <form name="myForm" style="display: inline-block;width:100%;margin-left:40px;">
+                            <input type='text' name="task" id="inputtask" style="margin-top:5px;margin-bottom:25px;border:0; border-bottom:1px solid grey;background: transparent;text-align: center;width:60%;outline: none; "  ng-model="tsk"  placeholder="Add yout task here" onfocus="this.placeholder=''" ng-click="tsk=''" required ng-keypress="($event.which === 13) && myForm.task.$valid && add_task_job_modal(tsk,tsk_duedate); " >
+                            <div class="input-group date" data-provide="datepicker" style="width:100px;margin-top:8px;float: right;position: relative;right: 65px;border:none;" class="datepicker" ng-click="activate_datepicker()">
+		                      	 <div class="input-group-addon" style="background-color: #FFF;border:1px solid #e0e0d1;border-style:dashed;border-radius:50%;height:25px;width:25px;">
+		        					<span class="glyphicon glyphicon-calendar" style="font-size:11px;color:#e0e0d1;"></span>
+		   						 </div>
+		         				 <input type="text" class="form-control" ng-model="tsk_duedate" style="display: none;border: none;">
+		         				 <div ng-bind="formatDate(tsk_duedate) |  date:'MMMM dd'" style="margin-left:5px;border:none;" class="input-group-addon">
+		    					 </div>
+					        </div>
 
                             <!-- <div role="alert">
                               <span class="error" ng-show="myForm.task.$touched && myForm.task.$invalid" style="color: #ff8566;font-size:12px;margin-top:2px;">
                                 Please enter a task!</span>
                             </div> -->
-                            <div style="display:inline-block;text-align:center;padding:2px;position: absolute;left:297px;"">
+                            <div style="" tyle="display:inline-block;text-align:center;padding:2px;position: absolute;left:297px;"">
 
                           <!--   <button style="color:green;font-size:17px;background-color:white;border:none;font-weight:200;" type="submit" class="glyphicon glyphicon-plus nofocus" ng-click="myForm.task.$valid && thisjob.tasks.push({'action':tsk,'action_date':'23-12-2011'}); myForm.task.$valid && addtaskbutton_clicked();"> -->
 

@@ -1,6 +1,6 @@
 
 
-var workToJob	 = angular.module('workToJob', ['ngCookies','ui.bootstrap','ngMaterial', 'ngMessages']);
+var workToJob	 = angular.module('workToJob', ['ngCookies','ui.bootstrap','ngMaterial', 'ngMessages','ngTouch']);
 
 
 workToJob.config(function($interpolateProvider) {
@@ -590,7 +590,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     $scope.show_this_Job=function(item,index){
         console.log(item);
         var modal=angular.element($('#thisJob')); 
-
+       
 
         if($scope.changed_jobproperty == true){
             $scope.showConfirm($scope.thisjob);
@@ -603,6 +603,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
             console.log('modal is again here and clickedindex',$scope.clickedIndex);
             $scope.thisjob = item;
             console.log($scope.thisjob,'this job');
+            $scope.tsk_duedate = $scope.thisjob.deadline;
             $scope.changed_jobproperty = false;
             $scope.taskentered = false;
             $scope.thisjob_beforechange = angular.copy(item);
@@ -630,18 +631,21 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     }
     $scope.mark_as_done = function(index,task){
         // $scope.task_done_index = index;
-
+   
         task.done = !task.done;
         console.log(task,$scope.task_done_index,task.done);
     }
-
-    $scope.highlight_task_onhover = function(taskid){
+    $scope.hovered_task_index = -1;
+    $scope.highlight_task_onhover = function(index){
         console.log('tasting ng-hover for div')
-        angular.element($('#taskid')).addClass('highlight_task_onhover');
+        $scope.hovered_task_index = index;
+        console.log($scope.hovered_task_index);
+        // angular.element($( '#'+taskid)).addClass('highlight_task_onhover');
     }
 
+    
     $scope.add_task_job_modal = function(tsk){
-        $scope.thisjob.tasks.push({'action':tsk,'action_date':$scope.thisjob.deadline,'done':false});
+        $scope.thisjob.tasks.push({'action':tsk,'action_date':$scope.tsk_duedate,'done':false});
         $scope.tsk = 'Add your task here';
     }
 

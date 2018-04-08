@@ -108,7 +108,7 @@ input.editable_input:focus{
 	margin-left: 4px;
 }
 
-.highlight_task_onhover > input{
+.highlight_task_onhover > input,.highlight_task_onhover > .over{
 	background-color: #e6fff7;	
 }
 
@@ -151,11 +151,15 @@ input.editable_input:focus{
 
 .overdue{
 	color : red;
+	
 }
 .no-due{
 	color:green;
-}
 
+}
+.input-group-addon{
+	background: transparent;
+}
 /*input.editable_task:hover{
   border: 1px solid 
   lid black;
