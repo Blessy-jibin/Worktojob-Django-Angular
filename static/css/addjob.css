@@ -93,7 +93,16 @@
 .editable_input{
 	border: none;
     text-align: left;
+    
 
+}
+textarea.editable_input{
+	resize: none;	
+}
+
+textarea.editable_input:focus{
+    outline: none;
+    resize: none;
 }
 input.editable_input:focus{
     outline: none;
@@ -115,20 +124,23 @@ input.editable_input:focus{
 .highlight_tsk{
 	border-top:.2px solid blue;
 	border-bottom: .2px solid blue;
-	padding-bottom: 2.5px; 
-	padding-top: 10px;
+	padding: 3px;
 	margin-right:4px;
 	margin-left: 4px;
+	vertical-align: middle;
 }
 
 .task_not_higlighted{
 	border-bottom: .05px solid #e0e0d1;
-	padding-bottom: 2.5px; 
-	padding-top: 2.5px;
+	padding: 3px;
 	margin-right:4px;
 	margin-left: 4px;
+	vertical-align: middle;
 }
-
+.popover {
+  position: absolute;
+  z-index: 100000;
+}
 .task_hovered{
 	background-color: #e6fffa;
 	border-top:.002px solid grey;
@@ -259,7 +271,6 @@ width:50%;
   	box-shadow: 0 1px 1px #E0F9E8;
   	width: 90%;
 	margin-bottom: 10px;
-
 }
 
 #thisJobmodalcontent{

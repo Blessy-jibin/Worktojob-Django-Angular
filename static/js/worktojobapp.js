@@ -326,6 +326,9 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
      };
 
     $scope.saveThisJob = function(job) {
+        if($scope.tsk !='Add your task here' && $scope.tsk!='' ){
+            $scope.add_task_job_modal($scope.tsk,$scope.tsk_duedate);
+        } 
         $scope.changed_jobproperty = false;
         var headers = get_http_header($cookies)
         console.log(job);
@@ -634,6 +637,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
    
         task.done = !task.done;
         console.log(task,$scope.task_done_index,task.done);
+        $scope.changed_jobproperty = true;
     }
     $scope.hovered_task_index = -1;
     $scope.highlight_task_onhover = function(index){
@@ -646,6 +650,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     
     $scope.add_task_job_modal = function(tsk){
         $scope.thisjob.tasks.push({'action':tsk,'action_date':$scope.tsk_duedate,'done':false});
+        $scope.changed_jobproperty = true;
         $scope.tsk = 'Add your task here';
     }
 
@@ -727,7 +732,13 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     	console.log($scope.number_of_repeat);
     	
     }
+    $scope.showPopover = function() {
+        $scope.popoverIsVisible = true; 
+    };
 
+    $scope.hidePopover = function () {
+        $scope.popoverIsVisible = false;
+    };
 	$scope.showjobon_statechange = function(selectedIndex){
     var a = angular.element($('#jobdiv'+selectedIndex));
     console.log(a);
