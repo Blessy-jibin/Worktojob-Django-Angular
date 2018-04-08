@@ -10,8 +10,8 @@ from rest_framework.status import HTTP_401_UNAUTHORIZED
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets
-from .serializers import ( UserSerializer, JobInfoSerializer, TaskSerializer, 
-                          ChangePasswordSerializer, ResetPasswordSerializer)
+from .serializers import ( UserSerializer,FeedbackSerializer,JobInfoSerializer, TaskSerializer, 
+                          ChangePasswordSerializer, ResetPasswordSerializer,RedirectSerializer)
 from .models import JobInfo, Task
 #for activating the static file such as s and css i have include dthe below line
 from django.shortcuts import render_to_response
@@ -57,19 +57,14 @@ u'[{"id":1,"job_title":"Python Developer","job_url":"bcghfchc","created_date":"2
 @authentication_classes([])
 @permission_classes([])
 def auth_login(request):
-    print("test")
 
     username = request.data.get("username")
     password = request.data.get("password")
-    print(username,password)
     user = authenticate(username=username, password=password)
 
     if not user:
         return Response({"error": "Login failed"}, status=HTTP_401_UNAUTHORIZED)
-        print('not a user')
     token, created = Token.objects.get_or_create(user=user)
-    print(token.key)
-
     return Response({"token": token.key})
     
 
@@ -77,9 +72,7 @@ def auth_login(request):
 @authentication_classes([TokenAuthentication])
 @permission_classes([])
 def login(request):
-    #boards = Board.objects.all()
-    print (request.user,request.user.is_authenticated)
-    
+    #boards = Board.objects.all()    
     return render_to_response('auth.html', locals())  
 
 @authentication_classes([TokenAuthentication])
@@ -107,6 +100,27 @@ def change_pwd(request):
 def reset_password(request):
     return render_to_response('reset.html')
 
+def redirect_link(request):
+    return redirect(object)
+
+
+class Redirect:
+   
+    serializer_class =RedirectSerializer
+    authentication_classes = ()
+    authentication_classes = ()
+
+    def get(self, request, hash, format=None):
+        url = request.GET['id']
+        redirect_to = Redirect.objects.get(pk=id)
+        return HttpResponseRedirect(redirect_to=redirect_to)
+
+class Feedback(generics.CreateAPIView):
+
+    serializer_class = FeedbackSerializer
+    permission_classes = (IsAuthenticated,)
+   
+
 class UserCreate(generics.CreateAPIView):
 
     serializer_class = UserSerializer
@@ -114,8 +128,6 @@ class UserCreate(generics.CreateAPIView):
     authentication_classes = ()
 
     def create(self, request, *args, **kwargs): # <- here i forgot self
-
-        print("test")
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
@@ -207,11 +219,10 @@ class ResetUserPassword(generics.CreateAPIView):
             msg.send()
             return Response('password sent to email', status=status.HTTP_201_CREATED)
         except Exception as e:
-            print ("kkkkkkkkk", e)
             return Response('Email is not registred with us', status=status.HTTP_400_BAD_REQUEST)
 
 
-class JobInfoList(generics.ListCreateAPIView):
+class JobList(generics.ListCreateAPIView):
     """
     List all jobinfo, or create a new jobinfo.
     """
@@ -219,42 +230,11 @@ class JobInfoList(generics.ListCreateAPIView):
     serializer_class = JobInfoSerializer
 
     def get_queryset(self):
+        print ("Reached");
         try:
             return JobInfo.objects.filter(user=self.request.user)
         except JobInfo.DoesNotExist:
             raise Http404
-
-
-class JobInfoDetail(APIView):
-    """
-    Retrieve, update or delete a jobinfo instance.
-    """
-    permission_classes = (IsAuthenticated,)
-    
-    def get_object(self, pk):
-        try:
-            return JobInfo.objects.get(pk=pk)
-        except JobInfo.DoesNotExist:
-            raise Http404
-
-    def get(self, request, pk, format=None):
-        job_info = self.get_object(pk)
-        serializer = JobInfoSerializer(job_info)
-        return Response(serializer.data)
-
-    def put(self, request, pk, format=None):
-        job_info = self.get_object(pk)
-        print(job_info)
-        serializer = JobInfoSerializer(job_info, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, pk, format=None):
-        job_info = self.get_object(pk)
-        job_info.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class TaskList(APIView):
@@ -270,10 +250,12 @@ class TaskList(APIView):
 
 class MetaParsing (View):
 
-     def get(self, request):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = JobInfoSerializer
+
+    def get(self, request):
         meta = {}
         url = request.GET['url']
-        print  (url)
         try:
             response = requests.get(url)
             content = response.content
@@ -284,7 +266,6 @@ class MetaParsing (View):
             #     job = dat[0]
             #     meta['title'] = str(job)
             meta['title'] = str(title)
-            print ("dat-------", meta)
             return HttpResponse(json.dumps(meta))
         except:
             meta = {}
@@ -320,9 +301,6 @@ class JobInfoDetail(APIView):
         job_info.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
-
-
-
 
 
 

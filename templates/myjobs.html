@@ -21,7 +21,7 @@
             </div>
             <ul class="nav navbar-nav" style="float: right;">
               <!-- <li class="active"><a href="#"></a></li> -->
-               <li class="nofocus" ><a href="#" type="button" data-toggle="modal" data-target="#requestModal"> Request Feature</a>
+               <li class="nofocus"><a href="#" type="button" data-toggle="modal" data-target="#requestModal"> Request Feature</a>
                </li>
               <li class="dropdown" >
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Help
@@ -56,8 +56,8 @@
               <div class="modal-body">
                 <form name="feature_form">
                   <label style="display: block;"> Describe the Feature</label>
-                  <textarea name="feature_text" style="display: block; width: 80%" rows="4" cols="50" ng-model = "feature_text"> </textarea>
-                  <button type="submit" class="btn btn-default" data-dismiss="modal" style="margin-top:10px; display: block;" ng-click="newFeatureRequest()" data-toggle="modal" data-target="#thankYouModel">Submit</button>
+                  <textarea name="feature_text" style="display: block; width: 80%" rows="4" cols="50" ng-model = "featureText"> </textarea>
+                  <button type="submit" class="btn btn-default" data-dismiss="modal" style="margin-top:10px; display: block;" ng-click="feedback(featureText)" data-toggle="modal" data-target="#thankYouModel">Submit</button>
 
                 </form>
               </div>
@@ -300,14 +300,14 @@
                         <!-- <span >{{task.action_date}}</span> -->
                         <div class="input-group date" data-provide="datepicker" style="width:250px;margin-top:8px;width:100px;float: right;position: relative;right:60px;" class="datepicker" ng-click="activate_datepicker()">
          				        <input type="text" class="form-control" ng-model="task.action_date" style="display: none;" ng-change="changed_jobproperty = true" >
-         				        <div ng-bind="formatDate(task.action_date) |  date:'MMMM dd'" style="margin-left:5px;border: none;font-size:12px;"  class="input-group-addon" ng-class="overdue(task.action_date) ? 'overdue' :'no-due' ">
-    					        </div>
-					        </div>
-					        <span class="glyphicon glyphicon-remove-circle nofocus" ng-click="removeTask($index)"  ng-show="$index == clicked_task_index"  style="vertical-align: middle;color:#e0e0d1;font-size:16px;float:right;position:relative;right:-50px;display: inline-block;"></span>
+           				        <div ng-bind="formatDate(task.action_date) |  date:'MMMM dd'" style="margin-left:5px;border: none;font-size:12px;"  class="input-group-addon" ng-class="overdue(task.action_date) ? 'overdue' :'no-due' ">
+      					           </div>
+					              </div>
+					               <span class="glyphicon glyphicon-remove-circle nofocus" ng-click="removeTask($index)"  ng-show="$index == clicked_task_index"  style="vertical-align: middle;color:#e0e0d1;font-size:16px;float:right;position:relative;right:-50px;display: inline-block;"></span>
                      
                         <!-- <hr style="margin:10px;"> -->
+                        </div>
                       </div>
-                    </div>
                       <div  class="row" style="margin-top:18px;">
                         
                           <form name="myForm" style="display: inline-block;width:100%;margin-left:40px;">
@@ -376,14 +376,19 @@
                 <hr style="width:100%">
                
                 <div ng-repeat="item in job_temp track by $index" id="jobdiv{{$index}}" ng-if="item.stage==stage"  ng-click="show_this_Job(item,$index);"  class="nofocus"  ng-class="{'emphasize' : $index == clickedIndex}" style="padding: 5px;" uib-collapse="!collapse[prev_index]">
-                  <span class="glyphicon glyphicon-ok-circle" ng-class="{'green' : taskglychange = $index == clickedIndex}" style="margin-right:5px;"></span>
-                  <span class="jobtitle nofocus" ng-class="{'changestyle':$index == selectedIndex}" id='job"+job_temp.indexOf(item)+"'
-                  style="margin-bottom:5px;color:#5D6D7E;font-weight: bold;">{{item['job_title']}} </span>
-                  <span style="margin-left:10px;color:#5D6D7E;">{{item['deadline']}}</span>
+                  <div  class= "row" style="margin: 0px; width: 100%">
+                   <!--  <span class="glyphicon glyphicon-ok-circle" ng-class="{'green' : taskglychange = $index == clickedIndex}" style="margin-right:5px;"></span> -->
+                    <span class="nofocus col-xs-8" ng-class="{'changestyle':$index == selectedIndex}" id='job"+job_temp.indexOf(item)+"'
+                    style="margin-bottom:5px;color:#5D6D7E;font-weight: bold;">{{item['job_title']}} </span>
+                    <!-- <span style="margin-left:10px;color:#5D6D7E;">{{item['deadline']}}</span> -->
+                    <div ng-bind="formatDate(item.deadline) |  date:'MMMM dd'" style="border: none; display: inline-block;" class ="col-xs-3 col-xs-offset-1" ng-class="overdue(task.action_date) ? 'overdue' :'no-due' "> </div>
+                  </div>
                   <hr style="margin-bottom:10px;">
-                  <div ng-repeat="task in item['tasks'] track by $index" class='col-lg-offset-1 col-xs-offset-2 nofocus' style="margin-bottom:5px;line-height:0px;font-size:14px;min-height:2px;" ng-click="taskrem = !taskrem;">
-                    <span class="glyphicon glyphicon-ok-circle" ng-class="{'green' : taskglychange}" style="font-size:10px;"></span>
+                  <div ng-repeat="task in item['tasks'] track by $index" class='col-lg-offset-1 col-xs-offset-2 nofocus' style="line-height:0px;font-size:14px;" ng-click="taskrem = !taskrem;">
+                    <span class="glyphicon glyphicon-ok-circle nofocus" ng-class="task.done ? 'mark_task_as_done' :'task_not_done' " style="font-size:16px;margin-right: 3px"></span>
                     <span style="color:#708090;font-size:16px;" class="nofocus">{{task.action}}</span>
+                    <div ng-bind="formatDate(task.action_date) |  date:'MMMM dd'" style=" position:relative;float: right;right:40%;font-size:10px;" ng-show = "overdue(task.action_date);" ng-class="'overdue'">
+                    </div>
                     <hr style="margin:10px;width: 80%;">
                   </div>
                 </div>
