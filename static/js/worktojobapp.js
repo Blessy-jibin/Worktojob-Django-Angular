@@ -237,7 +237,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         $scope.hovered_task_index = $index;
     }
 
-    $scope.save_newjob = function(){
+    $scope.job_url = function(){
         $scope.job.tasks = $scope.tasks;
         $scope.addmoretasks = false;
         $scope.task_list = [];
@@ -246,8 +246,8 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     };
 
     function createNewJobInfo (jobData,$cookies) {
-        var headers = get_http_header($cookies)
-        console.log (jobData);
+        var headers = get_http_header($cookies);
+        jobData.job_url = jobData.url.url;
         $http({
           method: 'POST',
           url: '/jobs',
@@ -288,7 +288,9 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     }
 
     $scope.deleteJobInfo = function(jobId) {
-        var headers = get_http_header($cookies)
+        var headers = get_http_header($cookies);
+        jobData.job_url = jobData.url.url;
+
         $http({
           method: 'DELETE',
           url: '/job/'+jobId,
@@ -413,7 +415,12 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
             headers: headers,
           }).then(function (data) {
               if(data.status == 200){
-                $scope.job_temp = data.data;
+                var data_rec = data.data;
+                for (i in  data_rec) {
+                    data_rec[i].job_url = data_rec[i].url.url;
+                    data_rec[i].job_short_url = data_rec[i].url.hash_value;
+                }
+                $scope.job_temp =data_rec;
             }
           }, function (error) {
              if(error.status == 401){

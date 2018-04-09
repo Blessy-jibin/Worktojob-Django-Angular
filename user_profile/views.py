@@ -264,8 +264,8 @@ class MetaParsing (APIView):
     def get(self, request):
         meta = {}
         url = request.GET['url']
-        # if(sys.argv[1] != 'runserver'):
-            # data = get_screenshot(url)
+        if(sys.argv[1] != 'runserver'):
+            data = get_screenshot(url)
         try:
             response = requests.get(url)
             content = response.content
@@ -296,6 +296,7 @@ class JobInfoDetail(APIView):
 
     def get(self, request, pk, format=None):
         job_info = self.get_object(pk)
+        console.log(job_info.job_url)
         serializer = JobInfoSerializer(job_info)
         return Response(serializer.data)
 

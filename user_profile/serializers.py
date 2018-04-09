@@ -81,7 +81,7 @@ class RedirectSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Redirect
-        fields = ('id','hash_value', 'img', 'url')
+        fields = ('id','url','hash_value',)
 
         
 
