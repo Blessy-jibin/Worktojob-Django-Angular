@@ -473,6 +473,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
                     $scope.job.job_title = response.data.title;
                     $('#myJobModal').modal('show');
                     $('#myJobModal').on('show.bs.modal', function() {
+
                         //lets see .We wanna make loading symbol hide only after the modal is shown.
                         //to ensure it we have inclused the empty function.
                     });
@@ -547,12 +548,15 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         };
         
         if($scope.changed_jobproperty == false){
-            modal.modal('show');
             $scope.thisjob = item;
+            $scope.tsk_duedate = $scope.thisjob.deadline;
+            console.log( 'this job' ,$scope.thisjob);
             $scope.changed_jobproperty = false;
             $scope.taskentered = false;
             $scope.thisjob_beforechange = angular.copy(item);
-            $scope.clickedIndex = index;
+            $scope.remove_default_selection();
+            modal.modal('show');
+
         };
     };
 
@@ -583,12 +587,12 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     $scope.highlight_task_onhover = function(taskid){
         angular.element($('#taskid')).addClass('highlight_task_onhover');
     }
-
+    
     
     $scope.add_task_job_modal = function(tsk){
         $scope.thisjob.tasks.push({'action':tsk,'action_date':$scope.tsk_duedate,'done':false});
         $scope.changed_jobproperty = true;
-        $scope.tsk = 'Add your task here';
+        $scope.tsk = "Add your task here";
     }
 
     $scope.taskinput_blurred=function(){
@@ -598,6 +602,12 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         });
 
     }
+    angular.element($('#thisJob')).on('show.bs.modal', function() {
+            var modal_body = angular.element($('#this_job_modal_body'));
+            scroll = modal_body.scrollTop(0);
+            console.log(scroll);
+
+    });
 
 	angular.element($('#thisJob')).on('shown.bs.modal', function() {
         	angular.element(document).off('focusin.modal');
@@ -628,7 +638,11 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         $scope.showjobmodal = false;
     }
 
+    $scope.remove_default_selection =function(){
+        $scope.clicked_task_index = -1;
+        console.log('clicked_task_index', $scope.clicked_task_index );
 
+    }
 
     $scope.showConfirm = function(ev,job) {
     // Appending dialog to document.body to cover sidenav in docs app
@@ -669,7 +683,10 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         var a = angular.element($('#jobdiv'+selectedIndex));
 	};
 
-   
+    $scope.input_is_edited = function(){
+        $scope.changed_jobproperty=true;
+        console.log('value of changed_jobproperty',$scope.changed_jobproperty);
+    }
 
     $scope.activate_datepicker= function(){
         var date = angular.element($('.datepicker'));

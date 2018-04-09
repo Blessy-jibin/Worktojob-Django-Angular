@@ -38,7 +38,7 @@ import os
 import urllib.parse as urlparse
 from django.conf import settings
 from datetime import datetime
-from selenium import webdriver
+# from selenium import webdriver
 import sys;
 
 DRIVER = settings.BASE_DIR+'/chrome_server/chromedriver'
