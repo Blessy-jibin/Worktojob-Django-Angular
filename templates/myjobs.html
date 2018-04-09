@@ -346,6 +346,7 @@
                   <!-- <button class="btn-info btn-sm col-lg-offset-8"  ng-click="UpdateJob(thisjob);">Save Changes</button> -->
                 </div>         
                <!--  
+
  -->
                 <!-- <div class="modal-footer" style="border-top:0px;overflow-y:auto;height:auto;max-height:250px;">
                   <div style="">
@@ -369,14 +370,19 @@
                 <hr style="width:100%">
                
                 <div ng-repeat="item in job_temp track by $index" id="jobdiv{{$index}}" ng-if="item.stage==stage"  ng-click="show_this_Job(item,$index);"  class="nofocus"  ng-class="{'emphasize' : $index == clickedIndex}" style="padding: 5px;" uib-collapse="!collapse[prev_index]">
-                  <span class="glyphicon glyphicon-ok-circle" ng-class="{'green' : taskglychange = $index == clickedIndex}" style="margin-right:5px;"></span>
-                  <span class="jobtitle nofocus" ng-class="{'changestyle':$index == selectedIndex}" id='job"+job_temp.indexOf(item)+"'
-                  style="margin-bottom:5px;color:#5D6D7E;font-weight: bold;">{{item['job_title']}} </span>
-                  <span style="margin-left:10px;color:#5D6D7E;">{{item['deadline']}}</span>
+                  <div  class= "row" style="margin: 0px; width: 100%">
+                    <span class="nofocus col-xs-8" ng-class="{'changestyle':$index == selectedIndex}" id='job"+job_temp.indexOf(item)+"'
+                    style="margin-bottom:5px;color:#5D6D7E;font-weight: bold;">{{item['job_title']}} </span>
+                    <div ng-bind="formatDate(item.deadline) |  date:'MMMM dd'" style="border: none; display: inline-block;" class ="col-xs-3 col-xs-offset-1" ng-class="overdue(task.action_date) ? 'overdue' :'no-due' "> 
+                    </div>
+                  </div>
                   <hr style="margin-bottom:10px;">
-                  <div ng-repeat="task in item['tasks'] track by $index" class='nofocus row' style="margin-bottom:5px;line-height:0px;font-size:14px;min-height:2px;width:100%;padding-left:20px;height:auto;" ng-click="taskrem = !taskrem;">
-                    <div class="glyphicon glyphicon-ok-circle" ng-class="{'green' : taskglychange}" style="font-size:10px;vertical-align:middle;display: inline-block;"></div>
-                    <div style="color:#708090;font-size:16px;width:92%;margin-left:20px;vertical-align:middle;height:auto;display:inline-block;word-wrap: break-word;" class="nofocus form-control customized_form-control">{{task.action}}</div>
+                  
+                  <div ng-repeat="task in item['tasks'] track by $index" class='col-lg-offset-1 col-xs-offset-2 nofocus' style="line-height:0px;font-size:14px;" ng-click="taskrem = !taskrem;">
+                    <span class="glyphicon glyphicon-ok-circle nofocus" ng-class="task.done ? 'mark_task_as_done' :'task_not_done' " style="font-size:16px;margin-right: 3px"></span>
+                     <span style="color:#708090;font-size:16px;" class="nofocus">{{task.action}}</span>
+                    <div ng-bind="formatDate(task.action_date) |  date:'MMMM dd'" style=" position:relative;float: right;right:40%;font-size:10px;" ng-show = "overdue(task.action_date);" ng-class="'overdue'">
+                    </div>
                     <hr style="margin:10px;width: 80%;">
                   </div>
                 </div>
