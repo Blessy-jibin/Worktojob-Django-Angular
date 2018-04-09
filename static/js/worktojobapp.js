@@ -249,7 +249,6 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     function createNewJobInfo (jobData,$cookies) {
         console.log($scope.job);
         var headers = get_http_header($cookies);
-        jobData.url_id = jobData.url.id;
         // jobData.job_url = jobData.url.url;
         $http({
           method: 'POST',
@@ -437,23 +436,6 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
 
      $scope.get_job_list_view();
 
-    $scope.Wishlist = [];
-    $scope.job = {};
-    // $scope.tasks=[];
-    $scope.job_stage = ['To Apply','Follow-up','Selection'];
-    $scope.do="";
-    $scope.toggle = true;
-    $scope.isCollapsed = true;
-    $scope.selectedIndex = -1;
-    $scope.clickedIndex = -1;
-    $scope.isMore = true;
-    $scope.ele_in_array = 0;
-    $scope.number_of_repeat = [];
-    $scope.jobIndex = -1;
-    $scope.task_done_index = -1;
-    $scope.showjobmodal = false;
-    $scope.jobmodal_topfixed = false;  
-    $scope.taskpalceholder = "Add your task";
     
 
 
