@@ -259,7 +259,7 @@
                     </div>
                   </div>
                   <div id="thisjobslink">
-                    <a href={{thisjob.url}}>{{thisjob.job_url}}</a>
+                    <a href={{thisjob.url.url}}>{{thisjob.url.hash_value}}</a>
                   </div>
                 </div>
                 <div class="modal-body" id="this_job_modal_body" style="max-height: 500px;margin-top:10px;">
@@ -345,7 +345,7 @@
                      <!--  -->
                      <div style=" clear:right;position: relative;top: 30px">
                         <hr  style="height:1px;border:none;color:#333;background-color:#333;" />
-                        <img src='/static/image/logo.jpg' alt="" style="max-width: 100%;
+                        <img src='{{thisjob.url.img}}' alt="" style="max-width: 100%;
                         max-height: 100%;">
                       </div>
                   </div>

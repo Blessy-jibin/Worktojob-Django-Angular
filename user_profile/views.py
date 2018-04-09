@@ -63,8 +63,8 @@ u'[{"id":1,"job_title":"Python Developer","job_url":"bcghfchc","created_date":"2
 """
 
 @api_view(["POST"])
-@authentication_classes([])
-@permission_classes([])
+#@authentication_classes([])
+#@permission_classes([])
 def auth_login(request):
 
     username = request.data.get("username")
@@ -257,10 +257,9 @@ class TaskList(APIView):
         serializer = TaskSerializer(job_info, many=True)
         return Response(serializer.data)
 
-class MetaParsing (View):
+class MetaParsing (APIView):
 
     permission_classes = (IsAuthenticated,)
-    serializer_class = JobInfoSerializer
 
     def get(self, request):
         meta = {}
@@ -277,12 +276,11 @@ class MetaParsing (View):
             #     job = dat[0]
             #     meta['title'] = str(job)
             meta['title'] = str(title)
-            meta['data'] = data
-            return HttpResponse(json.dumps(meta))
+            return Response(json.dumps(meta))
         except Exception as e:
             print ('.........', e)
             meta = {}
-            return HttpResponse(json.dumps(meta))
+            return Response(json.dumps(meta))
 
 
 
@@ -319,7 +317,7 @@ def get_screenshot(url):
     """
     Take a screenshot and return a png file based on the url.
     """
-    width = 1024
+    width = 1124
     height = 768
     if url is not None and url != '':
         params = urlparse.parse_qs(urlparse.urlparse(url).query)

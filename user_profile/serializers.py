@@ -8,6 +8,19 @@ from django.db import transaction
 from .models import JobInfo, Task, Feedback, Redirect
 import hashlib
 
+import requests
+import re
+import json
+import base64
+import os
+import urllib.parse as urlparse
+from django.conf import settings
+from datetime import datetime
+from selenium import webdriver
+import sys;
+
+DRIVER = settings.BASE_DIR+'/chrome_server/chromedriver'
+
 
 class FeedbackSerializer(serializers.ModelSerializer):
     class Meta:
@@ -68,7 +81,7 @@ class RedirectSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Redirect
-        fields = ('id','hash_value',)
+        fields = ('id','hash_value', 'img', 'url')
 
         
 
@@ -93,7 +106,8 @@ class JobInfoSerializer(serializers.ModelSerializer):
         user = request.user
         job_url = validated_data.pop('job_url');
         url_hash = hashlib.md5(job_url.encode('utf-8')).hexdigest()[:8]
-        url_dic = {'url': job_url,'hash_value':url_hash}
+        img_data = get_screenshot(job_url)
+        url_dic = {'url': job_url,'hash_value':url_hash, 'img': img_data.get('image_url', '')}
         urlObj = Redirect.objects.create(**url_dic)
 
         job_obj = JobInfo.objects.create(user=user, url =urlObj, **validated_data)
@@ -118,4 +132,38 @@ class JobInfoSerializer(serializers.ModelSerializer):
         job.save()
         return job
 
-       
+
+def get_screenshot(url):
+    """
+    Take a screenshot and return a png file based on the url.
+    """
+    try:
+        width = 1124
+        height = 768
+        if url is not None and url != '':
+            params = urlparse.parse_qs(urlparse.urlparse(url).query)
+            if len(params) > 0:
+                if 'w' in params: width = int(params['w'][0])
+                if 'h' in params: height = int(params['h'][0])
+            chrome_options = webdriver.ChromeOptions()
+            chrome_options.add_argument('headless')
+            driver = webdriver.Chrome(executable_path=DRIVER, options=chrome_options)
+            driver.get(url)
+            driver.set_window_size(width, height)
+            now = str(datetime.today().timestamp())
+            img_dir = settings.STATICFILES_DIRS[0]+'/screenshot'
+            img_name = ''.join([now, '_image.png'])
+            full_img_path = os.path.join(img_dir, img_name)
+            if not os.path.exists(img_dir):
+                os.makedirs(img_dir)
+            
+            driver.save_screenshot(full_img_path)
+            screenshot = open(full_img_path, 'rb').read()
+            var_dict = {'screenshot': img_name, 'save': True}
+            driver.quit()    
+            return {'image_url': '/static/screenshot/'+img_name, 'status': True}
+        else:
+            return {'image_url': '', 'status': False}
+    except Exception as e:
+        print (e)
+        return {'image_url': '', 'status': False}

@@ -6,7 +6,9 @@ from django.contrib.auth.models import User
 class Redirect(models.Model):
 	url = models.CharField(max_length=255)
 	hash_value = models.CharField(db_index=True,max_length=128)
+	img = models.CharField(max_length=255, null=True, blank=True)
 	created_at = models.DateTimeField(auto_now=True)
+
 
 class JobInfo(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
