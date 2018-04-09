@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import (auth_login, JobList, JobInfoDetail, UserCreate, 
 					UserDetail, MetaParsing, ChangePasswordView, change_pwd, reset_password,
-					ResetUserPassword,Feedback ,Redirect)
+					ResetUserPassword,Feedback ,RedirectView)
 from user_profile import views
 from django.conf import settings
 from django.conf.urls import url
@@ -21,7 +21,7 @@ urlpatterns = [
 	path('create_user', UserCreate.as_view(), name='user_view'),
 
 	path('meta',MetaParsing.as_view(), name='meta'),
-	path('link/<string>', views.Redirect, name='feedback'),
+	path('link/<string>', views.RedirectView, name='feedback'),
 
 	path('change/password', ChangePasswordView.as_view(), name='change-pwd-detail'),
 	path('reset/password', ResetUserPassword.as_view(), name='reset-pwd-detail'),

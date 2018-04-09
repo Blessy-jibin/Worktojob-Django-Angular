@@ -237,7 +237,8 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         $scope.hovered_task_index = $index;
     }
 
-    $scope.job_url = function(){
+    $scope.save_newjob = function(){
+        $scope.job.tasks = $scope.tasks;
         $scope.job.tasks = $scope.tasks;
         $scope.addmoretasks = false;
         $scope.task_list = [];
@@ -246,8 +247,10 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     };
 
     function createNewJobInfo (jobData,$cookies) {
+        console.log($scope.job);
         var headers = get_http_header($cookies);
-        jobData.job_url = jobData.url.url;
+        jobData.url_id = jobData.url.id;
+        // jobData.job_url = jobData.url.url;
         $http({
           method: 'POST',
           url: '/jobs',
@@ -317,6 +320,8 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         } 
         $scope.changed_jobproperty = false;
         var headers = get_http_header($cookies)
+        job.url_id = job.url.id;
+
         $('#thisJob').modal('hide');
         $http({
           method: 'PUT',
@@ -455,6 +460,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
 
 
     $scope.show_add_job_modal = function(url) {
+        $scope.url_data = {};
         if(!$scope.changed_jobproperty){
             $scope.job.stage = "To Apply";
             var today = new Date();
@@ -477,7 +483,13 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
             }).then(function (response) {
                 
                 if(response.status == 200){
+                    $scope.url = response.data;
                     $scope.job.job_title = response.data.title;
+                    $scope.job.job_url = response.data.url;
+                    $scope.job.url_id = response.data.url_id;
+
+
+                    console.log($scope.url);
                     $('#myJobModal').modal('show');
                     $('#myJobModal').on('show.bs.modal', function() {
 

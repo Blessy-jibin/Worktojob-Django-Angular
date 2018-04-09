@@ -78,12 +78,11 @@ class TaskSerializer(serializers.ModelSerializer):
 
 
 class RedirectSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Redirect
-        fields = ('id','url','hash_value',)
-
+        fields = ('id','url','img','hash_value',)
         
+
 
 class JobInfoSerializer(serializers.ModelSerializer):
 
@@ -91,12 +90,12 @@ class JobInfoSerializer(serializers.ModelSerializer):
                 read_only=True,
                 default=serializers.CreateOnlyDefault(datetime.now)
     )
-    job_url = serializers.CharField( write_only=True)
+    url_id = serializers.CharField( write_only=True)
     url =  RedirectSerializer( read_only=True)
 
     class Meta:
         model = JobInfo
-        fields = ('id','job_url','job_title','url', 'created_at', 'tasks', 'deadline', 'stage')
+        fields = ('id','url_id','job_title','url', 'created_at', 'tasks', 'deadline', 'stage')
 
     tasks = TaskSerializer(many=True)
 
@@ -104,12 +103,8 @@ class JobInfoSerializer(serializers.ModelSerializer):
         tasks_data = validated_data.pop('tasks')
         request = self.context.get("request")
         user = request.user
-        job_url = validated_data.pop('job_url');
-        url_hash = hashlib.md5(job_url.encode('utf-8')).hexdigest()[:8]
-        img_data = get_screenshot(job_url)
-        url_dic = {'url': job_url,'hash_value':url_hash, 'img': img_data.get('image_url', '')}
-        urlObj = Redirect.objects.create(**url_dic)
-
+        
+        urlObj = Redirect.objects.get(pk = validated_data.pop('url_id'));
         job_obj = JobInfo.objects.create(user=user, url =urlObj, **validated_data)
         for task_data in tasks_data:
             dic_save = {'action_date': task_data.get('action_date'), 'action': task_data.get('action'),'done':task_data.get('done')}
@@ -131,6 +126,14 @@ class JobInfoSerializer(serializers.ModelSerializer):
             Task.objects.create(job=job, **dic_save)
         job.save()
         return job
+
+ 
+class MetaSerializer(serializers.Serializer):
+    url_id = serializers.CharField()
+    url = serializers.CharField( )
+    img = serializers.CharField( )
+    hash_value = serializers.CharField()
+    title = serializers.CharField()
 
 
 def get_screenshot(url):

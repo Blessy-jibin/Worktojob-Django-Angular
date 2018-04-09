@@ -11,8 +11,9 @@ from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets
 from .serializers import ( UserSerializer,FeedbackSerializer,JobInfoSerializer, TaskSerializer, 
-                          ChangePasswordSerializer, ResetPasswordSerializer,RedirectSerializer)
-from .models import JobInfo, Task
+                          ChangePasswordSerializer, ResetPasswordSerializer,RedirectSerializer,
+                          MetaSerializer)
+from .models import JobInfo, Task, Redirect
 #for activating the static file such as s and css i have include dthe below line
 from django.shortcuts import render_to_response
 from django.http import Http404
@@ -40,6 +41,8 @@ from django.conf import settings
 from datetime import datetime
 # from selenium import webdriver
 import sys;
+import hashlib
+
 
 DRIVER = settings.BASE_DIR+'/chrome_server/chromedriver'
 
@@ -113,7 +116,7 @@ def redirect_link(request):
     return redirect(object)
 
 
-class Redirect:
+class RedirectView:
    
     serializer_class =RedirectSerializer
     authentication_classes = ()
@@ -262,26 +265,38 @@ class MetaParsing (APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):
-        meta = {}
+        image_url = '/static/image/logo.jpg'
         url = request.GET['url']
+        url_hash = hashlib.md5(url.encode('utf-8')).hexdigest()[:8]
+
         if(sys.argv[1] != 'runserver'):
-            data = get_screenshot(url)
+            img_data = get_screenshot(url)
+            image_url = img_data.get('image_url', '')
+        
+        title = '';
+        urlObj = Redirect.objects.create(url=url,hash_value=url_hash,img=image_url)
+      
+
         try:
             response = requests.get(url)
             content = response.content
             soup = BeautifulSoup(content, 'html.parser')
             title = soup.title.string 
-            # dat = re.split(r'[`\-=~!@#$%^&*()_+\[\]{};\'\\:"|<,./<>?]', title)
-            # if dat:
-            #     job = dat[0]
-            #     meta['title'] = str(job)
-            meta['title'] = str(title)
-            return Response(json.dumps(meta))
         except Exception as e:
             print ('.........', e)
-            meta = {}
-            return Response(json.dumps(meta))
 
+        meta= Meta (url_id=urlObj.pk, url=url,img=image_url,hash_value=url_hash,title=title)
+        serializer = MetaSerializer(meta)
+        return Response(serializer.data)
+
+
+class Meta(object):
+    def __init__(self, url_id,  url, img,hash_value,title):
+        self.url = url
+        self.img = img
+        self.hash_value = hash_value 
+        self.title = title
+        self.url_id = url_id 
 
 
 class JobInfoDetail(APIView):
@@ -344,8 +359,4 @@ def get_screenshot(url):
         return {'url': '/static/screenshot/'+img_name, 'status': True}
     else:
         return {'url': '', 'status': False}
-
-
-
-
 
