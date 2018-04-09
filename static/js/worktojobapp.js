@@ -292,7 +292,6 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
 
     $scope.deleteJobInfo = function(jobId) {
         var headers = get_http_header($cookies);
-        jobData.job_url = jobData.url.url;
 
         $http({
           method: 'DELETE',
