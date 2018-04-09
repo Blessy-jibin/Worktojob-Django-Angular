@@ -203,6 +203,8 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         $scope.clicked_task_index = -1;
         $scope.hovered_task_index = -1;
         $scope.collapse = {0 : true, 1 :false, 2 :false};
+        $scope.job_stage = ['To Apply','Follow-up','Selection'];
+
 
     };
 
@@ -435,8 +437,6 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     }
 
      $scope.get_job_list_view();
-
-    
 
 
 
