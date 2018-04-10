@@ -147,6 +147,15 @@ input.editable_input:focus{
 	margin-bottom: 10px;
 	margin-top: 10px;
 }
+
+input.select-task-btn:hover,input.select-task-btn:focus,input.select-task-btn:active{
+	color: white;
+}
+
+input.task-btn{
+	border: .5px solid #8c8c8c;
+}
+
 .customized_form-control{
 	background: transparent;
 	box-shadow: none;

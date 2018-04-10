@@ -315,7 +315,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
      };
 
     $scope.saveThisJob = function(job) {
-        if($scope.tsk !='Add your task here' && $scope.tsk!='' ){
+        if( $scope.tsk!='' && $scope.tsk != undefined ){
             $scope.add_task_job_modal($scope.tsk,$scope.tsk_duedate);
         } 
         $scope.changed_jobproperty = false;
@@ -369,28 +369,44 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         }
     }
 
-    $scope.change_tasks = function(item){
-        $scope.found = false;
-
+     $scope.change_tasks_edit = function(item){
+        var found = false;
+        console.log( $scope.tasks,item);
         for(i in $scope.tasks){
             // console.log($scope.tasks[i],$scope.tasks[i].action);
            if($scope.tasks[i].action == item.action){
-                $scope.found = true;
-                $scope.tasks.splice(i,1);
-                
+                $scope.found = true;                
             }
         }
         if($scope.found == false){
             $scope.tasks.push(item);
+        }
+    };
+
+    $scope.change_tasks = function(item){
+        var found = false;
+
+        for(i in $scope.tasks){
+            // console.log($scope.tasks[i],$scope.tasks[i].action);
+           if($scope.tasks[i].action == item.action){
+                found = true;
+                $scope.tasks.splice(i,1);
+                
+            }
+        }
+        if(found == false){
+            $scope.tasks.push(item);
             
         }
+        console.log($scope.tasks);
     };
     
     $scope.add_task = function(item,date){
 
        $scope.newtasklist.push({action:item,action_date:date,done:false});
        $scope.tasks.push({action:item,action_date:date,done:false});
-
+       console.log($scope.tasks);
+       $scope.newtask = undefined;
     }
     $scope.delete_task = function(item){
         var index1 = $scope.newtasklist.indexOf(item);
@@ -444,18 +460,12 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         $scope.url_data = {};
         if(!$scope.changed_jobproperty){
             $scope.job.stage = "To Apply";
-            var today = new Date();
-            var dd = today.getDate();
-            var mm = today.getMonth()+1; //January is 0!
-            var yyyy = today.getFullYear();
-            if(dd<10){
-                dd='0'+dd;
-            } 
-            if(mm<10){
-            mm='0'+mm;
-            } 
-            var today = mm+'/'+dd+'/'+yyyy;
-            $scope.job.deadline = today;
+            $scope.job.deadline = $scope.today();
+            $scope.newtask = undefined;
+            $scope.tasks = [];
+            $scope.btn1_selected = false;
+            $scope.btn2_selected = false;
+            
             $http({
               method: 'GET',
               url: '/meta',
@@ -555,6 +565,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
             $scope.taskentered = false;
             $scope.thisjob_beforechange = angular.copy(item);
             $scope.remove_default_selection();
+            $scope.tsk = undefined;
             modal.modal('show');
 
         };
@@ -587,14 +598,34 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     $scope.highlight_task_onhover = function(taskid){
         angular.element($('#taskid')).addClass('highlight_task_onhover');
     }
-    
+     console.log('tsk',$scope.tsk);
     
     $scope.add_task_job_modal = function(tsk){
         $scope.thisjob.tasks.push({'action':tsk,'action_date':$scope.tsk_duedate,'done':false});
         $scope.changed_jobproperty = true;
-        $scope.tsk = "Add your task here";
+        $scope.tsk = undefined;
+
+    }
+    $scope.toggle_color = function(index){
+        $scope['btn_selected'+index ]= !$scope['btn_selected' +index];
+        console.log( $scope['btn_selected'+index ],'btn_selected'+index)
+        
     }
 
+    $scope.enter_press_handler = function(e){
+        if (e.keyCode === 13) {
+        console.log(e.keycode);   
+        e.preventDefault();
+        e.stopPropagation();
+        return true;
+        }else{
+        return  false;
+        }
+    }
+
+    $scope.default_btn_selected = function(index){
+         $scope['btn_selected'+index ] = true;
+    }
     $scope.taskinput_blurred=function(){
         $('#inputtask').attr("placeholder", "Add your task here");
         $('#inputtask').focus(function() {
