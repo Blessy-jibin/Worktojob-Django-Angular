@@ -14,6 +14,7 @@ urlpatterns = [
 	path('login',views.login,name='login'),
 	path('',views.home,name='default'),
 	path('home',views.home,name='home'),
+    url(r'^logout/$', auth_views.logout, {'next_page': '/'},name='logout'),
 
 
 	path('jobs', JobList.as_view(), name='job_info_list_create'),
@@ -26,6 +27,8 @@ urlpatterns = [
 	path('change/password', ChangePasswordView.as_view(), name='change-pwd-detail'),
 	path('reset/password', ResetUserPassword.as_view(), name='reset-pwd-detail'),
 	path('feedback', Feedback.as_view(), name='feedback'),
+	path('change/pwd', views.change_pwd, name='reset-pwd-detail'),
+	path('reset/pwd', views.reset_password, name='reset-pwd-detail'),
 
     
 ]+static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)
