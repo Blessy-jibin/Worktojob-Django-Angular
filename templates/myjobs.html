@@ -121,7 +121,8 @@
                   <form name="jb_form">
                   <!-- <div class="form-group" id="company-edit" style="margin-top:25px;">
                     <label for="company">Company:</label>
-                    <textarea class="form-control"  ng-model="job.company" rows="1" placeholder=""></textarea>
+                    <textarea class="
+                    "  ng-model="job.company" rows="1" placeholder=""></textarea>
                   </div> -->
                 
 	                <div class="form-group" id="jobrole-edit" style="">
@@ -246,25 +247,29 @@
                   </button>
 
                   <div  id=" " style="margin-top:5px;">
-                    <div style="margin-bottom: 15px;">
-                      <!-- <h4>{{thisjob.job_title}}</h4> -->
-                      <textarea style="color:#708090;margin-left:5px;margin-right:5px;width:450px;font-size:20px;height:auto;min-height: 60px;height: auto;text-overflow: ellipsis" ng-model="thisjob.job_title" class="editable_input" readonly="true" onclick="this.readOnly='';" ng-change="changed_jobproperty = true">
-                      	</textarea>
-                    </div>
+                      <textarea id="auto_expand_text_area" ng-model="thisjob.job_title" class="editable_input" readonly="true" onclick="this.readOnly='';" auto-grow ng-change="input_is_edited()" rows="1"></textarea>
                   </div>
                   <div id="thisjobslink">
-                    <a href={{thisjob.url.url}}>{{thisjob.url.hash_value}}</a>
+                    <a href={{thisjob.url.url}} style="margin-left:6px;font-size:18px;">{{thisjob.url.hash_value}}</a>
                   </div>
                 </div>
                 <div class="modal-body" id="this_job_modal_body" style="max-height: 500px;margin-top:10px;">
                   <div>
                     <div class="form-group">  
-                      <select   ng-init="somethingHere = thisjob.stage" ng-model="thisjob.stage" ng-options="each for each in job_stage"  ng-change="changed_jobproperty=true; changeCollapse(thisjob.stage)">
-                      </select>
+                      <!-- <select   ng-init="somethingHere = thisjob.stage" ng-model="thisjob.stage" ng-options="each for each in job_stage"  ng-change="changed_jobproperty=true; changeCollapse(thisjob.stage)">
+                      </select> -->
+                        <form name="stage_selector" style="display:inline-block;vertical-align: middle;">
+                          <span ng-repeat="each in job_stage">
+                            <label>
+                              <input type="radio" name="radio" class="nofocus " ng-model="thisjob.stage" value="{{each}}" ng-change=" changeCollapse(thisjob.stage);input_is_edited();">
+                              {{each}}
+                            </label>
+                            </span>
+                        </form>
                       <!-- <div>
                       <md-datepicker ng-model="thisjob.deadline" md-placeholder="{{thisjob.deadline}}"></md-datepicker>
                       </div> -->
-                      <div class="input-group date" data-provide="datepicker" style="width:250px;margin-top:8px;width:100px;float: right;position: relative;left: -250px;top:-10px;" class="datepicker" ng-click="activate_datepicker()">
+                      <div class="input-group date" data-provide="datepicker" style="width:250px;margin-top:8px;width:100px;display:inline-block;left: 100px;vertical-align: middle;" class="datepicker" ng-click="activate_datepicker()">
                       	 <div class="input-group-addon" style="background-color: #FFF;border:1px solid #e0e0d1;border-style:dashed;border-radius:50%;height:25px;width: 25px;">
         					<span class="glyphicon glyphicon-calendar" style="font-size:11px;color:#e0e0d1;"></span>
    						 </div>
@@ -291,7 +296,7 @@
                         </div> -->
                         <!-- <div class="editable_task_div" style="display: inline-block;vertical-align:middle;max-height:100%;margin-left:10px;width:60%;"> -->
                           <div style="display: inline-block;vertical-align:middle;height: 35px;margin-left:10px;width:60%;">
-                            <textarea style="color:#708090;height:100%;overflow: hidden;text-overflow: ellipsis;vertical-align: middle;display: inline-block;width:100%" ng-model="task.action" class="editable_input" readonly="true" onclick="this.readOnly='';" ng-change="input_is_edited()" onchange="" required>
+                            <textarea style="color:#708090;height:100%;overflow: hidden;text-overflow: ellipsis;vertical-align: middle;display: inline-block;width:100%" ng-model="task.action" class="editable_input" readonly="true" onclick="this.readOnly='';" ng-change="input_is_edited()"  required>
                             </textarea>
                           </div>
                         <!-- <div> -->
@@ -308,7 +313,7 @@
                     </div>
                       <div  class="row add_task_job_modal" style="">
                         
-                          <form name="myForm" style="display: inline-block;width:100%;padding-left:40px;">
+                          <form name="myForm" style="display: inline-block;width:100%;">
                             <input type='text' name="task" id="task_add_input" style="margin-top:5px;margin-bottom:25px;border:0; border-bottom:1px solid grey;background: transparent;text-align: center;width:60%;outline: none; "  ng-model="tsk"  placeholder="Add yout task here" onfocus="this.placeholder=''" ng-click="tsk=''" required ng-keypress="($event.which === 13) && myForm.task.$valid && add_task_job_modal(tsk,tsk_duedate);">
                             <div class="input-group date" data-provide="datepicker" style="width:100px;margin-top:8px;float: right;position: relative;right: 65px;border:none;" class="datepicker" ng-click="activate_datepicker()">
 		                      	 <div class="input-group-addon" style="background-color: #FFF;border:1px solid #e0e0d1;border-style:dashed;border-radius:50%;height:25px;width:25px;">
@@ -358,7 +363,7 @@
             </div>
           </div>
 
-          <div ng-if="job_temp.length>0"  style="padding: 15px;margin-top:10px;font-size: 16px;" id='jobsview' ng-class="{'dividebody':showjobmodal}" class="nofocus">
+          <div ng-if="job_temp.length>0"  style="padding: 15px;margin-top:10px;font-size: 16px;" id='jobsview' ng-class="{'dividebody':showjobmodal}" class="nofocus" >
             <div ng-repeat="stage in job_stage"  class="nofocus" style="margin-bottom:10px" >
              <section ng-cloak>
                 <div ng-click="collapse[$index] = !collapse[$index];"  ng-init = "prev_index = $index" class="nofocus">
@@ -380,7 +385,7 @@
                   
                   <div ng-repeat="task in item['tasks'] track by $index" class='col-lg-offset-1 col-xs-offset-2 nofocus' style="line-height:0px;font-size:14px;" ng-click="taskrem = !taskrem;">
                     <span class="glyphicon glyphicon-ok-circle nofocus" ng-class="task.done ? 'mark_task_as_done' :'task_not_done' " style="font-size:16px;margin-right: 3px"></span>
-                     <span style="color:#708090;font-size:16px;" class="nofocus">{{task.action}}</span>
+                      <div style="color:#708090;font-size:16px;width:92%;margin-left:20px;vertical-align:middle;height:auto;display:inline-block;word-wrap: break-word;" class="nofocus form-control customized_form-control">{{task.action}}</div>
                     <div ng-bind="formatDate(task.action_date) |  date:'MMMM dd'" style=" position:relative;float: right;right:40%;font-size:10px;" ng-show = "overdue(task.action_date);" ng-class="'overdue'">
                     </div>
                     <hr style="margin:10px;width: 80%;">
