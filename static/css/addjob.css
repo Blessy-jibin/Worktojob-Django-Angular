@@ -6,6 +6,7 @@
     border-radius: 5px;
     margin-bottom: 8px;
     padding: 8px;
+    width: 50%;
 }
 
 #stageselector{
@@ -260,6 +261,8 @@ input.task-btn{
 	border-radius: 5px;
 	margin-bottom:8px;
 	padding:8px;
+	width: 50%;
+
 }
 
 .underlined {

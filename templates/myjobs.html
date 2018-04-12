@@ -330,7 +330,7 @@
                       <div  class="row add_task_job_modal" style="">
                         
 
-                          <form name="myForm" style="display: inline-block;width:100%;padding-left:40px;">
+                          <form name="myForm" style="display: inline-block;width:100%;">
                             <input type='text' name="task" id="input_for_tsk" style="margin-top:5px;margin-bottom:25px;border:0; border-bottom:1px solid grey;background: transparent;text-align: center;width:60%;outline: none; "  ng-model="tsk"  placeholder="{{tsk_placeholder}}" required ng-keypress="($event.which === 13) && myForm.task.$valid && add_task_job_modal(tsk,tsk_duedate);" ng-init="tsk_placeholder ='Add your task here' ">
                             <div class="input-group date" data-provide="datepicker" style="width:100px;margin-top:8px;float: right;position: relative;right: 65px;border:none;" class="datepicker" ng-click="activate_datepicker()">
 		                      	 <div class="input-group-addon" style="background-color: #FFF;border:1px solid #e0e0d1;border-style:dashed;border-radius:50%;height:25px;width:25px;">
@@ -361,11 +361,18 @@
                      <!--  -->
                      <div style=" clear:right;position: relative;top: 30px"  >
                         <hr  style="height:1px;border:none;color:#333;background-color:#333;" />
-                        <img  src={{thisjob.url.img}} alt="" style="max-width: 100%;
-                        max-height: 100%;">
+                        <img  id="screenshot{{$index}}" src={{thisjob.url.img}} alt="" style="max-width: 100%;
+                        max-height: 100%;" ng-click =screenShotMdal(screenshot{{$index}});>
                       </div>
                   </div>
-                  <!-- <button class="btn-info btn-sm col-lg-offset-8"  ng-click="UpdateJob(thisjob);">Save Changes</button> -->
+
+                  <!-- Screenshot Modal  -->
+                  <div id="screenShotModal" class="modal">
+                    <span class="close">&times;</span>
+                    <img class="modal-content" id="modalImageId">
+                    <div id="caption"></div>
+                  </div>
+                                    <!-- <button class="btn-info btn-sm col-lg-offset-8"  ng-click="UpdateJob(thisjob);">Save Changes</button> -->
                 </div>         
                <!--  
 

@@ -195,7 +195,6 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         $scope.tasks = [];
         $scope.url_validation_error = false;
         $scope.changed_jobproperty = false;
-        console.log('changed_job_property_intialize',$scope.changed_jobproperty);
         $scope.newtask = "";
         $scope.newtasklist = [];
         $scope.select_btn1 = false;
@@ -423,6 +422,17 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
                 }
             }   
     }
+
+    $scope.screenShotMdal =  function(id){
+        
+        var img = document.getElementById('id');
+        var modalImg = document.getElementById("modalImageId");
+        // var captionText = document.getElementById("caption");
+        modal.style.display = "block";
+        modalImg.src = thisjob.url.img;
+        // captionText.innerHTML = this.alt;
+        console.log(id,img,modal);
+    }
    
     $scope.today = function(){
         var today = new Date();
@@ -455,26 +465,13 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
 
      $scope.get_job_list_view();
 
-    $scope.get_date_in_mmddyyy = function(date){
-        var dd = date.getDate();
-        var mm = date.getMonth()+1; //January is 0!
-        var yyyy = date.getFullYear();
-        if(dd<10){
-                dd='0'+dd;
-            } 
-        if(mm<10){
-           mm='0'+mm;
-            } 
-        formated_date = mm+'/'+dd+'/'+yyyy;
-        return formated_date;
-    }
+
 
     $scope.show_add_job_modal = function(url) {
         $scope.url_data = {};
         if(!$scope.changed_jobproperty){
             $scope.job.stage = "To Apply";
-            var today = $scope.today();
-            $scope.job.deadline = $scope.get_date_in_mmddyyy(today);
+            $scope.job.deadline = $scope.today();
             $scope.newtask = undefined;
             $scope.tasks = [];
             $scope.btn1_selected = false;
@@ -540,26 +537,38 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     }
 
 
-   
+    $scope.SelectTasks = function (task_id) {
+
+        var emnt = angular.element($("#"+task_id));
+        emnt.css({"background-color": "blue"});
+        if (emnt.val() != null && emnt.val()=='selected'){
+            emnt.val('not selected');
+            emnt.css({"background-color": "white"});
+        } else {
+            emnt.val('selected');
+            emnt.css({"background-color": "blue"});
+        }
+       
+    }
 
     $scope.removeTask = function(index) { 
         $scope.changed_jobproperty=true;
-        console.log('remove tasks',$scope.changed_jobproperty);
     	// list.splice(index, 1);
 
     	$scope.thisjob.tasks.splice(index, 1);
     };
 
+
     $scope.show_this_Job=function(item,index){
         var modal=angular.element($('#thisJob')); 
-       console.log('show_this_Job',$scope.changed_jobproperty);
+       
 
-        if($scope.changed_jobproperty){
+        if($scope.changed_jobproperty == true){
             $scope.showConfirm($scope.thisjob);
             modal.modal('hide');
         };
         
-        if(!$scope.changed_jobproperty){
+        if($scope.changed_jobproperty == false){
             $scope.thisjob = item;
             $scope.tsk_duedate = $scope.thisjob.deadline;
             console.log( 'this job' ,$scope.thisjob);
@@ -573,10 +582,10 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         };
     };
 
-    // $scope.addtaskbutton_clicked = function(){
-    //     $scope.changed_jobproperty = true;
-    //     $('#inputtask').blur();
-    // }
+    $scope.addtaskbutton_clicked = function(){
+        $scope.changed_jobproperty = true;
+        $('#inputtask').blur();
+    }
     $scope.overdue = function(date){
         thisday = $scope.today();
         thisday.setHours(0, 0, 0, 0);
@@ -595,7 +604,6 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
    
         task.done = !task.done;
         $scope.changed_jobproperty = true;
-        console.log('mark_as_done',$scope.changed_jobproperty);
     }
     $scope.hovered_task_index = -1;
     $scope.highlight_task_onhover = function(taskid){
@@ -606,7 +614,6 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     $scope.add_task_job_modal = function(tsk){
         $scope.thisjob.tasks.push({'action':tsk,'action_date':$scope.tsk_duedate,'done':false});
         $scope.changed_jobproperty = true;
-        console.log('add_task_job_modal',$scope.changed_jobproperty);
         $scope.tsk = undefined;
 
     }
@@ -681,7 +688,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
 
     $scope.showConfirm = function(ev,job) {
     // Appending dialog to document.body to cover sidenav in docs app
-        console.log(' changed_job_property',$scope.changed_jobproperty);
+       
         var confirm = $mdDialog.confirm()
               .title('Your data is not saved')
               .textContent('Save your data')
@@ -692,14 +699,12 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
 
         $mdDialog.show(confirm).then(function() {
             $scope.saveThisJob(job);
-            console.log('changed_jobproperty',$scope.changed_jobproperty);
+            $scope.changed_jobproperty = false;
          }, function() {
-           console.log('dismiised',$scope.changed_jobproperty);
+
           $scope.job_temp[$scope.clickedIndex] = $scope.thisjob_beforechange;
           $scope.changeCollapse($scope.thisjob_beforechange.stage);
           $scope.changed_jobproperty = false;
-          console.log('dismiised',$scope.changed_jobproperty);
-          
         });
     };
 
@@ -709,16 +714,6 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     	$scope.number_of_repeat.push($scope.ele_in_array);
     	
     }
-
-    $scope.autoExpand = function(e) {
-        console.log('key-up');
-        console.log(e);
-        var element = typeof e === 'object' ? e.target : document.getElementById(e);
-        
-        var scrollHeight = element.scrollHeight -15; // replace 20 by the sum of padding-top and padding-bottom
-        element.style.height =  scrollHeight + "px";  
-        element.style.marginBottom = 5 +px;
-    };
     $scope.showPopover = function() {
         $scope.popoverIsVisible = true; 
     };
