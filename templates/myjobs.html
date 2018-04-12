@@ -138,13 +138,18 @@
 	                </div>   
   	             </div>
   	             <div class="modal-body" style="">
-  	                <div class="form-group">
-  	                  <label for="jobstage" style="font-size:12px;">Stage:</label>
-  	                  <select class="selectpicker" name="jb_stage" data-style="btn-primary" id="stageselector" ng-model="job.stage">
-  	                    <option  selected="selected">To Apply</option>
-  	                    <option >Follow-up</option>
-  	                    <option >Selection</option>
-  	                  </select>
+  	                <div class="form-group" style="vertical-align: middle;">
+  	                  <label for="jobstage" style="font-size:12px;vertical-align:middle;">Stage:</label>
+  	                  <form name="stage_selector" style="display:inline-block;vertical-align: middle;">
+                              <div class="radio-group_addjob_modal" >
+                                <span  ng-repeat="each in job_stage">
+                                    <input type="radio"  class="nofocus " ng-model="job.stage" value="{{each}}"  name="selector" id="stage{{$index}}">
+                                    <label for="stage{{$index}}" style="height:100%;margin-bottom:0px;" >
+                                    {{each}}
+                                    </label>
+                                </span>
+                              </div>
+                        </form>
   	                </div>
   	                <div class="form-group">
   	                  <label for="deadline" id="dlinelbl">Set your Deadline:</label>
@@ -265,11 +270,11 @@
                   <div  id=" " style="margin-top:5px;">
                       <textarea id="auto_expand_text_area" ng-model="thisjob.job_title" class="editable_input" readonly="true" onclick="this.readOnly='';" auto-grow ng-change="input_is_edited()" rows="1"></textarea>
                   </div>
-                  <div id="thisjobslink">
+                  <div id="thisjobslink" style="margin-left:5px;">
                        <a href={{thisjob.url.url}}>{{thisjob.url.url.substring(0, 50)}}</a>
                   </div>
                 </div>
-                <div class="modal-body" id="this_job_modal_body" style="max-height: 500px;margin-top:10px;">
+                <div class="modal-body" id="this_job_modal_body" style="max-height: 500px;">
                   <div>
                     <div class="form-group" style="margin-bottom:5px;">  
                         <form name="stage_selector" style="display:inline-block;vertical-align: middle;">

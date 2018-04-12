@@ -438,7 +438,20 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         var today = new Date();
         return today;
     }
-   
+    $scope.get_date_in_mmddyyy = function(date){
+       var dd = date.getDate();
+       var mm = date.getMonth()+1; //January is 0!
+        var yyyy = date.getFullYear();
+        if(dd<10){
+                dd='0'+dd;
+            } 
+        if(mm<10){
+           mm='0'+mm;
+            } 
+        formated_date = mm+'/'+dd+'/'+yyyy;
+        return formated_date;
+    }
+
     $scope.get_job_list_view = function(){
         headers = get_http_header($rootScope)
         $http({
@@ -465,13 +478,14 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
 
      $scope.get_job_list_view();
 
-
+    
 
     $scope.show_add_job_modal = function(url) {
         $scope.url_data = {};
         if(!$scope.changed_jobproperty){
             $scope.job.stage = "To Apply";
-            $scope.job.deadline = $scope.today();
+            today = $scope.today();
+            $scope.job.deadline = $scope.get_date_in_mmddyyy(today);
             $scope.newtask = undefined;
             $scope.tasks = [];
             $scope.btn1_selected = false;
@@ -576,6 +590,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
             $scope.taskentered = false;
             $scope.thisjob_beforechange = angular.copy(item);
             $scope.remove_default_selection();
+            $scope.clickedIndex = index;
             $scope.tsk = undefined;
             modal.modal('show');
 

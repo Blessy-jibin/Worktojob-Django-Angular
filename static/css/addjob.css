@@ -342,9 +342,15 @@ input[type=radio] {
   visibility: hidden;
   display: none;
 }
-
-label {
-  color: #00b3b3;
+.radio-group_addjob_modal  label {
+  color: #33adff;
+  display: inline-block;
+  cursor: pointer;
+  font-weight: 350;
+  padding: 3px 20px;
+}
+.radio-group  label {
+  color: #33adff;
   display: inline-block;
   cursor: pointer;
   font-weight: 350;
@@ -353,14 +359,14 @@ label {
 
 input[type=radio]:checked + label{
   color: white;
-  background: #33cccc;
+  background: #33adff;
 }
 
 label + input[type=radio] + label {
-  border-left: 1px #00b3b3;
+  border-left: 1px #33adff;
 }
 .radio-group {
-  border: 1px solid #00b3b3;
+  border: 1px solid #33adff;
   display: inline-block;
   margin: 20px;
   border-radius: 10px;
@@ -368,7 +374,17 @@ label + input[type=radio] + label {
   font-weight:200;
   line-height:1.25;
 }
-
+.radio-group_addjob_modal {
+  border: 1px solid #33adff;
+  display: inline-block;
+  margin:0px 20px;
+  border-radius: 10px;
+  overflow: hidden;
+  font-weight:200;
+  line-height:1.2;
+  vertical-align: middle;
+  
+}
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
 
