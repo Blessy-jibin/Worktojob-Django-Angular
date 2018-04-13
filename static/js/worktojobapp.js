@@ -490,7 +490,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
             $scope.tasks = [];
             $scope.btn1_selected = false;
             $scope.btn2_selected = false;
-            
+            headers = get_http_header($rootScope)
             $http({
               method: 'GET',
               url: '/meta',

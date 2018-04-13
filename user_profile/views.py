@@ -39,7 +39,7 @@ import os
 import urllib.parse as urlparse
 from django.conf import settings
 from datetime import datetime
-# from selenium import webdriver
+from selenium import webdriver
 import sys;
 import hashlib
 
@@ -66,8 +66,8 @@ u'[{"id":1,"job_title":"Python Developer","job_url":"bcghfchc","created_date":"2
 """
 
 @api_view(["POST"])
-#@authentication_classes([])
-#@permission_classes([])
+@authentication_classes([])
+@permission_classes([])
 def auth_login(request):
 
     username = request.data.get("username")
@@ -268,11 +268,9 @@ class MetaParsing (APIView):
         image_url = '/static/image/logo.jpg'
         url = request.GET['url']
         url_hash = hashlib.md5(url.encode('utf-8')).hexdigest()[:8]
-
         if(sys.argv[1] != 'runserver'):
             img_data = get_screenshot(url)
-            image_url = img_data.get('image_url', '')
-        
+            image_url = img_data.get('image_url', '')   
         title = '';
         urlObj = Redirect.objects.create(url=url,hash_value=url_hash,img=image_url)
       
@@ -356,7 +354,7 @@ def get_screenshot(url):
         screenshot = open(full_img_path, 'rb').read()
         var_dict = {'screenshot': img_name, 'save': True}
         driver.quit()    
-        return {'url': '/static/screenshot/'+img_name, 'status': True}
+        return {'image_url': '/static/screenshot/'+img_name, 'status': True}
     else:
-        return {'url': '', 'status': False}
+        return {'image_url': '', 'status': False}
 
