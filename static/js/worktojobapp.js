@@ -429,12 +429,15 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         // var img = document.getElementById('id');
         // var modalImg = document.getElementById("modalImageId");
         var modal = angular.element($('#screenShotModal'));
+       
         console.log(modal);
 
         console.log($scope.thisjob.url.img);
         // var captionText = document.getElementById("caption");
         // modal.modal('toggle');
-        modal.modal({backdrop : false});
+        modal.modal('show');
+
+
         // modalImg.src = $scope.thisjob.url.img;
         // captionText.innerHTML = this.alt;
         console.log();
@@ -442,9 +445,11 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
 
     angular.element($('#screenShotModal')).on('show.bs.modal', function (e) {
        angular.element(document).off('focusin.modal');
-       // angular.element('body').removeClass('modal-open');
-      
-       // angular.element($('#thisJob')).removeClass('modal-open');
+       
+       setTimeout(function(){
+        $('.modal-backdrop').addClass('modal-backdrop-custom');
+        });
+       angular.element($('#thisJob')).removeClass('modal-open');
 
        console.log('qqqqq');
     })
@@ -590,6 +595,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
 
     $scope.show_this_Job=function(item,index){
         var jobmodal=angular.element($('#thisJob')); 
+        var screenShotModal = angular.element($('#screenShotModal'));
         
        
 
@@ -608,6 +614,9 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
             $scope.remove_default_selection();
             $scope.clickedIndex = index;
             $scope.tsk = undefined;
+
+            screenShotModal.modal('hide');
+            // screenShotModal.modal('hide');
             jobmodal.modal('show');
 
         };

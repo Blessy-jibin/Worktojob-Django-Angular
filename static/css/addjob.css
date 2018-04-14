@@ -323,8 +323,6 @@ width:50%;
 	position: relative;
     left:100px;
     top:32px;
-
-
 }
 
 #screenShotModal{
@@ -332,6 +330,12 @@ width:50%;
 	top:83px;
 	left: 740px;
 }
+
+ .modal-backdrop-custom{
+	background: none;
+	z-index: -1;
+
+	}
 
 .jobmodal_topfixed{
 	position: fixed !important;
