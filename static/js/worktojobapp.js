@@ -445,10 +445,11 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
 
     angular.element($('#screenShotModal')).on('show.bs.modal', function (e) {
        angular.element(document).off('focusin.modal');
-       
+       // angular.element($('#thisJob')).modal('hide');
        setTimeout(function(){
-        $('.modal-backdrop').addClass('modal-backdrop-custom');
+            $('.modal-backdrop').addClass('modal-backdrop-custom');
         });
+       // angular.element('body').removeClass('modal-open');
        angular.element($('#thisJob')).removeClass('modal-open');
 
        console.log('qqqqq');
@@ -706,13 +707,14 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     angular.element(document).bind('scroll', function() {
      
      	if ($(window).scrollTop() > 40) {
-    		angular.element('#thisJob').css({'position': 'fixed','top':'-10px','bottom':'20px'});
+    		// angular.element('#thisJob').css({'position': 'fixed','top':'-10px','bottom':'20px'});
             angular.element('#screenShotModal').css({'position': 'fixed','top':'23px','bottom':'20px'});
-
+            angular.element('#thisJob').css({'position': 'fixed','top':'23px','bottom':'20px'});
     	}
     	else if ($(window).scrollTop() < 40) {
-    		angular.element('#thisJob').css({'position': 'absolute','top':'50px','bottom':'20px'});
+    		// angular.element('#thisJob').css({'position': 'absolute','top':'50px','bottom':'20px'});
             angular.element('#screenShotModal').css({'position': 'absolute','top':'79px','bottom':'20px'});
+            angular.element('#thisJob').css({'position': 'absolute','top':'79px','bottom':'20px'});
         }
     });
    

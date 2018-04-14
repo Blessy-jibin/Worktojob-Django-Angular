@@ -322,13 +322,21 @@ width:50%;
 #thisJobmodalcontent{
 	position: relative;
     left:100px;
-    top:32px;
+    
 }
-
+#thisJob{
+	position: absolute;
+	top:83px;	
+}
 #screenShotModal{
-	position: fixed;
+	position: absolute;
 	top:83px;
-	left: 740px;
+
+	
+}
+#screenShotModalcontent{
+	position: relative;
+    left: 100px;
 }
 
  .modal-backdrop-custom{
@@ -475,5 +483,29 @@ label + input[type=radio] + label {
 #dlinewpr{
 	display:block;
 
+}
+
+#thisJobmodalcontent{
+	position: relative;
+    left:20px;
+    width: 100%;
+    
+}
+#thisJob{
+	position: absolute;
+	top:83px;	
+	width: 100%;
+}
+#screenShotModal{
+	position: absolute;
+	top:83px;
+	width: 100%;
+
+	
+}
+#screenShotModalcontent{
+	position: relative;
+    left: 20px;
+    width:100%;
 }
 }
