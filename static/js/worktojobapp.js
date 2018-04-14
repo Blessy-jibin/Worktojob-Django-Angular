@@ -246,6 +246,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         $scope.task_list = [];
         $scope.newtasklist = [];
         createNewJobInfo ($scope.job, $cookies);
+ 
     };
 
     function createNewJobInfo (jobData,$cookies) {
@@ -423,17 +424,31 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
             }   
     }
 
-    $scope.screenShotMdal =  function(id){
-        
-        var img = document.getElementById('id');
-        var modalImg = document.getElementById("modalImageId");
+    $scope.screenShotModal =  function(){
+        console.log('xxxxx');
+        // var img = document.getElementById('id');
+        // var modalImg = document.getElementById("modalImageId");
+        var modal = angular.element($('#screenShotModal'));
+        console.log(modal);
+
+        console.log($scope.thisjob.url.img);
         // var captionText = document.getElementById("caption");
-        modal.style.display = "block";
-        modalImg.src = thisjob.url.img;
+        // modal.modal('toggle');
+        modal.modal({backdrop : false});
+        // modalImg.src = $scope.thisjob.url.img;
         // captionText.innerHTML = this.alt;
-        console.log(id,img,modal);
+        console.log();
     }
-   
+
+    angular.element($('#screenShotModal')).on('show.bs.modal', function (e) {
+       angular.element(document).off('focusin.modal');
+       // angular.element('body').removeClass('modal-open');
+      
+       // angular.element($('#thisJob')).removeClass('modal-open');
+
+       console.log('qqqqq');
+    })
+
     $scope.today = function(){
         var today = new Date();
         return today;
@@ -574,12 +589,13 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
 
 
     $scope.show_this_Job=function(item,index){
-        var modal=angular.element($('#thisJob')); 
+        var jobmodal=angular.element($('#thisJob')); 
+        
        
 
         if($scope.changed_jobproperty == true){
             $scope.showConfirm($scope.thisjob);
-            modal.modal('hide');
+            jobmodal.modal('hide');
         };
         
         if($scope.changed_jobproperty == false){
@@ -592,7 +608,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
             $scope.remove_default_selection();
             $scope.clickedIndex = index;
             $scope.tsk = undefined;
-            modal.modal('show');
+            jobmodal.modal('show');
 
         };
     };
@@ -682,9 +698,12 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
      
      	if ($(window).scrollTop() > 40) {
     		angular.element('#thisJob').css({'position': 'fixed','top':'-10px','bottom':'20px'});
+            angular.element('#screenShotModal').css({'position': 'fixed','top':'23px','bottom':'20px'});
+
     	}
     	else if ($(window).scrollTop() < 40) {
     		angular.element('#thisJob').css({'position': 'absolute','top':'50px','bottom':'20px'});
+            angular.element('#screenShotModal').css({'position': 'absolute','top':'79px','bottom':'20px'});
         }
     });
    

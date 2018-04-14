@@ -326,6 +326,13 @@ width:50%;
 
 
 }
+
+#screenShotModal{
+	position: fixed;
+	top:83px;
+	left: 740px;
+}
+
 .jobmodal_topfixed{
 	position: fixed !important;
 	top: -10px !important;
@@ -385,8 +392,9 @@ label + input[type=radio] + label {
   vertical-align: middle;
   
 }
-@import url('https://fonts.googleapis.com/css?family=Roboto');
 
+
+@import url('https://fonts.googleapis.com/css?family=Roboto');
 
 
 /*scroll bar customized*/

@@ -11,16 +11,15 @@
 
       gtag('config', 'UA-116654727-1');
     </script><!-- google_analytics ends here-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  
-     <script src ="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-     
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src ="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="{% static "js/worktojobapp.js" %}"></script>
     <script type="text/javascript" src="{% static "js/autogrow.js" %}"></script>
 
     <!--I have included angular js at the top othr than any scripts to avoid flickering-->
+    
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
@@ -47,6 +46,15 @@
     <div class="container" style="width: 100%">
       {% block customscript %}
       {% endblock %}
+    </div>
+    <!-- Screenshot Modal  -->
+    <div id="screenShotModal" class="modal" role="dialog">
+      <div class="modal-dialog">
+          <span class="close" data-dismiss="modal">&times;</span>
+          <img class="modal-content" id="modalImageId" src={{thisjob.url.img}} style="max-width: 100%;
+              max-height: 100%;" alt="job-description">
+          <div id="caption">heeeyyyy {{thisjob.url.img}}</div>
+      </div>
     </div>
     </body>
   </html>
