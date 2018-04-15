@@ -2,30 +2,36 @@ body {
     padding-top: 90px;
 }
 
+#login_container{
+	margin: 0px;
+	padding-left:15px;
+	padding-right:5px;
+}
+
 #logo{
 position: absolute;
 top:32px;
-left:34px;
-}
+/*left:34px;
+*/}
 
 #tagline{
 	/*padding:15px;*/
 	position: absolute;
-	top:200px;
-	left: 34px;
-	width: 20%;
-	float: left;
+	top:150px;
+	/*left: 34px;*/
+	/*width: 20%;
+	float: left;*/
 }
 
 #working_man_pic{
 	position: absolute;
 	top:150px;
 }
-#sign_inform{
+/*#sign_inform{
 	position: absolute;
 	top:150px;
 }
-#SignIn_button{
+*/#SignIn_button{
 	margin-top: 5px;
 
 }
@@ -173,4 +179,41 @@ span.buttonText {
   font-family: 'Roboto', sans-serif;
 }
 
+@media(min-width: 992px){
 
+ #sign_inform{
+  	position: absolute;
+  	top:150px;
+  	
+  }	
+
+  #second_row, #first_row{
+ 	margin: 0px;
+ }
+}
+
+
+  /* medium devices like tablets*/
+@media(max-width:769px){
+	#sign_inform{
+		position: absolute;
+		top:150px;
+	}
+
+
+ #second_row, #first_row{
+ 	margin: 0px;
+ }
+}
+
+
+/*extra small*/
+@media(max-width:576px){
+  #tagline{
+  	top:120px;
+  }
+  #sign_inform{
+  	position: absolute;
+  	top:340px;
+  }
+}
