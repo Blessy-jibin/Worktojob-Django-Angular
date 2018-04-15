@@ -1,0 +1,20 @@
+{
+  "manifest_version": 2,
+
+  "name": "Worktojob",
+  "description": "This extension for worktojob",
+  "version": "1.0",
+
+  "browser_action": {
+   "default_icon": "icon.png",
+   "default_popup": "popup.html"
+  },
+  "permissions": [
+    "tabs"
+],
+"background": {
+      "persistent": true,
+      "scripts": [ "jquery-3.3.1.min.js",  "popup.js"]
+   }
+
+}

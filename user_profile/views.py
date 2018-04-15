@@ -265,8 +265,10 @@ class MetaParsing (APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):
-        image_url = '/static/image/logo.jpg'
+        image_url = ''
         url = request.GET['url']
+        if 'http' not in url:
+            url = 'https://'+ url
         url_hash = hashlib.md5(url.encode('utf-8')).hexdigest()[:8]
         if(sys.argv[1] != 'runserver'):
             img_data = get_screenshot(url)
