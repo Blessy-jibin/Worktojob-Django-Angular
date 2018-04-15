@@ -4,6 +4,7 @@
 
 {% block customstyle %}
    <link rel="stylesheet" type="text/css" href="{% static "css/login.css" %}">
+   
 {% endblock %}
 
 {% block customscript %}
@@ -12,13 +13,25 @@
 
 {% block content %}
    <div class = "container" ng-cloak  ng-controller="loginController"  ng-init="initialize_login_controller()">
-   <div class = "row">
-   <div class = "col-xs-12 col-sm-4 col-sm-offset-8 ">
+   <div class = "row" id="logo">
+      <div class="col-sm-2" >
+       <img src={% static "image/logo.png" %} alt="worktojob logo">
+      </div>
+   </div>
+   <div class="row">
+      <div class="col-sm-3" id="tagline">
+         <p><strong style="font-size:30px;vertical-align:middle;">Organize your work to get a job with</strong><img src={% static "image/logo.png" %} alt="worktojob logo" style="margin-left:5px;vertical-align: middle;"></p>
+         WorktoJob is the most powerful workspace for a job seeker
+      </div>
+      <div class="col-sm-2 col-sm-offset-3" id="working_man_pic">
+         <img src={% static "image/man_with_laptop.png" %} style="max-width:100%;min-width:100%;">
+      </div>
+   <div class = "col-xs-12 col-sm-3 col-sm-offset-7 " id="sign_inform">
    <div class = "panel panel-login">
    <div class = "panel-heading">
       <div class = "row">
          <div class="col-xs-6">
-            <a href="#" class = "active" id = "login-form-link">Login</a>
+            <a href="#" class = "active" id = "login-form-link">Sign In</a>
          </div>
          <div class = "col-xs-6">
             <a href = "#" id = "register-form-link">Register</a>
@@ -39,21 +52,29 @@
                </div>
                <div class = "form-group">
                   <div class = "row">
-                     <div class = "col-sm-6 col-sm-offset-3">
-                        <input type="button" class="form-control btn btn-login" value="Log In" ng-click="authenticate_app()">
+                     <div class = "col-sm-12" >
+                        <!-- <div class = "text-center"> -->
+                           <a href="/reset/pwd" tabindex = "5" class = "forgot-password">Forgot Password?</a>
+                      <!--   </div> -->
                      </div>
                   </div>
                </div>
                <div class = "form-group">
                   <div class = "row">
-                     <div class = "col-lg-12">
-                        <div class = "text-center">
-                           <a href="/reset/pwd" tabindex = "5" class = "forgot-password">Forgot Password?</a>
-                        </div>
+                     <div class = "col-sm-10 col-sm-offset-1" id="SignIn_button">
+                        <input type="button" style="padding:10px 14px;" class="form-control btn btn-login" value="Sign In" ng-click="authenticate_app()">
                      </div>
                   </div>
                </div>
-               
+               <input type="checkbox" checked="checked" name="remember" id="remember">
+               <label for="remember" id="remember_me">
+                   Remember me
+               </label>
+              <!--  <label class="checkbox">
+                 <input type="checkbox" checked>
+                 <span class="checkbox__icon"></span>
+                 Dat checkbox
+               </label> -->
             </form>
             <form id = "register-form" method = "post" role = "form" style = "display: none;">
                <p style="color:red" ng-if="pwd_error_status" id="create_error" ng-cloak>A user with that username already exists.</p>
@@ -68,8 +89,8 @@
                </div>
                <div class = "form-group">
                   <div class = "row">
-                     <div class = "col-sm-6 col-sm-offset-3">
-                        <input type = "button" ng-click="add_new_user()" class = "form-control btn btn-register" value = "Register Now">
+                     <div class = "col-sm-10 col-sm-offset-1">
+                        <input type = "button" ng-click="add_new_user()" class = "form-control btn btn-register" style="padding:10px 14px;" value = "Register Now">
                      </div> 
                   </div>  
                </div>   
@@ -77,5 +98,6 @@
             </div>
          </div>
       </div>
+   </div><!--second row ends here-->
    </div>
 {% endblock %}
