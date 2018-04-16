@@ -4,29 +4,32 @@ body {
 
 #login_container{
 	margin: 0px;
-	padding-left:15px;
-	padding-right:5px;
+	padding:15px;
+	width: 100%;
 }
 
 #logo{
-position: absolute;
-top:32px;
+
 /*left:34px;
 */}
 
 #tagline{
-	/*padding:15px;*/
-	position: absolute;
-	top:150px;
-	/*left: 34px;*/
-	/*width: 20%;
-	float: left;*/
+	padding-top:65px;
+	
 }
+#first_row{
+	margin:15px 0px;
+}
+ #second_row{
+ 	margin:15px 0px;
+ 	align-items: center;
+ }
 
 #working_man_pic{
-	position: absolute;
-	top:150px;
+	padding-top:65px;
 }
+
+
 /*#sign_inform{
 	position: absolute;
 	top:150px;
@@ -181,39 +184,42 @@ span.buttonText {
 
 @media(min-width: 992px){
 
- #sign_inform{
+/* #sign_inform{
   	position: absolute;
   	top:150px;
   	
   }	
-
-  #second_row, #first_row{
+*/
+ /* #second_row, #first_row{
  	margin: 0px;
- }
+ }*/
 }
 
 
   /* medium devices like tablets*/
 @media(max-width:769px){
-	#sign_inform{
+	/*#sign_inform{
 		position: absolute;
 		top:150px;
 	}
+*/
 
-
- #second_row, #first_row{
+ /*#second_row, #first_row{
  	margin: 0px;
- }
+ }*/
 }
 
 
 /*extra small*/
 @media(max-width:576px){
   #tagline{
-  	top:120px;
+  	margin-bottom:30px;
+
+	padding-top:15px;
+	
+
   }
   #sign_inform{
-  	position: absolute;
-  	top:340px;
+  	margin-bottom:10px;
   }
 }
