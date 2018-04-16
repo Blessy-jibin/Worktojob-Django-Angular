@@ -8,7 +8,10 @@
     padding: 8px;
     width: 50%;
 }
+/*.modal-dialog{
 
+	width:100%;
+}*/
 #stageselector{
 	border-radius:2px;
 	padding:3px;
@@ -42,7 +45,31 @@
 	padding-right:15px;
 }
 
+.left_side_job_title{
+	margin-bottom:5px;
+	color:#5D6D7E;
+	font-weight: bold;
+}
 
+.left_side_job_deadline{
+	font-size:14px;
+	font-weight: bold;
+}
+.left_side_task_action{
+	color:#708090;
+	width:60%;
+	margin-left:20px;
+	vertical-align:middle;
+	height:auto;
+	display:inline-block;
+	word-wrap: break-word;
+}
+
+.left_side_task_date{
+	display:inline-block;
+	vertical-align:middle;
+
+}
 /**:focus {
     outline: none !important;
     border: 0 !important;
@@ -222,6 +249,14 @@ input.task-btn{
   lid black;
   border-style: outset;
 }*/
+.v-center{
+	transform: translateY(10%);
+}
+
+.dropdown-menu {
+ 	z-index: 1000;
+}
+
 .modal-header{
 	padding-bottom:2px;
 }
@@ -280,19 +315,11 @@ input.task-btn{
 
 }
 
-.dividebody {
-	width:55%;
-	background-color:white;
-  }
 
 .glyphColorChange {
 	color : green;
 }
 
-
-.change_on_showjobmodal{
-width:50%;
-}
 
 .jobtitle_change{
 	background-color:blue;
@@ -321,19 +348,11 @@ width:50%;
 
 #thisJobmodalcontent{
 	position: relative;
-    left:100px;
+
+   /* left:100px;*/
     
 }
-#thisJob{
-	position: absolute;
-	top:83px;	
-}
-#screenShotModal{
-	position: absolute;
-	top:83px;
 
-	
-}
 #screenShotModalcontent{
 	position: relative;
     left: 100px;
@@ -432,7 +451,7 @@ label + input[type=radio] + label {
 }
 
 
-@media(min-width:600px){
+@media(min-width:768px){
 	#dlinewpr{
 		float:right;
 		position:relative;
@@ -445,6 +464,11 @@ label + input[type=radio] + label {
 		padding:0px; 
 		width:120px;
 	}
+    
+    .dividebody {
+	width:56%;
+	background-color:white;
+    }
 
 	#taskwrapper{
 	/*float:right;*/
@@ -455,18 +479,41 @@ label + input[type=radio] + label {
 	margin-bottom:0px;
 
 }
-./*modal-body{
-	height: 380px;
-   }*/
-   .modal-content{
-   	width:540px;
-   	height:540px;
+
+
+.change_on_showjobmodal{
+width:50%;
+}
+
+#screenShotModal{
+	position: absolute;
+	top:83px;
+
+	
+}
+
+
+   #thisJob  .modal-dialog{
+   	width:100% !important;
    }
+   
+
+   #thisJob{
+   	margin-left:57%;
+	width:41.777%;
+	position: absolute;
+	top:83px;
+	float:left;
+
+
+   }
+
+
 }
 
 
 
-@media(max-width:600px){
+@media(max-width:768px){
 .dlinebtn{
 	font-size: 12px;
 	height:35px;
@@ -484,21 +531,30 @@ label + input[type=radio] + label {
 	display:block;
 
 }
+ .modal-dialog{
+ 	width:96%;
 
-#thisJobmodalcontent{
+ 	margin:0px 6px;
+ }
+  .dividebody {
+	width:100%;
+	background-color:white;
+    }  
+
+/*#thisJobmodalcontent{
 	position: relative;
     left:20px;
     width: 100%;
     
-}
+}*/
 #thisJob{
 	position: absolute;
-	top:83px;	
+	top:68px !important;	
 	width: 100%;
 }
 #screenShotModal{
 	position: absolute;
-	top:83px;
+	top:68px;
 	width: 100%;
 
 	
@@ -508,4 +564,49 @@ label + input[type=radio] + label {
     left: 20px;
     width:100%;
 }
+.left_side_job_title{
+	font-size: 16px;
+	padding-left: 0px;
+	color: #004d99;
+}
+.left_side_job_deadline{
+	font-size: 14px;
+}
+.left_side_task_action{
+    width: 60%;
+    padding-right:5px;
+}
+.left_side_task_date{
+	font-size: 10px;
+}
+.left_side_each_job hr{
+margin-top:5px;
+}
+}
+
+
+@media(min-width: 1200px){
+	.show_only_onlarge_devices{
+		display:inline-block;
+		vertical-align: middle;
+		width:80%;
+	}
+	.show_only_onsmall_devices{
+		display: none;
+	}
+
+}
+
+@media(max-width: 1199px){
+	.show_only_onlarge_devices{
+		display:none;
+		
+	}
+	.show_only_onsmall_devices{
+		width:40%;
+		margin-right: 30%;
+		text-align: center;
+		display: inline-block;
+		vertical-align: middle;
+	}
 }

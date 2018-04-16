@@ -686,6 +686,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
 
     }
     angular.element($('#thisJob')).on('show.bs.modal', function() {
+
             var modal_body = angular.element($('#this_job_modal_body'));
             scroll = modal_body.scrollTop(0);
             console.log(scroll);
@@ -693,8 +694,12 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
     });
 
 	angular.element($('#thisJob')).on('shown.bs.modal', function() {
-        	angular.element(document).off('focusin.modal');
-            angular.element('body').removeClass('modal-open');
+            const mq = window.matchMedia( "(min-width: 768px)" );
+            if(mq.matches){
+            	angular.element(document).off('focusin.modal');
+                angular.element('body').removeClass('modal-open');
+                console.log('yes mq is greater than 768px ');
+            }
         	$scope.showjobmodal = true;
 
     });
