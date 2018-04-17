@@ -252,9 +252,11 @@ input.task-btn{
 .v-center{
 	transform: translateY(10%);
 }
-
+.nav > li{
+	overflow: visible;
+}
 .dropdown-menu {
- 	z-index: 1000;
+ 	z-index: 10000000 !important;
 }
 
 .modal-header{
