@@ -59,9 +59,12 @@ Popup = {
       Asana.ServerModel.options(function(options) {
         me.options = options;
         // And ensure the user is logged in ...
+
+
         
         Asana.ServerModel.isLoggedIn(function(is_logged_in) {
-          if (is_logged_in) {
+          console.log('.........................', is_logged_in)
+          if (is_logged_in != 'false') {
             $('#login_view').hide();
             $('#add_view').show();
             me.showAddUi(tab.url, tab.title, '', tab.favIconUrl);
@@ -226,7 +229,7 @@ function createNewJobInfo () {
       'job_title': $('#name_input').val(),
       'url': $('#notes_input').val(),
       'tasks': [],
-      'deadline': '02/09/2012',
+      'deadline': new Date(),
       'stage': $('#stage').val()
 
   }
@@ -237,13 +240,14 @@ function createNewJobInfo () {
 
   console.log(userData)
 
-  $.ajax('http://127.0.0.1:8000/jobs', 
+  $.ajax('http://worktojob.com/jobs', 
   {   
       headers: headers,
       contentType: 'application/json; charset=utf-8',
       type: 'POST',
       data: JSON.stringify(userData),
       success: function (data) {   // success callback function
+
           $('#success').show();
       },
       error: function (error) { // error callback 
@@ -263,7 +267,7 @@ function loginValidation (userData) {
   }
 
 
-  $.ajax('http://127.0.0.1:8000/auth_login', 
+  $.ajax('http://worktojob.com/auth_login', 
   {   
       header: headers,
       dataType: 'json',
@@ -275,7 +279,7 @@ function loginValidation (userData) {
           Popup.onLoad();
       },
       error: function (error) { // error callback 
-          console.log('data--------------', data);   
+          console.log('data--------------', error);   
       }
   });
 

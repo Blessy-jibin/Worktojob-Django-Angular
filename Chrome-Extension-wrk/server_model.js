@@ -42,8 +42,13 @@ Asana.ServerModel = {
   isLoggedIn: function(callback) {
 
     var is_logged_in = window.localStorage.getItem('wrk_token');
-    console.log('//////////', !!(is_logged_in && is_logged_in !=null ))
-    callback((is_logged_in != undefined && is_logged_in !=null ));
+    console.log('//////////', (is_logged_in || is_logged_in !=null ), is_logged_in)
+    if((is_logged_in == undefined || is_logged_in ==null ) || is_logged_in == false){
+      status  = false;
+    }else{
+      status = true;
+    }
+    callback(status);
   },
 
   /**
