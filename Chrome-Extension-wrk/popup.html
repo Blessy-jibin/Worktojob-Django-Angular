@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<!--
+The above DOCTYPE declaration is actually required for Chrome to
+properly resize the window as content size changes. See:
+http://stackoverflow.com/questions/9498685/resize-popup-html-in-chrome-extension
+-->
+
+<html>
+<head>
+  <script type="text/javascript" src="jquery-1.7.1.min.js"></script>
+  <script type="text/javascript" src="jquery-ui-1.8.10.custom.min.js"></script>
+  <script type="text/javascript" src="asana.js"></script>
+  <script type="text/javascript" src="options.js"></script>
+  <script type="text/javascript" src="api_bridge.js"></script>
+  <script type="text/javascript" src="server_model.js"></script>
+  <link rel="stylesheet" href="popup.css"/>
+  <title>
+    Worktojob Quick Add
+  </title>
+</head>
+
+<body>
+
+  <div id="add_view" style="display:none">
+    <div class="banner">
+      <div class="left-column">
+        <div id="logo" class="sprite-logo"></div>
+      </div>
+      <div class="middle-column">
+        <span class="banner-add">
+          Add to Worktojob
+          
+      </div>
+      <div class="right-column">
+        <a id="close_popup" class="sprite close-x" tabindex="-1"></a>
+      </div>
+    </div>
+    <div class="name-row">
+      <div class="left-column">
+        <span class="icon-checkbox sprite"></span>
+      </div>
+      <div class="middle-column">
+        <input id="name_input" class="generic-input" tabindex="0" placeholder="Job Title" />
+      </div>
+      <div class="right-column">
+        
+      </div>
+    </div>
+
+
+    <div class="name-row">
+      <div class="left-column">
+        <span class="icon-checkbox sprite"></span>
+      </div>
+      <div class="middle-column">
+        <input id="stage" class="generic-input" tabindex="0" placeholder="Stage" />
+      </div>
+      <div class="right-column">
+        
+      </div>
+    </div>
+
+
+
+
+    <div class="name-row">
+      <div class="left-column">
+        <span class="icon-checkbox sprite"></span>
+      </div>
+      <div class="middle-column">
+        <input id="deadline" class="generic-input" tabindex="0" placeholder="Dead Line" />
+      </div>
+      <div class="right-column">
+        
+      </div>
+    </div>    
+
+    <div class="notes-row">
+      <div class="left-column">
+        <span class="icon-notes sprite"></span>
+      </div>
+      <div class="middle-column">
+        <textarea id="notes_input" class="generic-input" tabindex="0" placeholder="Description"></textarea>
+      </div>
+      <div class="right-column"></div>
+    </div>
+
+
+    <div class="buttons">
+      <div class="left-column"></div>
+      <div class="middle-column">
+        <div id="add_button" tabindex="0" class="buttonView buttonView--primary buttonView--large">
+          <span class="new-button-text">Add to Worktojob</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div id="error" class="footer-status" style="display:none">
+        <span class="error-message">
+          Sorry, there was a problem. Please try again.
+        </span>
+      </div>
+      <div id="success" class="footer-status" style="display:none">
+        <div class="sprite icon-success"></div>
+        <span class="success-message">
+          Added <a id="new_task_link" target="_blank" href=""></a>
+        </span>
+      </div>
+    </div>
+
+
+  </div>
+
+  <div id="login_view" style="display:none">
+    <div class="banner">
+      <div class="left-column">
+        <div id="logo" class="sprite"></div>
+      </div>
+      <div class="middle-column">
+        <span class="banner-add">
+          Add to Worktojob
+        </span>
+      </div>
+      <div class="right-column">
+        <a id="close_login" class="sprite close-x" tabindex="-1"></a>
+      </div>
+    </div>
+    <div class="content">
+      You must log in to Worktojob before you can add jobs.
+      <div class="middle-column">
+        <input id="username" class="generic-input" tabindex="0" placeholder="Username" style="width: 100%; margin-top:2%;" />
+      </div>
+      <div class="middle-column">
+        <input id="password" class="generic-input" tabindex="0" placeholder="Password" style="width: 100%; margin-top:2%;"/>
+      </div>
+      <span id="signup_button" class="buttonView buttonView--large"><span class="new-button-text">Sign Up</span></span>
+      <span id="login_button" class="buttonView buttonView--primary buttonView--large"><span class="new-button-text">Log In</span></span>
+    </div>
+  </div>
+
+</body>
+
+<!-- Adds event handlers to elements, so we include at the end -->
+<script type="text/javascript" src="popup.js"></script>
+
+</html>
