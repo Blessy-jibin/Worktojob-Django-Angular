@@ -17,7 +17,7 @@ Popup = {
 
   // State to track so we only log events once.
   has_edited_name: false,
-  has_edited_notes: false,
+  has_edited_url: false,
   has_reassigned: false,
   has_used_page_details: false,
   is_first_add: true,
@@ -63,11 +63,12 @@ Popup = {
 
         
         Asana.ServerModel.isLoggedIn(function(is_logged_in) {
-          console.log('.........................', is_logged_in)
+          console.log('.........................','logged in', is_logged_in)
           if (is_logged_in != 'false') {
             $('#login_view').hide();
             $('#add_view').show();
             me.showAddUi(tab.url, tab.title, '', tab.favIconUrl);
+            console.log(',,,',tab.url, tab.title,tab.favIconUrl);
           } else {
             // The user is not even logged in. Prompt them to do so!
             me.showLogin(
@@ -113,9 +114,10 @@ Popup = {
     get_page_url_title = function() {
         // Page title -> task name
         $("#name_input").val(me.page_title);
-        // Page url + selection -> task notes
-        var notes = $("#notes_input");
-        notes.val(notes.val() + me.page_url + "\n" + me.page_selection);
+        // Page url + selection -> task url
+        var url = $("#url_data");
+        url.val(url.val() + me.page_url + "\n" + me.page_selection);
+        console.log('note vaue' ,url.val());
         // Disable the page details button once used.        
         if (!me.has_used_page_details) {
           me.has_used_page_details = true;
@@ -129,9 +131,9 @@ Popup = {
       if (!(use_page_details_button.hasClass('disabled'))) {
         // Page title -> task name
         $("#name_input").val(me.page_title);
-        // Page url + selection -> task notes
-        var notes = $("#notes_input");
-        notes.val(notes.val() + me.page_url + "\n" + me.page_selection);
+        // Page url + selection -> task url
+        var url = $("#url_data");
+        url.val(url.val() + me.page_url + "\n" + me.page_selection);
         // Disable the page details button once used.        
         use_page_details_button.addClass('disabled');
         if (!me.has_used_page_details) {
@@ -227,7 +229,7 @@ function createNewJobInfo () {
   var userData = {
       'url_id': 1,
       'job_title': $('#name_input').val(),
-      'url': $('#notes_input').val(),
+      'url': $('#url_data').val(),
       'tasks': [],
       'deadline': new Date(),
       'stage': $('#stage').val()

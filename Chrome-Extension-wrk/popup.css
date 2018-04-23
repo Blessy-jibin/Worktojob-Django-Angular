@@ -440,8 +440,8 @@ a, input, textarea {
 }
 
 .name-row {
-  padding-top: 11px;
-  padding-bottom: 12px;
+  padding-top:5px;
+  padding-bottom: 4px;
 }
 
 .name-row .left-column .sprite { margin-top: 2px; }
@@ -451,7 +451,7 @@ a, input, textarea {
 }
 
 .name-row #name_input {
-  font-size: 20px;
+  font-size: 14px;
 }
 
 .notes-row {

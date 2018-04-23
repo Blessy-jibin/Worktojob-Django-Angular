@@ -13,6 +13,7 @@ http://stackoverflow.com/questions/9498685/resize-popup-html-in-chrome-extension
   <script type="text/javascript" src="options.js"></script>
   <script type="text/javascript" src="api_bridge.js"></script>
   <script type="text/javascript" src="server_model.js"></script>
+ 
   <link rel="stylesheet" href="popup.css"/>
   <title>
     Worktojob Quick Add
@@ -37,49 +38,76 @@ http://stackoverflow.com/questions/9498685/resize-popup-html-in-chrome-extension
     </div>
     <div class="name-row">
       <div class="left-column">
-        <span class="icon-checkbox sprite"></span>
+        <!-- <span class="icon-checkbox sprite"></span> -->
       </div>
       <div class="middle-column">
-        <input id="name_input" class="generic-input" tabindex="0" placeholder="Job Title" />
+        <!-- <input id="name_input" class="generic-input" tabindex="0" placeholder="Job Title" /> -->
+        <label for="jobrole" style="margin-bottom:5px;display:block;"><strong>Jobrole:</strong></label>
+	    <input  id="name_input" type="text"  class="form-control generic-input" ng-model="job.job_title" tabindex="0" style="padding-left:10px;display: block;" placeholder="Job Title" rows="1" required>
+	    
+
       </div>
       <div class="right-column">
         
       </div>
     </div>
-
-
     <div class="name-row">
       <div class="left-column">
-        <span class="icon-checkbox sprite"></span>
+        <!-- <span class="icon-checkbox sprite"></span> -->
       </div>
       <div class="middle-column">
+  			<label for="Link" style="width:10%;display: inline-block;vertical-align: middle;"><strong>Link:</strong></label>
+	        <input  class="generic-input" tabindex="0" id="url_data" style="border: none;outline: none;width:80%;display: inline-block;vertical-align: middle;"/>
+	     
+       <!--  <input  class="generic-input" tabindex="0" id="notes_input" /> -->
+      </div>
+      <div class="right-column">
+        
+      </div>
+    </div> 
+    <div class="name-row">
+      <div class="left-column">
+        <!-- <span class="icon-checkbox sprite"></span> -->
+      </div>
+      <!-- <div class="middle-column">
         <select id="stage" class="generic-input" tabindex="0" placeholder="Stage" style="width:100%;height: 37px;">
           <option value="To Apply" selected>To Apply</option>
           <option value="Follow-up">Follow-up</option>
           <option value="Selection">Selection</option>
         </select>
-      </div>
+      </div> -->
+      <div class="middle-column" style="vertical-align: middle;">
+  	    <label for="jobstage" style="font-size:12px;vertical-align:middle;display:inline-block;"><strong>Stage:</strong></label>
+  	    <select id="stage" class="generic-input" tabindex="0" placeholder="Stage" style="width:60%;height:20px;display:inline-block;vertical-align: middle;">
+          <option value="To Apply" selected>To Apply</option>
+          <option value="Follow-up">Follow-up</option>
+          <option value="Selection">Selection</option>
+        </select>        
+       </div>
       <div class="right-column">
         
       </div>
     </div>
-
+    
 
 
 
     <div class="name-row">
       <div class="left-column">
-        <span class="icon-checkbox sprite"></span>
+        <!-- <span class="icon-checkbox sprite"></span> -->
       </div>
       <div class="middle-column">
-        <input id="deadline" class="generic-input" tabindex="0" placeholder="Dead Line" />
+      	<label for="deadline"  style="display:inline-block;width:40%"><strong> Set your Deadline</strong> </label>
+        <!-- <input id="deadline" class="generic-input" tabindex="0" placeholder="Dead Line" style="display:inline-block;" / -->
+        <input  class="generic-input" id="deadline" data-provide="datepicker"  style="text-align: center;display:inline-block;border-radius:20px;
+	        color:#00a3cc;border-color:#00a3cc;width:40%; " required>
       </div>
       <div class="right-column">
         
       </div>
     </div>    
 
-    <div class="notes-row">
+    <!-- <div class="notes-row">
       <div class="left-column">
         <span class="icon-notes sprite"></span>
       </div>
@@ -88,7 +116,7 @@ http://stackoverflow.com/questions/9498685/resize-popup-html-in-chrome-extension
       </div>
       <div class="right-column"></div>
     </div>
-
+ -->
 
     <div class="buttons">
       <div class="left-column"></div>
