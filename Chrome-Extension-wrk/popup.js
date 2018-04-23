@@ -116,8 +116,12 @@ Popup = {
         $("#name_input").val(me.page_title);
         // Page url + selection -> task url
         var url = $("#url_data");
-        url.val(url.val() + me.page_url + "\n" + me.page_selection);
-        console.log('note vaue' ,url.val());
+        url.text(me.page_url.substring(0, 45));
+        url.attr("href", me.page_url);
+
+        // url.innerHTML = me.page_url;
+        // url.val(url.val() + me.page_url + "\n" + me.page_selection);
+        console.log('note vaue' , url.text());
         // Disable the page details button once used.        
         if (!me.has_used_page_details) {
           me.has_used_page_details = true;
@@ -155,7 +159,21 @@ setTimeout(
 
 $(function() {
     $( "#deadline" ).datepicker();
-  } );
+    $( ".task_deadline" ).datepicker();
+    var date = new Date();
+    var day = date.getDate();
+    var month = date.getMonth() + 1;
+    var year = date.getFullYear();
+
+    if (month < 10) month = "0" + month;
+    if (day < 10) day = "0" + day;
+
+    var today =  month + "/" + day+ "/"+year; 
+    $('#deadline').val(today);
+    $('.task_deadline').val(today);
+
+});
+
 
   },
 

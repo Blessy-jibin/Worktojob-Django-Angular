@@ -7,8 +7,13 @@ http://stackoverflow.com/questions/9498685/resize-popup-html-in-chrome-extension
 
 <html>
 <head>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+  <link rel="stylesheet" type="text/css" href="datepicker/css/datepicker.css" />
   <script type="text/javascript" src="jquery-1.7.1.min.js"></script>
   <script type="text/javascript" src="jquery-ui-1.8.10.custom.min.js"></script>
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script> -->
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="datepicker/js/bootstrap-datepicker.js"></script>
   <script type="text/javascript" src="asana.js"></script>
   <script type="text/javascript" src="options.js"></script>
   <script type="text/javascript" src="api_bridge.js"></script>
@@ -56,8 +61,8 @@ http://stackoverflow.com/questions/9498685/resize-popup-html-in-chrome-extension
         <!-- <span class="icon-checkbox sprite"></span> -->
       </div>
       <div class="middle-column">
-  			<label for="Link" style="width:10%;display: inline-block;vertical-align: middle;"><strong>Link:</strong></label>
-	        <input  class="generic-input" tabindex="0" id="url_data" style="border: none;outline: none;width:80%;display: inline-block;vertical-align: middle;"/>
+  			<label for="Link" style="width:10%;display: inline-block;vertical-align: middle;margin-right:5px;"><strong>Link:</strong></label>
+	        <a class="generic-input" tabindex="0" id="url_data" style="border: none;outline: none;width:80%;display: inline-block;vertical-align: middle;"> </a>
 	     
        <!--  <input  class="generic-input" tabindex="0" id="notes_input" /> -->
       </div>
@@ -65,6 +70,7 @@ http://stackoverflow.com/questions/9498685/resize-popup-html-in-chrome-extension
         
       </div>
     </div> 
+
     <div class="name-row">
       <div class="left-column">
         <!-- <span class="icon-checkbox sprite"></span> -->
@@ -77,8 +83,8 @@ http://stackoverflow.com/questions/9498685/resize-popup-html-in-chrome-extension
         </select>
       </div> -->
       <div class="middle-column" style="vertical-align: middle;">
-  	    <label for="jobstage" style="font-size:12px;vertical-align:middle;display:inline-block;"><strong>Stage:</strong></label>
-  	    <select id="stage" class="generic-input" tabindex="0" placeholder="Stage" style="width:60%;height:20px;display:inline-block;vertical-align: middle;">
+  	    <label for="jobstage" style="vertical-align:middle;display:inline-block;margin-right:5px;"><strong>Stage:</strong></label>
+  	    <select id="stage" class="generic-input" tabindex="0" placeholder="Stage" style="width:50%;height:28px;display:inline-block;vertical-align: middle;">
           <option value="To Apply" selected>To Apply</option>
           <option value="Follow-up">Follow-up</option>
           <option value="Selection">Selection</option>
@@ -97,26 +103,38 @@ http://stackoverflow.com/questions/9498685/resize-popup-html-in-chrome-extension
         <!-- <span class="icon-checkbox sprite"></span> -->
       </div>
       <div class="middle-column">
-      	<label for="deadline"  style="display:inline-block;width:40%"><strong> Set your Deadline</strong> </label>
+      	<label for="deadline"  style="display:inline-block;width:50%margin-right:5px;"><strong> Set your Deadline:</strong> </label>
         <!-- <input id="deadline" class="generic-input" tabindex="0" placeholder="Dead Line" style="display:inline-block;" / -->
         <input  class="generic-input" id="deadline" data-provide="datepicker"  style="text-align: center;display:inline-block;border-radius:20px;
-	        color:#00a3cc;border-color:#00a3cc;width:40%; " required>
+	        color:#00a3cc;border-color:#00a3cc;width:40%; "   required>
       </div>
       <div class="right-column">
         
       </div>
     </div>    
 
-    <!-- <div class="notes-row">
+    <div class="name-row">
       <div class="left-column">
-        <span class="icon-notes sprite"></span>
+       <!--  <span class="icon-notes sprite"></span> -->
+       
       </div>
       <div class="middle-column">
-        <textarea id="notes_input" class="generic-input" tabindex="0" placeholder="Description"></textarea>
-      </div>
-      <div class="right-column"></div>
+      <label for=""  style="display:inline-block;width:30%margin-right:5px;"><strong> Set Tasks:</strong> </label> 
+      <input type='text' id="newtask_input" style="display:inline-block;vertical-align: middle;border-radius: 5px;text-align: center;border-color: #293d3d;margin-right: 5px;
+	      border-style: outset;width:50%" placeholder="Add your task here"> 
+      
+      
+        <!-- <div class="input-group date" data-provide="datepicker" class="task_deadline" style="display:inline-block;vertical-align: middle;width:5%;" >
+            <div class="input-group-addon" style="background-color: #FFF;border:1px solid #e0e0d1;border-style:dashed;border-radius:50%;height:.05%;width:.05%;">
+            		<span class="glyphicon glyphicon-calendar" style="font-size:11px;color:#e0e0d1;"></span>
+            </div> -->
+            
+            <!-- <input class="generic-input task_deadline" data-provide="datepicker"  style="text-align: center;display:inline-block;border-radius:20px;
+	        color:#00a3cc;border-color:#00a3cc;width:30%;" required/> -->
+            
+		 <!-- </div> -->
+      
     </div>
- -->
 
     <div class="buttons">
       <div class="left-column"></div>
