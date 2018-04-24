@@ -305,7 +305,7 @@
                         </div>
                         <div  class="row add_task_job_modal" style="">
                           <form name="myForm" style="display: inline-block;width:100%;margin:15px 0px;">
-                            <input type='text' name="task" id="input_for_tsk" style="border:0; border-bottom:1px solid grey;background: transparent;text-align: center;width:60%;outline: none;margin-right:10%;display:inline-block;vertical-align: middle;"  ng-model="tsk"  placeholder="{{tsk_placeholder}}" required ng-keypress="($event.which === 13) && myForm.task.$valid && add_task_job_modal(tsk,tsk_duedate);" ng-init="tsk_placeholder ='Add your task here' ">
+                            <input type='text' name="task" id="input_for_tsk" style=""  ng-model="tsk"  placeholder="{{tsk_placeholder}}" required ng-keypress="($event.which === 13) && myForm.task.$valid && add_task_job_modal(tsk,tsk_duedate);" ng-init="tsk_placeholder ='Add your task here' ">
                             <div class="input-group date" data-provide="datepicker" style="width:20%;display: inline-block;vertical-align: middle; border:none;" class="datepicker" ng-click="activate_datepicker()">
   		                      	  <div class="input-group-addon" style="background-color: #FFF;border:1px solid #e0e0d1;border-style:dashed;border-radius:50%;height:.05%;width:.05%;">
   		        					          <span class="glyphicon glyphicon-calendar" style="font-size:11px;color:#e0e0d1;"></span>

@@ -156,22 +156,80 @@ setTimeout(
     get_page_url_title();
   }, 1000);
 
-
-$(function() {
-    $( "#deadline" ).datepicker();
-    $( ".task_deadline" ).datepicker();
-    var date = new Date();
+ convert_to_mm_dd_yyy = function(date){
     var day = date.getDate();
     var month = date.getMonth() + 1;
     var year = date.getFullYear();
-
     if (month < 10) month = "0" + month;
     if (day < 10) day = "0" + day;
+    var date_in_format = month + "/" + day+ "/"+year;
+    return date_in_format;
 
-    var today =  month + "/" + day+ "/"+year; 
+ }
+
+
+
+convert_to_MM_dd_yyy = function(date){
+  var day = date.getDate();
+  var month_Name = date.toLocaleString("en", { month: "long"  })
+  var year = date.getFullYear();
+  var date_in_format =  month_Name + " " + day + " " +year;
+  return date_in_format;
+}
+
+$(function() {
+    $( "#deadline" ).datepicker();
+    $( ".task_deadline" ).datepicker({format: 'MM dd yyyy'});
+    var today = convert_to_mm_dd_yyy(new Date());
+    var today_MM_dd = convert_to_MM_dd_yyy(new Date());
     $('#deadline').val(today);
-    $('.task_deadline').val(today);
+    $('.task_deadline').val(today_MM_dd);
+    
+});
 
+
+task_dic = {};
+var i = 0;
+
+task_already_in_taskdictionary = function(dic){
+  console.log('aaaaaaaaaaaaaaaaaaaaaaa');
+  var found = false;
+    for(x in task_dic){
+      console.log('jjjjjjjjjjjj',x,task_dic[x]);
+
+      if(task_dic[x]= dic){
+        console.log('tsssssssss',task_dic[x],'diccccccccccccc',dic);
+        var  found =true;
+      }
+    } 
+    console.log('fffffffffff',found); 
+    return found;   
+        
+  }
+
+$(".taskbutton").click(function() {
+  // ChangeTasklist = function(){
+    console.log('mmmmmm',this);
+    
+    $(this).toggleClass('task_is_selected');
+    parent_div = $(this).parent();
+    console.log(parent_div);
+    var date = parent_div.find('input').val();
+    d = new Date(date);
+    console.log(date);
+    var action = $(this).text();
+    console.log(action);
+    action_date = convert_to_mm_dd_yyy(d);
+    console.log(action_date);
+    dic ={'action':action,'action_date':action_date,'done':false};
+    dic_found = task_already_in_taskdictionary(dic);
+    if(!dic_found){
+      task_dic[i] = dic;
+       i ++;
+       console.log('i',i);
+       
+    }
+    console.log(task_dic);
 });
 
 

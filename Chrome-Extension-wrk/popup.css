@@ -442,14 +442,17 @@ a, input, textarea {
 .name-row {
   padding-top:7px;
   padding-bottom: 6px;
+  margin-left: 5%;
 }
 
 .name-row .left-column .sprite { margin-top: 2px; }
 
-#name_input, #notes_input, #assignee {
+#notes_input, #assignee {
   width: 100%;
 }
-
+#name_input{
+  width:90%;
+}
 .name-row #name_input {
   font-size: 14px;
 }
@@ -648,4 +651,63 @@ input:hover, textarea:hover, #assignee:hover {
 input:focus, textarea:focus {
   border: 1px solid #74C1ED;
   box-shadow: 0px 0px 5px 1px rgba(31, 141, 214, 0.3);
+}
+
+.taskbutton{
+  border-radius: 5px;
+  text-align: center;
+  border-color: #8c8c8c;
+  margin-right: 5px;
+  border-style: outset;
+  padding: 8px 3px;
+  margin-bottom:8px;
+  color: #8c8c8c;
+  width:60%;
+
+  background-color: white;
+}
+
+.task_is_selected{
+  color: #fbfbfb;
+  background-color: #27a3e0;
+  border-radius: 5px;
+  padding: 8px 3px;
+  margin-bottom: 8px;
+ 
+    
+}
+.task_div{
+  margin-left:5px; 
+
+}
+#newtask_input{
+  display:inline-block;
+  vertical-align: middle;
+  border-radius: 5px;
+  text-align: center;
+  padding: 8px 4px;
+  border-color: #293d3d;
+  margin-right: 10px;
+  border-style: outset;
+  margin-left:5px;
+}
+
+.task_deadline{
+  border:none;
+  outline: none;
+  display: inline-block;
+  vertical-align: middle;
+  width:30%;
+
+
+}
+.task_deadline:focus,.task_deadline:hover{
+  border: none;
+}
+
+.form_label{
+  display:inline-block;
+  margin-right:1%;
+  vertical-align: top;
+
 }
