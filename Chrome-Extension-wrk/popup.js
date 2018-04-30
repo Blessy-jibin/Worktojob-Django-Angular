@@ -156,6 +156,15 @@ setTimeout(
     get_page_url_title();
   }, 1000);
 
+class Task{
+        constructor(taskindex,action, action_date,active) {
+            this.taskindex = taskindex;
+            this.action = action;
+            this.action_date = action_date;
+            this.active  = active;
+        }
+}
+
  convert_to_mm_dd_yyy = function(date){
     var day = date.getDate();
     var month = date.getMonth() + 1;
@@ -188,51 +197,118 @@ $(function() {
 });
 
 
-task_dic = {};
+task_dict = {};
 var i = 0;
+ $(".taskbutton").data('active' , false);
 
-task_already_in_taskdictionary = function(dic){
-  console.log('aaaaaaaaaaaaaaaaaaaaaaa');
-  var found = false;
-    for(x in task_dic){
-      console.log('jjjjjjjjjjjj',x,task_dic[x]);
+ $(".task_div").each(function(){
+  $(this).data('taskindex' , i);
+  i = i +1;
+ });
 
-      if(task_dic[x]= dic){
-        console.log('tsssssssss',task_dic[x],'diccccccccccccc',dic);
-        var  found =true;
-      }
-    } 
-    console.log('fffffffffff',found); 
-    return found;   
+// task_already_in_taskdictionary = function(dic){
+//   console.log('aaaaaaaaaaaaaaaaaaaaaaa');
+//   var found = false;
+//     for(x in task_dic){
+//       console.log('jjjjjjjjjjjj',x,task_dic[x]);
+
+//       if(task_dic[x]= dic){
+//         console.log('tsssssssss',task_dic[x],'diccccccccccccc',dic);
+//         var  found =true;
+//       }
+//     } 
+//     console.log('fffffffffff',found); 
+//     return found;   
         
-  }
-
-$(".taskbutton").click(function() {
+//   }
+$(document).on('click',".taskbutton", function() {
   // ChangeTasklist = function(){
-    console.log('mmmmmm',this);
-    
+    console.log('kkkkkkkkkk');
     $(this).toggleClass('task_is_selected');
+    $(this).data('active',!$(this).data('active'));
     parent_div = $(this).parent();
+    taskindex = parent_div.data('taskindex');
+    console.log('zzzzzzzzzzzzz',parent_div.data('taskindex'));
     console.log(parent_div);
     var date = parent_div.find('input').val();
     d = new Date(date);
     console.log(date);
     var action = $(this).text();
-    console.log(action);
     action_date = convert_to_mm_dd_yyy(d);
-    console.log(action_date);
-    dic ={'action':action,'action_date':action_date,'done':false};
-    dic_found = task_already_in_taskdictionary(dic);
-    if(!dic_found){
-      task_dic[i] = dic;
-       i ++;
-       console.log('i',i);
+    // console.log(action_date);
+    var task = new Task(taskindex,action,action_date,$(this).data('active'));
+    task_dict[taskindex] = task;
+    console.log(task_dict);
+    // var task = new Task(action,action_date,$(this).data('active'));
+    // if($(this).data('active')){
+    //   dic ={'action': action,'action_date':action_date,} 
+
+    // }
+    // console.log(task);
+  });
+
+$(document).on('change',".task_deadline", function() {
+  var date  = $(this).val();
+  console.log('qqqq',date);
+  d = new Date(date);
+  action_date = convert_to_mm_dd_yyy(d);
+  parent_div = $(this).parent();
+  taskindex = parent_div.data('taskindex'); 
+  task_dict[taskindex].action_date = action_date;
+  console.log(task_dict);
+}); 
+var t = 2;
+$('#new_task_input').keypress(function (e) {
+ var key = e.which;
+ if(key == 13)  // the enter key code
+  { 
+    parent_div = $(this).parent();
+    task_div = $( "#demo_task_div").clone();
+    task_div.data("taskindex" , t);
+    taskindex = t;
+    console.log(task_div.find("button"));
+    action = $(this).val();
+    action_date = parent_div.find(".task_deadline").val();
+    task_div.find("button").text(action);
+    task_div.find("button").addClass('task_is_selected');
+    task_div.find("button").data("active",true);
+    task_div.find("input").val(action_date);
+    task_div.appendTo('#task_buttons');
+    var task = new Task(taskindex,action,action_date,$(this).data('active'));
+    task_dict[taskindex] = task;
+    console.log(task_dict);
+    t = t + 1;
+    $(this).val(undefined);
+    
+  }
+});     
+  
+//     // dic ={'action':action,'action_date':action_date,'done':false};
+//     // dic_found = task_already_in_taskdictionary(dic);
+//     // if(!dic_found){
+//     //   task_dic[i] = dic;
+//     //    i ++;
+//     //    console.log('i',i);
        
-    }
-    console.log(task_dic);
-});
+//     // }
+//     // console.log(task_dic);
+// });
 
-
+// $('.task_div').click(function() {
+//   // ChangeTasklist = function(){
+//     console.log('mmmmmm',this);
+//     var button = $(this).find("button");
+//     var date = $(this).find('input').val();
+//     $(this).data('active',!$(this).data('active'));
+//     button.toggleClass('task_is_selected');
+//     d = new Date(date);
+//     var action = button.text();
+//     action_date = convert_to_mm_dd_yyy(d);
+//     console.log(action_date);
+//     var task = new Task(action,action_date,$(this).data('active'));
+//     console.log(task);
+    
+//   });  
   },
 
 
@@ -294,9 +370,26 @@ $(".taskbutton").click(function() {
 };
 
  $("#add_button").click(function() {
+    tasks = createTaskList();
     createNewJobInfo();
-
+    console.log(tasks);
  });
+
+var tasks = [];
+
+function createTaskList(){
+
+  for (each in task_dict){
+    if(task_dict[each].active==true){
+      dic ={};
+      dic['action']  = task_dict[each].action;
+      dic['action_date'] = task_dict[each].action_date;
+      dic['done'] = false;
+      tasks.push(dic);
+    }
+  }
+    return tasks;
+}  
 
 function createNewJobInfo () {
 
@@ -306,8 +399,9 @@ function createNewJobInfo () {
       'url_id': 1,
       'job_title': $('#name_input').val(),
       'url': $('#url_data').val(),
-      'tasks': [],
-      'deadline': new Date(),
+      'tasks': tasks,
+      // 'deadline': new Date(),
+      'deadline': $('deadline').val(),
       'stage': $('#stage').val()
 
   }

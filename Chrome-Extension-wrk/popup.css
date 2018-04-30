@@ -680,7 +680,7 @@ input:focus, textarea:focus {
   margin-left:5px; 
 
 }
-#newtask_input{
+#new_task_input{
   display:inline-block;
   vertical-align: middle;
   border-radius: 5px;

@@ -69,19 +69,21 @@ http://stackoverflow.com/questions/9498685/resize-popup-html-in-chrome-extension
 	<div class="row name-row tasks" style="height: auto;overflow-y: visible;">
 	      <label class="form_label" style=""><strong> Set Tasks:</strong> </label> 
 	      <div style="display:inline-block;width:75%">
-	      	<div class="row task_div">
-	      		<button class="taskbutton">Update CV and coverletter</button>
-	      		<input  class="task_deadline"  data-provide="datepicker" style="display: inline-block;vertical-align: middle;">
-	      		
+	      	<div id ="task_buttons">
+		      	<div class="row task_div">
+		      		<button class="taskbutton">Update CV and coverletter</button>
+		      		<input  class="task_deadline"  data-provide="datepicker" style="display: inline-block;vertical-align: middle;">
+		      		
+			    </div>
+			    <div class="row task_div" id ="demo_task_div">    
+		      		<button class="taskbutton">Research about company</button>
+		      		
+			      		<input  class="task_deadline"  data-provide="datepicker" style="">
+			      	    
+		      	</div>
 		    </div>
-		    <div class="row task_div">    
-	      		<button class="taskbutton">Research about company</button>
-	      		
-		      		<input  class="task_deadline"  data-provide="datepicker" style="">
-		      	    
-	      	</div>
 	      	<div class="row task_div"> 
-	        	<input type='text' id="newtask_input" style="" placeholder="Add your task here">
+	        	<input type='text' id="new_task_input" style="" placeholder="Add your task here">
 	        	<input  class="task_deadline" data-provide="datepicker" style="display: inline-block;vertical-align:middle; ">
 	        </div>	
 	      </div>  
