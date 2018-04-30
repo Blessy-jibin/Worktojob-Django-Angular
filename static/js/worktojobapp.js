@@ -507,6 +507,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
             $scope.job.stage = "To Apply";
             today = $scope.today();
             $scope.job.deadline = $scope.get_date_in_mmddyyy(today);
+           
             $scope.newtask = undefined;
             $scope.tasks = [];
             $scope.btn1_selected = false;
@@ -674,7 +675,7 @@ workToJob.controller("Jobcontroller", function($scope,$http, $rootScope, $cookie
         return  false;
         }
     }
-
+    
     $scope.default_btn_selected = function(index){
          $scope['btn_selected'+index ] = true;
     }
