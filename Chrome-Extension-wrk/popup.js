@@ -393,25 +393,22 @@ function createTaskList(){
 
 function createNewJobInfo () {
 
-  var today = new Date();
-
-  var userData = {
+var userData = {
       'url_id': 1,
       'job_title': $('#name_input').val(),
-      'url': $('#url_data').val(),
+      'url': $('#url_data').text(),
       'tasks': tasks,
       // 'deadline': new Date(),
-      'deadline': $('deadline').val(),
+      'deadline': $('#deadline').val(),
       'stage': $('#stage').val()
-
-  }
+    }
   var headers = {
       "Content-Type": "application/json",
       "Authorization": "Token " + window.localStorage.getItem('wrk_token')
   }
 
   console.log(userData)
-
+  console.log(window.localStorage.getItem('wrk_token'));
   $.ajax('http://worktojob.com/jobs', 
   {   
       headers: headers,
@@ -424,10 +421,13 @@ function createNewJobInfo () {
       },
       error: function (error) { // error callback 
           if(error.status == 401){
-            window.localStorage.setItem('wrk_token', false)
+            console.log(error);
+
+            // window.localStorage.setItem('wrk_token', false)
             Popup.onLoad();
           }
           $('#error').show(); 
+          
       }
   });
 

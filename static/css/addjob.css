@@ -18,6 +18,21 @@
 	width:125px;
 	margin-left:5px; 
 }
+
+.nav>li>a{
+	color: white;
+	font-size: 16px;
+}
+
+.nav>li>a>span{
+	font-size: 16px
+}
+
+.nav>li>a:focus,.nav>li>a:hover,.nav .open>a:focus, .nav .open>a:hover {
+	text-decoration: none;
+	background-color: rgb(250, 0, 0);
+}
+
 .dlinebtn{
 	border-radius:20px;
 	color:#00a3cc;

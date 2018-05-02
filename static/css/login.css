@@ -142,14 +142,20 @@
 	border-color: #1CA347;
 }
 
-#remember_me{
+#remember_me,#termsandconditions{
 	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;
 	line-height: 16px;
-	font-size: 15px;
+	font-size: 13px;
 	color: #828282;
+	display: inline-block;
+	width:88%;
+	margin-left:2%;
+	vertical-align: middle;
 }
+
+
 /*googe auth */
 
 .customBtn {
