@@ -13,7 +13,7 @@
 <div class="container" ng-controller="Jobcontroller" ng-class="{'body_colour_change':showjobmodal}" id="jobpagecontainer" style="width:100%" ng-init="initialize_job_controller();">
 
   {% verbatim %}    
-        <nav class="navbar navbar-default" style="">
+        <nav class="navbar navbar-default navbar-fixed-top" style="">
           <div class="container-fluid">
             <div class="navbar-header col-xs-3 " style="display:inline-block;vertical-align: middle;">
               <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -129,7 +129,7 @@
             <div class="col-xs-12">
               <form name="addlinkForm">
                  <input type="text"  ng-model="job.job_url" class="col-sm-9 col-xs-9" id="joblink"
-                style="margin-right:5px;height:30px;border-radius:4px;" oninvalid="this.setCustomValidity('Please Enter valid URL')"  oninput = "setCustomValidity('')" required >
+                style="margin-right:5px;height:30px;border-radius:4px;" oninvalid="this.setCustomValidity('Please Enter valid URL')"  oninput = "setCustomValidity('')" required placeholder="Copy and paste the job's link from indeed,LikedIn,Company's website etc">
           
               
               <!-- Trigger the modal with a button -->
@@ -176,41 +176,44 @@
   	             </div>
   	             <div class="modal-body" style="">
   	                <div class="form-group" style="vertical-align: middle;">
-  	                  <label for="jobstage" style="font-size:12px;vertical-align:middle;">Stage:</label>
-  	                  <div name="stage_selector" style="display:inline-block;vertical-align: middle;">
-                              <div class="radio-group_addjob_modal" >
+  	                  <label for="jobstage" style="font-size:12px;vertical-align:middle;display: inline-block;width:10%">Stage:</label>
+  	               
+                              <!-- <div class="radio-group_addjob_modal" >
                                 <span  ng-repeat="each in job_stage">
                                     <input type="radio"  class="nofocus " ng-model="job.stage" value="{{each}}"  name="selector" id="stage{{$index}}">
                                     <label for="stage{{$index}}" style="height:100%;margin-bottom:0px;" >
                                     {{each}}
                                     </label>
                                 </span>
-                              </div>
-                        </div>
+                              </div> -->
+                              <select  ng-model="job.stage" ng-options="each for each in job_stage" style="display:inline-block;vertical-align: middle;width:40%;text-align-last:center;height:25px;margin-left:8%;" >
++                            </select>
+                        
+                        
   	                </div>
   	                <div class="form-group">
-  	                  <label for="deadline" id="dlinelbl">Set your Deadline:</label>
-  	                  <div class="row" id="dlinewpr" style="">
+  	                  <label for="deadline" id="deadline_label">Set your Deadline:</label>
+  	                  <div class="row" id="deadline_wpr" style="">
 
   	                    <!-- <div class="col-sm-2" style="padding:0;"> -->
   	                      
   	                    <!-- </div> -->
   	                    <div class="col-xs-12 btn-group" style="padding:0">
-  	                      <div class="button-bar nofocus">
-  	                          <input data-provide="datepicker"  name="jb_deadline" class="col-sm-3 col-xs-2 dlinebtn btn-time-line nofocus "  style="text-align: center" placeholder="Select a date" id='btn-custom-days' ng-model="job.deadline" required  >
-  	                      </div>
+  	                      
+  	                          <input data-provide="datepicker"  name="jb_deadline" class="dlinebtn btn-time-line nofocus "  style="text-align: center" placeholder="Select a date" id='btn-custom-days' ng-model="job.deadline" required  >
+  	                      
   	                    </div>
   	                  </div>  
   	                </div>
   	               
   	                <div class="form-group" style="margin-right:0px;margin-left:0px;padding-bottom:0px;height:auto;">
-  	                   <label for="settask" style="font-size:12px" >Set Tasks:</label>
+  	                   <label for="settask" style="font-size:12px;width:20%;display: inline-block;vertical-align:middle;" id="settask_label" >Set Tasks:</label>
   	                  
-  	                  <div id="taskwrapper" style="">
+  	                  <div id="task_wrapper" style="">
   	                    <div class="row">
-  	                        <button class="nofocus " ng-class="{'select-task-btn':btn1_selected,'task-btn':!btn1_selected}" ng-click="btn1_selected = !btn1_selected; change_tasks({action:'update_cv',action_date:update_cv_date,done:false})" type="button">Update CV and coverletter</button>
-  	                        <div class="input-group date" data-provide="datepicker" style="width:250px;margin-top:8px;width:100px;float: right;position: relative;left: -60px;top:-10px;" class="datepicker" ng-click="activate_datepicker()">
-                      	        <div class="input-group-addon" style="background-color: #FFF;border:1px solid #e0e0d1;border-style:dashed;border-radius:50%;height:25px;width: 25px;">
+  	                        <button class="nofocus " ng-class="{'select-task-btn':btn1_selected,'task-btn':!btn1_selected}" ng-click="btn1_selected = !btn1_selected; change_tasks({action:'update_cv',action_date:update_cv_date,done:false})" type="button" style="width:60%;vertical-align:middle;display: inline-block;">Update CV and coverletter</button>
+  	                        <div class="input-group datepicker date date_group_with_calender" data-provide="datepicker" ngdate_group-click="activate_datepicker()" style="width:5%;display: inline-block;vertical-align: middle; border:none;">
+                      	        <div class="input-group-addon addon_calender_div nofocus" >
         					    <span class="glyphicon glyphicon-calendar" style="font-size:11px;color:#e0e0d1;"></span>
    						        </div>
          				        <input type="text" class="form-control" ng-model="update_cv_date" style="display: none;" ng-init="update_cv_date = today();" ng-change="update_date({action:'update_cv',action_date:update_cv_date})">
@@ -219,9 +222,9 @@
 					             </div>
   	                    </div>
   	                    <div class="row">
-  	                        <button class="nofocus" ng-class="{'select-task-btn':btn2_selected,'task-btn':!btn2_selected}" ng-click="btn2_selected = !btn2_selected; change_tasks({action:'Research about company',action_date: research_date,done:false})" type="button">Research about company</button>
-  	                        <div class="input-group date" data-provide="datepicker" style="width:250px;margin-top:8px;width:100px;float: right;position: relative;left: -60px;top:-10px;" class="datepicker" ng-click="activate_datepicker()">
-                      	       <div class="input-group-addon" style="background-color: #FFF;border:1px solid #e0e0d1;border-style:dashed;border-radius:50%;height:25px;width: 25px;">
+  	                        <button class="nofocus" ng-class="{'select-task-btn':btn2_selected,'task-btn':!btn2_selected}" ng-click="btn2_selected = !btn2_selected; change_tasks({action:'Research about company',action_date: research_date,done:false})" type="button" style="width:60%;vertical-align:middle;display: inline-block;">Research about company</button>
+  	                        <div class="input-group datepicker date date_group_with_calender nofocus" data-provide="datepicker" style="" class="datepicker" ng-click="activate_datepicker()">
+                      	       <div class="input-group-addon addon_calender_div"  >
         					               <span class="glyphicon glyphicon-calendar" style="font-size:11px;color:#e0e0d1;"></span>
    						                 </div>
          				               <input type="text" class="form-control" ng-model="research_date" style="display: none;" ng-init="research_date = today();" ng-change="update_date({action:'Research about company', action_date:research_date})">
@@ -233,27 +236,27 @@
   	                    <div ng-if="newtasklist.length > 0" ng-repeat="each in newtasklist track by $index" class="row nofocus" style="margin-bottom:8px;">
   	                        <!-- <div style="border:1px solid grey;border-radius:5px;text-align:center;width:190px;padding:8px;display: inline-block;" class="nofocus">{{each.action}}
   	                        </div> -->
-  	                        <input ng-model="each.action" class="btn nofocus" ng-click="change_tasks(each);toggle_color($index)"
+  	                        <input ng-model="each.action" class="btn" ng-click="change_tasks(each);toggle_color($index)"
                              ng-class="{'select-task-btn':btn_selected{{$index}} ,'task-btn':!btn_selected{{$index}} }" ng-init="default_btn_selected($index);"/ >
                            
-  	                        <div class="input-group date" data-provide="datepicker" style="width:250px;margin-top:8px;width:100px;float: right;position: relative;left: -60px;top:-10px;" class="datepicker" ng-click="activate_datepicker()">
-                      	       <div class="input-group-addon" style="background-color: #FFF;border:1px solid #e0e0d1;border-style:dashed;border-radius:50%;height:25px;width: 25px;">
+  	                        <div class="input-group date datepicker date_group_with_calender nofocus" data-provide="datepicker" ng-click="activate_datepicker()">
+                      	       <div class="input-group-addon addon-calendar_div">
         					               <span class="glyphicon glyphicon-calendar" style="font-size:11px;color:#e0e0d1;"></span>
    						                 </div>
                  				        <input type="text" class="form-control" ng-model="each.action_date" style="display: none;">
                  				        <div ng-bind="formatDate(each.action_date) |  date:'MMMM dd'" style="margin-left:5px;background-color: white;border: none;" class="input-group-addon">
             					        </div>
 					                  </div>
-  							           <div style="display: inline-block;position: absolute;left:335px;">
+  							           <!-- <div style="display: inline-block;position: absolute;left:335px;">
   	                       		<span class="glyphicon glyphicon-remove-circle nofocus" ng-click="delete_task(each)"    style="vertical-align:middle;color:red;font-size:17px;display:none;"></span>
-  	                       	</div>
+  	                       	</div> -->
   	                       
 
   	                   </div>
   	                    <div class="row">
   	                        <input type='text'  ng-model="newtask" placeholder="Add your task" id="newtask_input" ng-keypress="enter_press_handler($event) && newtask!='' && add_task(newtask,date)"> 
-  	                        <div class="input-group date" data-provide="datepicker" style="width:250px;margin-top:8px;width:100px;float: right;position: relative;left: -60px;top:-10px;" class="datepicker" ng-click="activate_datepicker()">
-                      	        <div class="input-group-addon" style="background-color: #FFF;border:1px solid #e0e0d1;border-style:dashed;border-radius:50%;height:25px;width: 25px;">
+  	                        <div class="input-group date nofocus date_group_with_calender " data-provide="datepicker" class="datepicker" ng-click="activate_datepicker()">
+                      	        <div class="input-group-addon addon-calendar_div" >
         					               <span class="glyphicon glyphicon-calendar" style="font-size:11px;color:#e0e0d1;"></span>
    						                  </div>
          				                <input type="text" class="form-control" ng-model="date" style="display: none;" ng-init ="date = today();">
@@ -308,7 +311,7 @@
                               </div>
                           </form>
                           <!--visible for small devices-->
-                          <select  ng-model="thisjob.stage" ng-options="each for each in job_stage" ng-change="input_is_edited();changeCollapse(thisjob.stage);" class="show_only_onsmall_devices">
+                          <select  ng-model="thisjob.stage" ng-options="each for each in job_stage" ng-change="input_is_edited();changeCollapse(thisjob.stage);" class="show_only_onsmall_devices" style="text-align-last:center;height: 25px;">
 +                         </select>
                           <div class="input-group date" data-provide="datepicker" style="display:inline-block;vertical-align: middle;width:5%;" class="datepicker" ng-click="activate_datepicker()">
                           	  <div class="input-group-addon" style="background-color: #FFF;border:1px solid #e0e0d1;border-style:dashed;border-radius:50%;height:.05%;width:.05%;">
@@ -337,7 +340,7 @@
                         </div>
                         <div  class="row add_task_job_modal" style="">
                           <form name="myForm" style="display: inline-block;width:100%;margin:15px 0px;">
-                            <input type='text' name="task" id="input_for_tsk" style=""  ng-model="tsk"  placeholder="{{tsk_placeholder}}" required ng-keypress="($event.which === 13) && myForm.task.$valid && add_task_job_modal(tsk,tsk_duedate);" ng-init="tsk_placeholder ='Add your task here' ">
+                            <input type='text' name="task" id="input_for_tsk"  ng-model="tsk"  placeholder="{{tsk_placeholder}}" required ng-keypress="($event.which === 13) && myForm.task.$valid && add_task_job_modal(tsk,tsk_duedate);" ng-init="tsk_placeholder ='Add your task here and press Enter' ">
                             <div class="input-group date" data-provide="datepicker" style="width:20%;display: inline-block;vertical-align: middle; border:none;" class="datepicker" ng-click="activate_datepicker()">
   		                      	  <div class="input-group-addon" style="background-color: #FFF;border:1px solid #e0e0d1;border-style:dashed;border-radius:50%;height:.05%;width:.05%;">
   		        					          <span class="glyphicon glyphicon-calendar" style="font-size:11px;color:#e0e0d1;"></span>

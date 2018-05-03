@@ -6,7 +6,7 @@
     border-radius: 5px;
     margin-bottom: 8px;
     padding: 8px;
-    width: 50%;
+    width: 60%;
 }
 /*.modal-dialog{
 
@@ -34,7 +34,9 @@
 	z-index:10000;
 	background-color:#cc0000;
 }
-
+#content_body{
+	margin-top:80px;
+}
  #barnd_name{
 	font-family: Roboto;
 	font-style: normal;
@@ -50,7 +52,7 @@
 }
 .nav>li>a:focus,.nav>li>a:hover,.nav .open>a:focus, .nav .open>a:hover {
 	text-decoration: none;
-	background-color: rgb(250, 0, 0);
+	background-color: #cc0000;
 }
 
 .dropdown-submenu {
@@ -76,6 +78,20 @@
 	margin:5px 5px;
 }
 
+
+#deadline_label{
+	font-size: 12px;
+	padding: 0px;
+	width: 20%;
+	display: inline-block;
+	vertical-align: middle;
+}
+#deadline_wpr{
+	width: 60%;
+	margin-left:2%;
+	display: inline-block;
+	vertical-align: middle;
+}
 .dlinebtn{
 	border-radius:20px;
 	color:#00a3cc;
@@ -93,6 +109,20 @@
 	border-width: 1px;
 
 }
+ .addon_calender_div{
+ 	background-color: #FFF;
+ 	border:1px solid #e0e0d1;
+ 	border-style:dashed;
+ 	border-radius:50%;
+ 	height:.05%;
+ 	width:.05%;
+ }
+#task_wrapper{
+	display: inline-block;
+	vertical-align: top;
+	width: 70%;
+	margin-left: 2%;
+}
 #jobpagecontainer {
 	padding-left:0px;
 	padding-right:0px;
@@ -102,7 +132,16 @@
 	padding-left:15px;
 	padding-right:15px;
 }
+.date_group_with_calender{
+	display: inline-block;
+	vertical-align: middle;
+	width:20%;
+}
 
+.input-group-addon:first-child
+{
+	border-radius: 50%;
+}
 .left_side_job_title{
 	margin-bottom:5px;
 	color:#5D6D7E;
@@ -152,11 +191,15 @@
 
 #newtask_input{
 	text-align: center;
-	width:180px;
+	width: 60%;
 	height: 40px;
 	border-color: #293d3d;
 	border-style: outset;
 	border-radius: 5px;
+}
+.added_task_btn{
+	width: 60%;
+	height: 40px;
 }
 
 .modal{
@@ -240,7 +283,7 @@ input.select-task-btn:hover,input.select-task-btn:focus,input.select-task-btn:ac
 }
 
 input.task-btn{
-	border: .5px solid #8c8c8c;
+	border: .9px solid #8c8c8c;
 }
 #auto_expand_text_area{
 	
@@ -356,7 +399,9 @@ input.task-btn{
 	border-radius: 5px;
 	margin-bottom:8px;
 	padding:8px;
-	width: 50%;
+	width: 60%;
+
+
 
 }
 
@@ -512,33 +557,24 @@ label + input[type=radio] + label {
 
 
 @media(min-width:768px){
-	#dlinewpr{
-		float:right;
-		position:relative;
-		left:0px; 
-		width:80%
-	}
+	
 
-	#dlinelbl{
-		font-size:12px;
-		padding:0px; 
-		width:120px;
-	}
+	
     
     .dividebody {
 	width:56%;
 	background-color:white;
     }
 
-	#taskwrapper{
+	/*#taskwrapper{
 	/*float:right;*/
-	width:60%;
+	/*width:60%;
 	position:relative;
 	left:100px;
 	top:-22px;
 	margin-bottom:0px;
-
-}
+*/
+/*}*/
 
 
 .change_on_showjobmodal{
@@ -551,7 +587,13 @@ width:50%;
 
 	
 }
+#input_for_tsk{
 
+	text-align: center;
+	margin-right:5px;
+	border-radius: 8px;
+	width:60%;
+}
 
    #thisJob  .modal-dialog{
    	width:100% !important;
@@ -578,18 +620,11 @@ width:50%;
 	font-size: 12px;
 	height:35px;
 }
-.modal-body{
-	height: 400px;
-	/*text-align: center;*/
-   }
-#dlinelbl{
-		font-size:12px;
-		padding:0px; 
-		width:100%;
-	}
-#dlinewpr{
-	display:block;
 
+
+
+#jb_title{
+	width: 100%;
 }
  .modal-dialog{
  	width:96%;
