@@ -13,7 +13,7 @@
 <div class="container" ng-controller="Jobcontroller" ng-class="{'body_colour_change':showjobmodal}" id="jobpagecontainer" style="width:100%" ng-init="initialize_job_controller();">
 
   {% verbatim %}    
-        <nav class="navbar navbar-default" style="width:100%;z-index:10000;background-color:#e60000;">
+        <nav class="navbar navbar-default" style="">
           <div class="container-fluid">
             <div class="navbar-header col-xs-3 " style="display:inline-block;vertical-align: middle;">
               <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -21,9 +21,9 @@
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
               </button>   -->                     
-              <a class="navbar-brand" href="#" style="font-family: Roboto;font-style: normal;font-weight: bold;line-height: normal;font-size:18px;text-align: center;color:white; ">
+              <a class="navbar-brand" href="#" id="barnd_name">
                 <!-- <img ng-src="static/image/logo.png" alt="worktojob logo"> -->
-                Work<i>to</i>Job
+                work<i>to</i>job
               </a>
             </div>
             <!-- <ul class="nav nav-bar v-center col-xs-offset-0 col-xs-9 col-md-4 col-md-offset-5" style="float:right;"> -->
@@ -52,23 +52,29 @@
             <!-- </ul> -->
             <!--working on it-->
             <ul class="nav nav-bar v-center col-xs-offset-8 col-xs-1" style="float:right;font-size:17px;text-align:center;">
-              <li style="text-align: center;" class="dropdown"> 
+              <li style="text-align: center;" class="dropdown" data-toggle="dropdown"> 
                 <a class="glyphicon glyphicon-option-vertical dropdown-toggle" data-toggle="dropdown" href="#" ></a>
-                <ul class="dropdown-menu" style="left: auto; right: 0;">
-                  <li>
+                <ul class="dropdown-menu multi-level" role ="menu" style="left: auto; right: 0;" aria-labelledby="dropdownMenu">
+                  <li class="dropdown-submenu" tabindex="-1">
                     <a href="#" class="row">
                       <span class="glyphicon glyphicon-menu-left col-xs-1" ></span>
-                      <span class="col-xs-7 col-xs-offset-0">Help</span>
+                      <span class="col-xs-7 col-xs-offset-0">Help...</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><a href="#" tabindex="-1">WorktoJob Quick Start</a></li>
+                      <li><a href="#" tabindex="-1">New Features</a></li>
+                       <li><a href="#" tabindex="-1" type="button" data-toggle="modal" data-target="#requestModal">Help with Features</a></li>
+                       <li><a href="#" tabindex="-1">Apps and Integration</a></li>
+                    </ul>
+                  </li>
+                  <li>
+                    <a href="#" class="row">
+                      <span class="col-xs-7 col-xs-offset-2">Settings...</span>
                     </a>
                   </li>
                   <li>
                     <a href="#" class="row">
-                      <span class="col-xs-7 col-xs-offset-2">Settings</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" class="row">
-                      <span class="col-xs-7 col-xs-offset-2">Logout</span>
+                      <span class="col-xs-7 col-xs-offset-2" ng-click="logoutUser()">Logout</span>
                     </a>
                   </li>
                 </ul>

@@ -28,9 +28,52 @@
 	font-size: 16px
 }
 
+.navbar-default{
+	height:14px;
+	width:100%;
+	z-index:10000;
+	background-color:#cc0000;
+}
+
+ #barnd_name{
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: bold;
+	line-height: normal;
+	font-size:20px;
+	text-align: center;
+	color:white;
+}
+
+#barnd_name > i{
+	font-weight: 300;
+}
 .nav>li>a:focus,.nav>li>a:hover,.nav .open>a:focus, .nav .open>a:hover {
 	text-decoration: none;
 	background-color: rgb(250, 0, 0);
+}
+
+.dropdown-submenu {
+    position: relative;
+    padding: 0px;
+}
+
+.dropdown-submenu>.dropdown-menu {
+    top: 90%;
+    left: -100%;
+    margin-top: -6px;
+    margin-left: 2px;
+    -webkit-border-radius: 0 6px 6px 6px;
+    -moz-border-radius: 0 6px 6px;
+    border-radius: 0 6px 6px 6px;
+}
+
+.dropdown-submenu:hover>.dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu.multi-level > li >a {
+	margin:5px 5px;
 }
 
 .dlinebtn{
